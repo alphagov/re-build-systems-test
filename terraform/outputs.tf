@@ -17,9 +17,34 @@ output "jenkins2_security_group_id" {
   value       = "${module.jenkins2_security_group.this_security_group_id}"
 }
 
+output "jenksin2_server_private_ip" {
+  description = "jenkins2 server private ip"
+  value       = ["${module.jenkins2_server.private_ip}"]
+}
+
+output "jenksin2_server_public_ip" {
+  description = "jenkins2 server public ip"
+  value       = ["${module.jenkins2_server.public_ip}"]
+}
+
 output "jenkins2_vpc_id" {
   description = "The ID of the VPC"
   value       = "${module.jenkins2_vpc.vpc_id}"
+}
+
+output "jenksin2_worker_private_ip" {
+  description = "jenkins2 worker private ip"
+  value       = ["${module.jenkins2_worker.private_ip}"]
+}
+
+output "jenksin2_worker_public_ip" {
+  description = "jenkins2 worker public ip"
+  value       = ["${module.jenkins2_worker.public_ip}"]
+}
+
+output "private_subnets" {
+  description = "List of IDs of public subnets"
+  value       = ["${module.jenkins2_vpc.private_subnets}"]
 }
 
 output "public_subnets" {

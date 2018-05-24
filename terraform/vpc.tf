@@ -2,7 +2,7 @@ module "jenkins2_vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "1.30.0"
 
-  name = "jenkins_vpc_${var.product}-${var.environment}"
+  name = "jenkins2_vpc_${var.product}-${var.environment}"
 
   enable_dns_hostnames = true
   enable_dns_support   = true
@@ -10,8 +10,8 @@ module "jenkins2_vpc" {
   cidr = "10.0.0.0/16"
 
   azs             = ["${var.aws_az}"]
-  private_subnets = ["10.0.1.0/24"]
-  public_subnets  = ["10.0.101.0/24"]
+  private_subnets = ["${var.private_subnet}"]
+  public_subnets  = ["${var.public_subnet}"]
 
   # enable_nat_gateway = true
   # single_nat_gateway = true

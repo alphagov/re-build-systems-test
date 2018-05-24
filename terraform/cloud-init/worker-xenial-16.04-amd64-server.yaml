@@ -9,40 +9,6 @@ random_seed:
   command: ['sh', '-c', '(ec2metadata && date +%s%3N) | sha256sum > /dev/urandom']
   command_required: True
 locale: en_GB.UTF-8
-write_files:
-  - content: |
-      #!/usr/bin/env bash
-      echo "Waiting until EBS attachment to instance complete"
-      while [ ! -e /dev/xvdf ]; do sleep 1; done
-      check_xvdf=$(lsblk /dev/xvdf -no KNAME,FSTYPE|tr -d '[:space:]'|tr a-z A-Z)
-      if [ ! x"$check_xvdf" == "xXVDFEXT4" ]; then
-        echo "New EBS volume detected, formating"
-        # Note: We are formatting the raw device rather than a partition on the raw device
-        #       This allows for easier and simpler disk expansion in the future
-        mkfs.ext4 -F -m 0 -O dir_index,sparse_super,uninit_bg -q /dev/xvdf
-      else
-        echo "/dev/xvdf Already formatted, skipping"
-      fi
-      fstab_string='/dev/xvdf /mnt/jenkins-ebs ext4 defaults,nofail,nobootwait 0 2'
-      grepresult=$(grep -x -F -c '/dev/xvdf /mnt/jenkins-ebs ext4 defaults,nofail,nobootwait 0 2' /etc/fstab)
-      if [ $grepresult -eq 0 ]; then
-        echo "Adding mountpoint to fstab"
-        echo "$fstab_string" | tee -a /etc/fstab
-      fi
-      if [ ! -d /mnt/jenkins-ebs ]; then
-        echo "Creating mountpoint /mnt/jenkins-ebs"
-        mkdir -p /mnt/jenkins-ebs
-        chown 1000:1000 /mnt/jenkins-ebs
-      fi
-      if [ ! $(mount | grep xvdf | wc -l) == "1" ]; then
-        echo "Mounting /dev/xvdf on /mnt/jenkins-ebs"
-        mount -t ext4 /dev/xvdf /mnt/jenkins-ebs
-        chown 1000:1000 /mnt/jenkins-ebs
-      else
-        echo "/dev/xvdf Already mounted, skipping"
-      fi
-    path: /usr/local/bin/mount-persistent-storage
-    permissions: '0555'
 apt_preserve_sources_list: true
 apt_sources:
  - source: "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable"
@@ -219,18 +185,33 @@ apt_sources:
       9m8=
       =0TfX
       -----END PGP PUBLIC KEY BLOCK-----
+write_files:
+  - content: |
+      {
+        "hosts": ["tcp://0.0.0.0:2375", "unix:///var/run/docker.sock"]
+      }
+    path: /tmp/daemon.json
+    owner: root:root
+    permissions: '0644'
+  - content: |
+      [Service]
+      ExecStart=
+      ExecStart=/usr/bin/dockerd
+    path: /tmp/override.conf
+    owner: root:root
+    permissions: '0644'
 bootcmd:
-  - [ sh, -c, echo "Starting Jenkins2 Master Server" ]
+  - [ sh, -c, echo "Starting Jenkins2 Worker Server" ]
 runcmd:
-  - [ apt-get, update ]
-  - [ apt-get, upgrade ]
-  - apt-get install -y docker-ce=${dockerversion}
-  - [ systemctl, status, docker ]
-  - [ mkdir, /docker ]
   - echo "append domain-search \"${awsenv}.internal\";" >> /etc/dhcp/dhclient.conf
   - dhclient -r; dhclient
   - echo "search ${awsenv}.internal" >> /etc/resolvconf/resolv.conf.d/base
-  - git clone ${gitrepo} /docker
-  - [ docker, build, -t=jenkins/jenkins-re, "/docker/docker" ]
-  - /usr/local/bin/mount-persistent-storage
-  - [ docker, run, --name, myjenkins, -d, -p, "80:80", -p, "50000:50000", -v, "/mnt/jenkins-ebs:/var/jenkins_home", "jenkins/jenkins-re:latest" ]
+  - [ apt-get, update ]
+  - [ apt-get, upgrade ]
+  - apt-get install -y docker-ce=${dockerversion}
+  - [ service, docker, stop ]
+  - [ mkdir, -p, /etc/systemd/system/docker.service.d ]
+  - [ mv, /tmp/daemon.json, /etc/docker ]
+  - [ mv, /tmp/override.conf, /etc/systemd/system/docker.service.d/override.conf ]
+  - [ systemctl, daemon-reload ]
+  - [ service, docker, start ]
