@@ -29,7 +29,7 @@ def dockerTemplateBaseParameters = [
  
 def DockerTemplateParameters = [
   instanceCapStr: '4',
-  labelString:    'docker-jnlp-steve-test-1',
+  labelString:    'docker-jnlp',
   remoteFs:       '/home/jenkins'
 ]
  
@@ -37,10 +37,10 @@ def dockerCloudParameters = [
   connectTimeout:   3,
   containerCapStr:  '4',
   credentialsId:    '',
-  dockerHostname:   'http://jenkins2.steve.internal',
-  name:             'steve-test-1',
+  dockerHostname:   'http://jenkins2',
+  name:             'docker-worker-1',
   readTimeout:      60,
-  serverUrl:        'tcp://worker.steve.internal:2375',
+  serverUrl:        'tcp://worker:2375',
   version:          ''
 ]
  

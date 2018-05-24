@@ -72,6 +72,7 @@ data "template_file" "docker-jenkins2-server-template" {
   vars {
     dockerversion = "${var.dockerversion}"
     fqdn          = "${var.server_name}.${var.hostname_suffix}"
+    awsenv        = "${var.environment}"
     gitrepo       = "${var.gitrepo}"
     hostname      = "${var.server_name}.${var.hostname_suffix}"
     region        = "${var.aws_region}"
