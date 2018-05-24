@@ -227,6 +227,9 @@ runcmd:
   - apt-get install -y docker-ce=${dockerversion}
   - [ systemctl, status, docker ]
   - [ mkdir, /docker ]
+  - echo "append domain-search \"${awsenv}.internal\";" >> /etc/dhcp/dhclient.conf
+  - dhclient -r; dhclient
+  - echo "search ${awsenv}.internal" >> /etc/resolvconf/resolv.conf.d/base
   - git clone ${gitrepo} /docker
   - [ docker, build, -t=jenkins/jenkins-re, "/docker/docker" ]
   - /usr/local/bin/mount-persistent-storage
