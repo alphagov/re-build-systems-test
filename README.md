@@ -6,6 +6,10 @@ This repository provides the infrastructure code for provisioning a containerise
 
 Refer to our [Contributing guide](CONTRIBUTING.md).
 
+## Architectural documentation
+
+Architectural documentation is available [here](docs/architecture/README.md).
+
 ## Provisioning Jenkins2 on your laptop for development
 
 Skip this section if you are just trying to provision a Terraform plaftorm to use for your project.
