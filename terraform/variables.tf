@@ -39,9 +39,19 @@ variable "instance_type" {
   default     = "t2.small"
 }
 
+variable "private_subnet" {
+  type    = "string"
+  default = "10.0.1.0/24"
+}
+
 variable "product" {
   description = "The name of the product"
   type        = "string"
+}
+
+variable "public_subnet" {
+  type    = "string"
+  default = "10.0.101.0/24"
 }
 
 variable "server_name" {
@@ -64,4 +74,22 @@ variable "server_root_volume_size" {
 variable "ubuntu_release" {
   description = "Which version of ubuntu to install on Jenkins Server"
   type        = "string"
+}
+
+variable "worker_instance_type" {
+  description = "This defines the default (aws) instance type."
+  type        = "string"
+  default     = "t2.medium"
+}
+
+variable "worker_name" {
+  description = "Name of the jenkins2 worker"
+  type        = "string"
+  default     = "worker"
+}
+
+variable "worker_root_volume_size" {
+  description = "Size of the Jenkins Worker root volume (GB)"
+  type        = "string"
+  default     = "50"
 }

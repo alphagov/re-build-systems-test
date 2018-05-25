@@ -5,10 +5,10 @@ module "jenkins2_server" {
   ami                         = "${data.aws_ami.source.id}"
   instance_type               = "${var.instance_type}"
   associate_public_ip_address = true
-  user_data                   = "${data.template_file.docker-jenkins2-server-template.rendered}"
+  user_data                   = "${data.template_file.jenkins2_server_template.rendered}"
   key_name                    = "jenkins2_key_${var.product}-${var.environment}"
   monitoring                  = true
-  vpc_security_group_ids      = ["${module.jenkins2_security_group.this_security_group_id}"]
+  vpc_security_group_ids      = ["${module.jenkins2_sg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_server_private_facing.this_security_group_id}"]
   subnet_id                   = "${element(module.jenkins2_vpc.public_subnets,0)}"
 
   root_block_device = [{
@@ -66,13 +66,13 @@ data "aws_ami" "source" {
   owners = ["099720109477"] # Canonical
 }
 
-data "template_file" "docker-jenkins2-server-template" {
-  template = "${file("cloud-init/master-${var.ubuntu_release}.yaml")}"
+data "template_file" "jenkins2_server_template" {
+  template = "${file("cloud-init/server-${var.ubuntu_release}.yaml")}"
 
   vars {
+    awsenv        = "${var.environment}"
     dockerversion = "${var.dockerversion}"
     fqdn          = "${var.server_name}.${var.hostname_suffix}"
-    awsenv        = "${var.environment}"
     gitrepo       = "${var.gitrepo}"
     hostname      = "${var.server_name}.${var.hostname_suffix}"
     region        = "${var.aws_region}"
