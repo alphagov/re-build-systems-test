@@ -1,6 +1,6 @@
 allowed_ips = [
-  "1.1.1.1/32",
-  "192.168.1.0/24",
+  "x.x.x.x/32",
+  "y.y.y.y/32",
 ]
 
 aws_az = "eu-west-2a"
@@ -11,12 +11,25 @@ aws_profile = "re-build-systems"
 
 dockerversion = "18.03.1~ce-0~ubuntu"
 
-gitrepo = "https://github.com/alphagov/re-build-systems-config.git"
+gitrepo = "https://github.com/alphagov/re-build-systems.git"
 
-hostname_suffix = "example.com"
+hostname_suffix = "build.example.com"
 
 product = "re-build-systems"
 
+server_instance_type = "t2.small"
+
 server_name = "jenkins2"
 
+server_persistent_storage_size = "60"
+
+server_root_volume_size = "40"
+
 ubuntu_release = "xenial-16.04-amd64-server"
+
+worker_instance_type = "t2.medium"
+
+worker_name = "worker"
+
+worker_root_volume_size = "50"
+
