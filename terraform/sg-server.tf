@@ -9,7 +9,6 @@ module "jenkins2_sg_server_internet_facing" {
   ingress_cidr_blocks = ["${var.allowed_ips}"]
   ingress_rules       = ["https-443-tcp", "http-80-tcp", "all-icmp", "ssh-tcp"]
   egress_rules        = ["all-all"]
-
 }
 
 module "jenkins2_sg_server_private_facing" {

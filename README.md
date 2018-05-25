@@ -129,7 +129,7 @@ That is usually something like `test`, `staging`, `production` or your name if y
     * SSH into the instance with `ssh -i [path-to-your-private-ssh-key] ubuntu@[jenkins2_eip]`
         * To switch to the root user, run `sudo su -`
 
-### Recommandations
+### Recommendations
 
 This is a list of things you may consider doing next:
 
