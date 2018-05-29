@@ -11,6 +11,16 @@ aws_profile = "re-build-systems"
 
 dockerversion = "18.03.1~ce-0~ubuntu"
 
+github_admin_users = [
+  "admin1",
+  "admin2",
+  "admin3",
+]
+
+github_client_id = "abcdefghij"
+
+github_client_secret = "0123456789"
+
 gitrepo = "https://github.com/alphagov/re-build-systems.git"
 
 hostname_suffix = "build.example.com"
@@ -32,4 +42,3 @@ worker_instance_type = "t2.medium"
 worker_name = "worker"
 
 worker_root_volume_size = "50"
-
