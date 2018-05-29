@@ -12,9 +12,19 @@ output "jenkins2_eip" {
 #   value = ["${module.jenkins2_server.public_dns}"]
 # }
 
-output "jenkins2_security_group_id" {
-  description = "jenkins2 default security group id"
-  value       = "${module.jenkins2_security_group.this_security_group_id}"
+output "jenkins2_sg_server_internet_facing_id" {
+  description = "jenkins2 server internet security group id"
+  value       = "${module.jenkins2_sg_server_internet_facing.this_security_group_id}"
+}
+
+output "jenkins2_sg_server_private_facing_id" {
+  description = "jenkins2 server private security group id"
+  value       = "${module.jenkins2_sg_server_private_facing.this_security_group_id}"
+}
+
+output "jenkins2_sg_worker_id" {
+  description = "jenkins2 worker security group id"
+  value       = "${module.jenkins2_sg_worker.this_security_group_id}"
 }
 
 output "jenksin2_server_private_ip" {
