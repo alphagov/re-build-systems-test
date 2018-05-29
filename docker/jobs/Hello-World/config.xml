@@ -1,5 +1,6 @@
 <?xml version='1.1' encoding='UTF-8'?>
 <project>
+  <actions/>
   <description>This is a hello world jenkins job</description>
   <keepDependencies>false</keepDependencies>
   <properties>
@@ -9,7 +10,8 @@
     </com.sonyericsson.rebuild.RebuildSettings>
   </properties>
   <scm class="hudson.scm.NullSCM"/>
-  <canRoam>true</canRoam>
+  <assignedNode>docker-worker-1</assignedNode>
+  <canRoam>false</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
@@ -17,7 +19,22 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>echo &quot;Hello World&quot;</command>
+      <command>#!/usr/bin/env bash
+
+secs=$((1 * 60))
+echo &quot;Woohoo - this is running on a docker container!&quot;
+echo &quot;------------------------&quot;
+echo &quot;Counting down from $secs&quot;
+hostname
+uname -a
+pwd
+ls -la
+echo &quot;------------------------&quot;
+while [ $secs -gt 0 ]; do
+   echo -e &quot;$secs&quot;
+   sleep 1
+   : $((secs--))
+done</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
