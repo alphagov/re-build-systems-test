@@ -70,12 +70,16 @@ data "template_file" "jenkins2_server_template" {
   template = "${file("cloud-init/server-${var.ubuntu_release}.yaml")}"
 
   vars {
-    awsenv        = "${var.environment}"
-    dockerversion = "${var.dockerversion}"
-    fqdn          = "${var.server_name}.${var.hostname_suffix}"
-    gitrepo       = "${var.gitrepo}"
-    hostname      = "${var.server_name}.${var.hostname_suffix}"
-    region        = "${var.aws_region}"
+    awsenv               = "${var.environment}"
+    dockerversion        = "${var.dockerversion}"
+    fqdn                 = "${var.server_name}.${var.hostname_suffix}"
+    gitrepo              = "${var.gitrepo}"
+    hostname             = "${var.server_name}.${var.hostname_suffix}"
+    region               = "${var.aws_region}"
+    github_admin_users   = "${join(",", var.github_admin_users)}"
+    github_client_id     = "${var.github_client_id}"
+    github_client_secret = "${var.github_client_secret}"
+    github_organisations = "${join(",", var.github_organisations)}"
   }
 }
 

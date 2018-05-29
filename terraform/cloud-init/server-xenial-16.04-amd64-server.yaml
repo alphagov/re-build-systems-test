@@ -11,6 +11,14 @@ random_seed:
 locale: en_GB.UTF-8
 write_files:
   - content: |
+      GITHUB_ADMIN_USERS=${github_admin_users}
+      GITHUB_CLIENT_ID=${github_client_id}
+      GITHUB_CLIENT_SECRET=${github_client_secret}
+      GITHUB_ORGANISATIONS=${github_organisations}
+    path: /tmp/gitvars
+    owner: 1000:1000
+    permissions: '0400'
+  - content: |
       #!/usr/bin/env bash
       echo "Waiting until EBS attachment to instance complete"
       while [ ! -e /dev/xvdf ]; do sleep 1; done
@@ -233,4 +241,5 @@ runcmd:
   - git clone ${gitrepo} /docker
   - [ docker, build, -t=jenkins/jenkins-re, "/docker/docker" ]
   - /usr/local/bin/mount-persistent-storage
-  - [ docker, run, --name, myjenkins, -d, -p, "80:80", -p, "50000:50000", -v, "/mnt/jenkins-ebs:/var/jenkins_home", "jenkins/jenkins-re:latest" ]
+  - [ mv, /tmp/gitvars, /docker/gitvars ]
+  - [ docker, run, --name, myjenkins, -d, -p, "80:80", -p, "50000:50000", --env-file, "/docker/gitvars", -v, "/mnt/jenkins-ebs:/var/jenkins_home", "jenkins/jenkins-re:latest" ]

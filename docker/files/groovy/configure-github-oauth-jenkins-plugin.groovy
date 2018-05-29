@@ -19,15 +19,15 @@ def githubSecurityRealmParameters = [
 ]
 
 def githubAuthorizationStrategyParameters = [
-  adminUserNames:                         env['GITHUB_ADMIN_USERS'], // admin User Names
-  allowAnonymousJobStatusPermission:      false,                     // grant ViewStatus permissions for Anonymous Users
-  allowAnonymousReadPermission:           false,                     // grant READ permissions for Anonymous Users
-  allowCcTrayPermission:                  false,                     // grant READ permissions for /cc.xml
-  allowGithubWebHookPermission:           false,                     // grant READ permissions for /github-webhook
-  authenticatedUserCreateJobPermission:   false,                     // grant CREATE Job permissions to all Authenticated Users
-  authenticatedUserReadPermission:        false,                     // grant READ permissions to all Authenticated Users
-  organizationNames:                      'alphagov',                // participant in Organization
-  useRepositoryPermissions:               true                       // use Github repository permissions
+  adminUserNames:                         env['GITHUB_ADMIN_USERS'],   // admin User Names
+  allowAnonymousJobStatusPermission:      false,                       // grant ViewStatus permissions for Anonymous Users
+  allowAnonymousReadPermission:           false,                       // grant READ permissions for Anonymous Users
+  allowCcTrayPermission:                  false,                       // grant READ permissions for /cc.xml
+  allowGithubWebHookPermission:           false,                       // grant READ permissions for /github-webhook
+  authenticatedUserCreateJobPermission:   false,                       // grant CREATE Job permissions to all Authenticated Users
+  authenticatedUserReadPermission:        false,                       // grant READ permissions to all Authenticated Users
+  organizationNames:                      env['GITHUB_ORGANISATIONS'], // participant in organizations 
+  useRepositoryPermissions:               true                         // use Github repository permissions
 ]
 
 // https://github.com/jenkinsci/github-oauth-plugin/blob/github-oauth-0.28.1/src/main/java/org/jenkinsci/plugins/GithubSecurityRealm.java

@@ -24,6 +24,30 @@ variable "environment" {
   type        = "string"
 }
 
+variable "github_admin_users" {
+  description = "List of Github admin users."
+  type        = "list"
+  default     = []
+}
+
+variable "github_client_id" {
+  description = "Your Github client Id"
+  type        = "string"
+  default     = ""
+}
+
+variable "github_client_secret" {
+  description = "Your Github client secret"
+  type        = "string"
+  default     = ""
+}
+
+variable "github_organisations" {
+  description = "List of Github organisations."
+  type        = "list"
+  default     = []
+}
+
 variable "gitrepo" {
   type = "string"
 }
