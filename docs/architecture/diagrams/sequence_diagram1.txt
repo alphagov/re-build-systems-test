@@ -1,0 +1,34 @@
+@startuml
+
+skinparam monochrome true
+
+actor developer
+
+developer -> github : commits code
+
+group Which one are we going for?
+  jenkins_master -> github : polling
+  github -> jenkins_master : pushing
+end
+
+create jenkins_agent
+jenkins_master -> jenkins_agent: spins up agent
+jenkins_agent  -> github: requests code
+github  -> jenkins_agent: fetches code
+group Depends on the type of job
+  jenkins_agent --> jenkins_agent: reads Jenkinsfile
+  |||
+  jenkins_agent --> jenkins_agent: builds artefact
+  |||
+  jenkins_agent --> jenkins_agent: tests artefact
+  |||
+  jenkins_agent --> artefact_registry: if tests pass,\npublishes artefact
+  |||
+end
+jenkins_agent -> jenkins_master: returns job results
+|||
+jenkins_master -> jenkins_agent: terminates agent
+destroy jenkins_agent
+jenkins_master -> github: communicates job success/failure
+github -> developer: informs about code correctness
+@enduml
