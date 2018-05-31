@@ -8,7 +8,7 @@ module "jenkins2_server" {
   user_data                   = "${data.template_file.jenkins2_server_template.rendered}"
   key_name                    = "jenkins2_key_${var.product}-${var.environment}"
   monitoring                  = true
-  vpc_security_group_ids      = ["${module.jenkins2_sg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_server_private_facing.this_security_group_id}"]
+  vpc_security_group_ids      = ["${module.jenkins2_sg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_server_private_facing.this_security_group_id}", "${module.jenkins2_sg_cloudflare.this_security_group_id}"]
   subnet_id                   = "${element(module.jenkins2_vpc.public_subnets,0)}"
 
   root_block_device = [{
