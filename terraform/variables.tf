@@ -14,6 +14,28 @@ variable "aws_region" {
   type = "string"
 }
 
+variable "cloudflare_ips" {
+  description = "Allowed Cloudflare IP Addresses"
+  type        = "list"
+
+  default = [
+    "103.21.244.0/22",
+    "103.22.200.0/22",
+    "103.31.4.0/22",
+    "104.16.0.0/12",
+    "108.162.192.0/18",
+    "131.0.72.0/22",
+    "141.101.64.0/18",
+    "162.158.0.0/15",
+    "172.64.0.0/13",
+    "173.245.48.0/20",
+    "188.114.96.0/20",
+    "190.93.240.0/20",
+    "197.234.240.0/22",
+    "198.41.128.0/17",
+  ]
+}
+
 variable "dockerversion" {
   description = "Docker version to install"
   type        = "string"
@@ -22,6 +44,30 @@ variable "dockerversion" {
 variable "environment" {
   description = "Environment (test, staging, production, etc)"
   type        = "string"
+}
+
+variable "github_admin_users" {
+  description = "List of Github admin users."
+  type        = "list"
+  default     = []
+}
+
+variable "github_client_id" {
+  description = "Your Github client Id"
+  type        = "string"
+  default     = ""
+}
+
+variable "github_client_secret" {
+  description = "Your Github client secret"
+  type        = "string"
+  default     = ""
+}
+
+variable "github_organisations" {
+  description = "List of Github organisations."
+  type        = "list"
+  default     = []
 }
 
 variable "gitrepo" {

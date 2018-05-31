@@ -4,6 +4,9 @@ workflow-aggregator:2.5
 # Github plugin - brings only a bunch of deps
 github:1.29.0
 
+# Github Auth plugin
+github-oauth:0.29
+
 # Docker plugin
 docker-plugin:1.1.4
 

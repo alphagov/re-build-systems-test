@@ -8,7 +8,7 @@ module "jenkins2_server" {
   user_data                   = "${data.template_file.jenkins2_server_template.rendered}"
   key_name                    = "jenkins2_key_${var.product}-${var.environment}"
   monitoring                  = true
-  vpc_security_group_ids      = ["${module.jenkins2_sg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_server_private_facing.this_security_group_id}"]
+  vpc_security_group_ids      = ["${module.jenkins2_sg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_server_private_facing.this_security_group_id}", "${module.jenkins2_sg_cloudflare.this_security_group_id}"]
   subnet_id                   = "${element(module.jenkins2_vpc.public_subnets,0)}"
 
   root_block_device = [{
@@ -28,17 +28,17 @@ module "jenkins2_server" {
 # the terraform-aws-modules/ec2-instance/aws module then it will be the DNS name that resolves to the original IPv4 address assigned to the EC2, rather than
 # the eip. This may be resolved in Terraform (using an export from aws_eip) in the future at which point this code can be removed (see
 # https://github.com/terraform-providers/terraform-provider-aws/issues/1149).
-resource "null_resource" "get_public_dns_name" {
-  triggers {
-    cluster_instance_ids = "${join(",", module.jenkins2_server.id)}"
-  }
-
-  depends_on = ["module.jenkins2_server"]
-
-  provisioner "local-exec" {
-    command = "echo 'public_dns name = ' && /usr/local/bin/aws ec2 describe-instances --instance-ids ${join(" ", module.jenkins2_server.id)} --query 'Reservations[].Instances[].PublicDnsName'"
-  }
-}
+#resource "null_resource" "get_public_dns_name" {
+#  triggers {
+#    cluster_instance_ids = "${join(",", module.jenkins2_server.id)}"
+#  }
+#
+#  depends_on = ["module.jenkins2_server"]
+#
+#  provisioner "local-exec" {
+#    command = "echo 'public_dns name = ' && /usr/local/bin/aws ec2 describe-instances --instance-ids ${join(" ", module.jenkins2_server.id)} --query 'Reservations[].Instances[].PublicDnsName'"
+#  }
+#}
 
 data "aws_ami" "source" {
   most_recent = true
@@ -70,12 +70,16 @@ data "template_file" "jenkins2_server_template" {
   template = "${file("cloud-init/server-${var.ubuntu_release}.yaml")}"
 
   vars {
-    awsenv        = "${var.environment}"
-    dockerversion = "${var.dockerversion}"
-    fqdn          = "${var.server_name}.${var.hostname_suffix}"
-    gitrepo       = "${var.gitrepo}"
-    hostname      = "${var.server_name}.${var.hostname_suffix}"
-    region        = "${var.aws_region}"
+    awsenv               = "${var.environment}"
+    dockerversion        = "${var.dockerversion}"
+    fqdn                 = "${var.server_name}.${var.hostname_suffix}"
+    gitrepo              = "${var.gitrepo}"
+    hostname             = "${var.server_name}.${var.hostname_suffix}"
+    region               = "${var.aws_region}"
+    github_admin_users   = "${join(",", var.github_admin_users)}"
+    github_client_id     = "${var.github_client_id}"
+    github_client_secret = "${var.github_client_secret}"
+    github_organisations = "${join(",", var.github_organisations)}"
   }
 }
 

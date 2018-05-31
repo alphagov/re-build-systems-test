@@ -43,6 +43,14 @@ write_files:
       fi
     path: /usr/local/bin/mount-persistent-storage
     permissions: '0555'
+  - content: |
+      GITHUB_ADMIN_USERS=${github_admin_users}
+      GITHUB_CLIENT_ID=${github_client_id}
+      GITHUB_CLIENT_SECRET=${github_client_secret}
+      GITHUB_ORGANISATIONS=${github_organisations}
+    path: '/tmp/gitvars'
+    owner: "ubuntu:ubuntu"
+    permissions: '0400'
 apt_preserve_sources_list: true
 apt_sources:
  - source: "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable"
@@ -233,4 +241,5 @@ runcmd:
   - git clone ${gitrepo} /docker
   - [ docker, build, -t=jenkins/jenkins-re, "/docker/docker" ]
   - /usr/local/bin/mount-persistent-storage
-  - [ docker, run, --name, myjenkins, -d, -p, "80:80", -p, "50000:50000", -v, "/mnt/jenkins-ebs:/var/jenkins_home", "jenkins/jenkins-re:latest" ]
+  - [ mv, /tmp/gitvars, /docker/gitvars ]
+  - [ docker, run, --name, myjenkins, -d, -p, "80:80", -p, "50000:50000", --env-file, "/docker/gitvars", -v, "/mnt/jenkins-ebs:/var/jenkins_home", "jenkins/jenkins-re:latest" ]
