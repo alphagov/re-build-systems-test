@@ -1,6 +1,6 @@
 # Reliability Engineering - Build Systems
 
-This repository provides the infrastructure code for provisioning a containerised Jenkins instance on either a laptop or AWS.
+This repository provides the infrastructure code for provisioning a containerised Jenkins platform on AWS.
 
 
 ## Architectural documentation
