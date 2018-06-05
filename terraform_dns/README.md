@@ -70,8 +70,8 @@ Refer to our [Contributing guide](CONTRIBUTING.md).
 
     ```
     cd terraform_dns
-    ./tools/create-dns-s3-state-bucket -d build.gds-reliability.engineering -p re-build-systems
-    terraform init -backend-config="region=eu-west-2" -backend-config="bucket=tfstate-dns-team1.build.gds-reliability.engineering" -backend-config="key=zone-team1.build.gds-reliability.engineering.tfstate"
+    ./tools/create-dns-s3-state-bucket -d build.gds-reliability.engineering -p re-build-systems -t [your team name]
+    terraform init -backend-config="region=eu-west-2" -backend-config="bucket=tfstate-dns-[your team name].build.gds-reliability.engineering" -backend-config="key=zone-team1.build.gds-reliability.engineering.tfstate"
     ```
 
 ## Licence
