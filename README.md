@@ -1,7 +1,6 @@
 # Reliability Engineering - Build Systems
 
-This repository provides the infrastructure code for provisioning a containerised Jenkins platform on AWS.
-
+This repository provides the infrastructure code for provisioning a containerised Jenkins platform on AWS, consisting of a master node and an agents node (see the architectural section below for more details).
 
 ## Architectural documentation
 
@@ -10,7 +9,7 @@ Architectural documentation is available [here](docs/architecture/README.md).
 
 ## Provisioning Jenkins2 on AWS
 
-This is to provision a containerized Jenkins platform on AWS, within a master node and an agents node (see architectural section about for more details).
+This is to provision a containerized Jenkins platform on AWS.
 
 ### Before you start
 
@@ -23,11 +22,13 @@ Things you need to decide upon:
 * an environment name, which will be referred as `[environment-name]` from now on.
   That is usually something like `test`, `staging`, `production` or your name if you are doing development or testing (e.g. `daniele`). 
 
-* who is going to be an administrator of the Jenkins system
+* the Github team(s) you want to allow access to your Jenkins installation
+
+* the administrator(s) of the Jenkins installation
 
 Things you will need to have:
 
-* an AWS user account
+* an AWS user account you can authenticate to programmatically (e.g. you have its credentials stored in `~/.aws/credentials`)
 
 * dependencies installed on your laptop:
 
@@ -42,42 +43,23 @@ You will receive an `id` and `secret` you will need to use later on.
 
 1. Checkout this repository.
 
-1. Configure your ~/.aws/credentials file with your own details:
+1. Checkout [this other repository](https://github.com/alphagov/re-build-systems-config) which contains configuration
 
-    ```
-    [re-build-systems]
-    aws_access_key_id = AABBCCDDEEFFG
-    aws_secret_access_key = abcdefghijklmnopqrstuvwxyz1234567890
-    ```
-
-    Be careful not to use quotes in the above.
-
-1. Have a "configuration directory" with this structure:
-
-    ```
-    |-- re-build-system            <-- this repository
-    |-- re-build-system-config     <-- configuration folder
-    |   |-- terraform
-    |       |-- keys
-    |       |-- terraform.tfvars
-
-    ```
+    The two working copies should live in the same directory, like so:
     
-    If you are from GDS, you can simply checkout [this repo](https://github.com/alphagov/re-build-systems-config) as your config folder. 
+        ```
+        |-- re-build-systems            <-- this repository
+        |-- re-build-systems-config     <-- configuration folder
+        ```
 
-1. Generate an SSH public/private key pair (w/o a passphrase) - this is just to bootstrap the provisioning process:
-    ``` 
-    ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
-    ```
-
-1. Copy the **public** key you generated to the `re-build-system-config`/`terraform`/`keys` folder, using this name: `re-build-systems-[environment-name]-ssh-deployer.pub`.
+1. Copy your SSH **public** key to the `re-build-system-config`/`terraform`/`keys` folder with this name: `re-build-systems-[environment-name]-ssh-deployer.pub`.
 
 1. In the configuration folder, customise the `terraform.tfvars` file, in particular the items related to `github`:
-    * `github_client_id`, `github_client_secret` should have been given to you when a Github OAuth app was created
+    * `github_client_id`, `github_client_secret` as you got them when the Github OAuth app was created
     * `github_organisation` is the list of Github teams you want to grant access to your Jenkins installation
     * `github_admin_users` is the list of administrators (use their Github usernames)
 
-1. Create an S3 bucket to host terraform state file:
+1. Create an S3 bucket to host the terraform state file:
 
     ```
     cd [your_git_working_copy]
