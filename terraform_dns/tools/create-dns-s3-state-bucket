@@ -6,61 +6,36 @@ AWS_REGION="${AWS_REGION:-eu-west-2}"
 function print_help_and_exit() {
   echo "Creates an S3 bucket to store .tfstate files"
   echo ""
-<<<<<<< HEAD
   echo "$0 -d <domain name> -p <aws profile> -t <team name>"
   echo ""
   echo "<domain name>      = domain name"
   echo "<aws profile>      = aws profile name from ~/.aws/credentials"
   echo "<team name>        = name of the team owning the Dockerised Jenkins"
-=======
-  echo "$0 -d <domain name> -p <aws profile>"
-  echo ""
-  echo "<domain name>      = domain name"
-  echo "<aws profile>      = aws profile name from ~/.aws/credentials"
->>>>>>> Add ability to manange DNS and EIP in a seperate terraform state file
   exit 1
 }
 
 function check_arguments () {
   [ "${DOMAINNAME}" ] || print_help_and_exit
   [ "${AWS_PROFILE}" ] || print_help_and_exit
-<<<<<<< HEAD
   [ "${TEAM_NAME}" ] || print_help_and_exit
 }
 
 while getopts "d:p:t:" arg; do
   case $arg in
     d)
-=======
-}
-
-while getopts "d:p:" arg; do
-  case $arg in
-    b)
->>>>>>> Add ability to manange DNS and EIP in a seperate terraform state file
       DOMAINNAME="${OPTARG}"
       ;;
     p)
       AWS_PROFILE="${OPTARG}"
       ;;
-<<<<<<< HEAD
     t)
       TEAM_NAME="${OPTARG}"
       ;;
-=======
->>>>>>> Add ability to manange DNS and EIP in a seperate terraform state file
   esac
 done
 
 check_arguments
-<<<<<<< HEAD
 echo "Creating terraform state bucket tfstate-dns-${TEAM_NAME}.${DOMAINNAME} in ${AWS_REGION}"
 aws s3api create-bucket --bucket "tfstate-dns-${TEAM_NAME}.${DOMAINNAME}" --region "${AWS_REGION}" --create-bucket-configuration LocationConstraint="${AWS_REGION}" --profile "${AWS_PROFILE}"
 echo "Enabling bucket versioning on tfstate-dns-${TEAM_NAME}.${DOMAINNAME} in ${AWS_REGION}"
 aws s3api put-bucket-versioning --bucket "tfstate-dns-${TEAM_NAME}.${DOMAINNAME}" --region "${AWS_REGION}" --versioning-configuration Status=Enabled --profile "${AWS_PROFILE}"
-=======
-echo "Creating terraform state bucket tfstate-dns-${DOMAINNAME} in ${AWS_REGION}"
-aws s3api create-bucket --bucket "tfstate-dns-${DOMAINNAME}" --region "${AWS_REGION}" --create-bucket-configuration LocationConstraint="${AWS_REGION}" --profile "${AWS_PROFILE}"
-echo "Enabling bucket versioning on tfstate-dns-${DOMAINNAME} in ${AWS_REGION}"
-aws s3api put-bucket-versioning --bucket "tfstate-dns-${DOMAINNAME}" --region "${AWS_REGION}" --versioning-configuration Status=Enabled --profile "${AWS_PROFILE}"
->>>>>>> Add ability to manange DNS and EIP in a seperate terraform state file
