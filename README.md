@@ -44,8 +44,8 @@ You will receive an `id` and `secret` you will need to use later on.
 
     ```
     [re-build-systems]
-    aws_access_key_id = ...
-    aws_secret_access_key = ...
+    aws_access_key_id = [aws-key]
+    aws_secret_access_key = [aws-secret]
     ```
 
 1. Check out this repository.
@@ -78,8 +78,8 @@ You will receive an `id` and `secret` you will need to use later on.
     In order to initialise the S3 bucket we have created with Terraform, we need to export some secrets:
 
     ```
-    export AWS_ACCESS_KEY_ID="[your-key]"
-    export AWS_SECRET_ACCESS_KEY="[your-secret]"
+    export AWS_ACCESS_KEY_ID="[aws-key]"
+    export AWS_SECRET_ACCESS_KEY="[aws-secret]"
     export AWS_DEFAULT_REGION="eu-west-2"
     ```
 
