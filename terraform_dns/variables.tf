@@ -10,6 +10,7 @@ variable "aws_region" {
   type = "string"
 }
 
+<<<<<<< HEAD
 variable "team_environments" {
   description = "Environments needing EIPs"
   type        = "list"
@@ -17,6 +18,10 @@ variable "team_environments" {
 
 variable "team_name" {
   description = "Team Name"
+=======
+variable "subdomain" {
+  description = "Subdomain"
+>>>>>>> Add ability to manange DNS and EIP in a seperate terraform state file
   type        = "string"
 }
 

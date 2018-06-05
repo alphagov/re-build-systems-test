@@ -9,6 +9,7 @@ Refer to our [Contributing guide](CONTRIBUTING.md).
 
 ## Prerequisites
 
+<<<<<<< HEAD
     * Install Terraform v0.11.7 (see https://www.terraform.io/intro/getting-started/install.html for guidance for your system)
 
     * Install Python3
@@ -17,6 +18,11 @@ Refer to our [Contributing guide](CONTRIBUTING.md).
 
       On a Linux machine, you can use
       `apt-get install python3`
+=======
+    * Terraform v0.11.7
+
+    * brew install awscli python3
+>>>>>>> Add ability to manange DNS and EIP in a seperate terraform state file
 
 ## Configuration
 
@@ -29,6 +35,7 @@ Refer to our [Contributing guide](CONTRIBUTING.md).
     ```
 
 2. Configure your DNS zone
+<<<<<<< HEAD
 		Edit terraform_dns/terraform.tfvars and change "team_name" and "top_level_domain_name", this will create a Route 53 zone called [team_name].[top_level_domain_name]
 
 3. Configure your EIPs
@@ -37,11 +44,18 @@ Refer to our [Contributing guide](CONTRIBUTING.md).
 
 ## Provision DNS Zone and EIP
 
+=======
+		Edit terraform_dns/terraform.tfvars with your required configuration
+
+
+## Provision DNS Zone 
+>>>>>>> Add ability to manange DNS and EIP in a seperate terraform state file
 1. Export secrets
 
     In order to initialise with Terraform the S3 bucket we have created, we need to export some secrets from the `~/.aws/credentials` file.
 
     ```
+<<<<<<< HEAD
     export AWS_ACCESS_KEY_ID="AABBCCDDEEFFG"
     export AWS_SECRET_ACCESS_KEY="abcdefghijklmnopqrstuvwxyz1234567890"
     export AWS_DEFAULT_REGION="eu-west-2"
@@ -62,6 +76,19 @@ Refer to our [Contributing guide](CONTRIBUTING.md).
 
     ```
     
+=======
+    export AWS_ACCESS_KEY_ID="someaccesskey"
+    export AWS_SECRET_ACCESS_KEY="mylittlesecretkey"
+    export AWS_DEFAULT_REGION="eu-west-2"
+    ```
+
+2. Run Terraform
+
+    ```
+    cd terraform_dns 
+    tools/create-dns-s3-state-bucket -d build.gds-reliability.engineering -p re-build-systems
+    terraform init -backend-config="region=eu-west-2" -backend-config="bucket=tfstate-dns-team1.build.gds-reliability.engineering" -backend-config="key=zone-team1.build.gds-reliability.engineering.tfstate"
+>>>>>>> Add ability to manange DNS and EIP in a seperate terraform state file
     ```
 
 ## Licence
