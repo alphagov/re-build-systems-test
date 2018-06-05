@@ -9,52 +9,59 @@ Architectural documentation is available [here](docs/architecture/README.md).
 
 ## Provisioning Jenkins2 on AWS
 
-This is to provision a containerized Jenkins platform on AWS.
 
 ### Before you start
 
 Things you need to decide upon:
 
-* the URL for your Jenkins website
+* The URL for your Jenkins website
 
-* the AWS account you want to provision the platform in (we create a dedicated VPC for the Jenkins components)
+* The AWS account in which you want to provision the platform (we create a dedicated VPC)
 
-* an environment name, which will be referred as `[environment-name]` from now on.
+* An environment name, which will be referred as `[environment-name]` from now on.
   That is usually something like `test`, `staging`, `production` or your name if you are doing development or testing (e.g. `daniele`). 
 
-* the Github team(s) you want to allow access to your Jenkins installation
+* The Github team(s) you want to allow access to your Jenkins installation
 
-* the administrator(s) of the Jenkins installation
+* The administrator(s) of the Jenkins installation
 
 Things you will need to have:
 
-* an AWS user account you can authenticate to programmatically (e.g. you have its credentials stored in `~/.aws/credentials`)
+* An AWS user account with programmatic access - the account will need to be able to create S3 buckets, EC2 instances, VPCs, DNS records and security groups.
 
-* dependencies installed on your laptop:
+* Dependencies installed on your laptop:
 
     * Terraform v0.11.7
 
     * `brew install awscli python3`
 
-* request a Github OAuth application to be created. The RE team can do that for you - you only need to provide the URL you have decided to use for your Jenkins.
+* Request a Github OAuth application to be created. The RE team can do that for you - you only need to provide the URL you have decided to use for your Jenkins.
 You will receive an `id` and `secret` you will need to use later on.
 
 ### Provisioning steps
 
-1. Checkout this repository.
+1. Currently, the AWS user credentials need to be stored in `~/.aws/credentials`, like so:
 
-1. Checkout [this other repository](https://github.com/alphagov/re-build-systems-config) which contains configuration
+    ```
+    [re-build-systems]
+    aws_access_key_id = ...
+    aws_secret_access_key = ...
+    ```
+
+1. Check out this repository.
+
+1. Check out [this other repository](https://github.com/alphagov/re-build-systems-config) which contains configuration
 
     The two working copies should live in the same directory, like so:
     
         ```
-        |-- re-build-systems            <-- this repository
-        |-- re-build-systems-config     <-- configuration folder
+        |-- re-build-systems
+        |-- re-build-systems-config
         ```
 
 1. Copy your SSH **public** key to the `re-build-system-config`/`terraform`/`keys` folder with this name: `re-build-systems-[environment-name]-ssh-deployer.pub`.
 
-1. In the configuration folder, customise the `terraform.tfvars` file, in particular the items related to `github`:
+1. In the configuration folder, customise the `terraform.tfvars` file, in particular these entries:
     * `github_client_id`, `github_client_secret` as you got them when the Github OAuth app was created
     * `github_organisation` is the list of Github teams you want to grant access to your Jenkins installation
     * `github_admin_users` is the list of administrators (use their Github usernames)
@@ -62,17 +69,17 @@ You will receive an `id` and `secret` you will need to use later on.
 1. Create an S3 bucket to host the terraform state file:
 
     ```
-    cd [your_git_working_copy]
+    cd [the_working_copy_of_this_repo]
     terraform/tools/create-s3-state-bucket -b re-build-systems -e [environment-name] -p re-build-systems
     ```
 
 1. Export secrets
 
-    In order to initialise with Terraform the S3 bucket we have created, we need to export some secrets from the `~/.aws/credentials` file.
+    In order to initialise the S3 bucket we have created with Terraform, we need to export some secrets:
 
     ```
-    export AWS_ACCESS_KEY_ID="someaccesskey"
-    export AWS_SECRET_ACCESS_KEY="mylittlesecretkey"
+    export AWS_ACCESS_KEY_ID="[your-key]"
+    export AWS_SECRET_ACCESS_KEY="[your-secret]"
     export AWS_DEFAULT_REGION="eu-west-2"
     ```
 
