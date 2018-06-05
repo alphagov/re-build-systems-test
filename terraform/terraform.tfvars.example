@@ -11,15 +11,20 @@ aws_profile = "re-build-systems"
 
 dockerversion = "18.03.1~ce-0~ubuntu"
 
+github_client_id = "abcdefghij"
+
+github_client_secret = "0123456789"
+
+github_organisations = [
+    `team1`,
+    `team2`
+]
+
 github_admin_users = [
   "admin1",
   "admin2",
   "admin3",
 ]
-
-github_client_id = "abcdefghij"
-
-github_client_secret = "0123456789"
 
 gitrepo = "https://github.com/alphagov/re-build-systems.git"
 

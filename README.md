@@ -2,9 +2,6 @@
 
 This repository provides the infrastructure code for provisioning a containerised Jenkins instance on either a laptop or AWS.
 
-## Contributing
-
-Refer to our [Contributing guide](CONTRIBUTING.md).
 
 ## Architectural documentation
 
@@ -19,7 +16,7 @@ This is to provision a containerized Jenkins platform on AWS, within a master no
 
 Things you need to decide upon:
 
-* the URL for your jenkins webapp
+* the URL for your Jenkins website
 
 * the AWS account you want to provision the platform in (we create a dedicated VPC for the Jenkins components)
 
@@ -43,6 +40,8 @@ You will receive an `id` and `secret` you will need to use later on.
 
 ### Provisioning steps
 
+1. Checkout this repository.
+
 1. Configure your ~/.aws/credentials file with your own details:
 
     ```
@@ -53,9 +52,7 @@ You will receive an `id` and `secret` you will need to use later on.
 
     Be careful not to use quotes in the above.
 
-1. Generate an SSH public/private key pair. This is just to bootstrap the provisioning process. 
-
-1. Have a "config directory" for your sensitive data with this structure:
+1. Have a "configuration directory" with this structure:
 
     ```
     |-- re-build-system            <-- this repository
@@ -66,13 +63,21 @@ You will receive an `id` and `secret` you will need to use later on.
 
     ```
     
-    If you are from GDS, you can checkout [this repo](https://github.com/alphagov/re-build-systems-config) as your config folder. 
+    If you are from GDS, you can simply checkout [this repo](https://github.com/alphagov/re-build-systems-config) as your config folder. 
+
+1. Generate an SSH public/private key pair (w/o a passphrase) - this is just to bootstrap the provisioning process:
+    ``` 
+    ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+    ```
 
 1. Copy the **public** key you generated to the `re-build-system-config`/`terraform`/`keys` folder, using this name: `re-build-systems-[environment-name]-ssh-deployer.pub`.
 
-1. Customise the `terraform.tfvars` file, in particular `aws_profile`, `product` and all items related to `github` (`admin_users`, `organisation`, `id`, `secret`).
+1. In the configuration folder, customise the `terraform.tfvars` file, in particular the items related to `github`:
+    * `github_client_id`, `github_client_secret` should have been given to you when a Github OAuth app was created
+    * `github_organisation` is the list of Github teams you want to grant access to your Jenkins installation
+    * `github_admin_users` is the list of administrators (use their Github usernames)
 
-1. Create S3 bucket to host terraform state file:
+1. Create an S3 bucket to host terraform state file:
 
     ```
     cd [your_git_working_copy]
@@ -117,7 +122,7 @@ This is a list of things you may consider doing next:
 
 ## Provisioning Jenkins2 on your laptop for development
 
-Skip this section if you are just trying to provision a Terraform plaftorm to use for your project.
+This section is relevant only if you are interested in develop this project.
 
 This will provision a Docker container running Jenkins2 on your laptop.
 
@@ -139,6 +144,10 @@ For debugging, you can either:
 
 * access container as root user:
 `docker exec -it myjenkins /bin/bash`
+
+## Contributing
+
+Refer to our [Contributing guide](CONTRIBUTING.md).
 
 ## Licence
 
