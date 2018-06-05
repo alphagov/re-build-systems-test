@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -ef -o pipefail
+
+AWS_REGION="${AWS_REGION:-eu-west-2}"
+
+function print_help_and_exit() {
+  echo "Creates an S3 bucket to store .tfstate files"
+  echo ""
+  echo "$0 -d <domain name> -p <aws profile>"
+  echo ""
+  echo "<domain name>      = domain name"
+  echo "<aws profile>      = aws profile name from ~/.aws/credentials"
+  exit 1
+}
+
+function check_arguments () {
+  [ "${DOMAINNAME}" ] || print_help_and_exit
+  [ "${AWS_PROFILE}" ] || print_help_and_exit
+}
+
+while getopts "d:p:" arg; do
+  case $arg in
+    b)
+      DOMAINNAME="${OPTARG}"
+      ;;
+    p)
+      AWS_PROFILE="${OPTARG}"
+      ;;
+  esac
+done
+
+check_arguments
+echo "Creating terraform state bucket tfstate-dns-${DOMAINNAME} in ${AWS_REGION}"
+aws s3api create-bucket --bucket "tfstate-dns-${DOMAINNAME}" --region "${AWS_REGION}" --create-bucket-configuration LocationConstraint="${AWS_REGION}" --profile "${AWS_PROFILE}"
+echo "Enabling bucket versioning on tfstate-dns-${DOMAINNAME} in ${AWS_REGION}"
+aws s3api put-bucket-versioning --bucket "tfstate-dns-${DOMAINNAME}" --region "${AWS_REGION}" --versioning-configuration Status=Enabled --profile "${AWS_PROFILE}"
