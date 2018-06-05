@@ -20,7 +20,7 @@ function check_arguments () {
 
 while getopts "d:p:" arg; do
   case $arg in
-    b)
+    d)
       DOMAINNAME="${OPTARG}"
       ;;
     p)
