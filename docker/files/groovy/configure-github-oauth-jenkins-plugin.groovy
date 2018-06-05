@@ -71,6 +71,10 @@ String oauthScopes = "read:org"
 
 // check github auth details are not blank
 if ((clientID == null) || (clientSecret == null) || (adminUserNames == null) || (organisationNames == null)) {
+  // Print to stdout and stderr.
+  System.err.println "Github OAuth2 is not being set up because one or more of the GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_ADMIN_USERS or GITHUB_ORGANISATIONS environment variables have not been set."
+  println "Github OAuth2 is not being set up because one or more of the GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_ADMIN_USERS or GITHUB_ORGANISATIONS environment variables have not been set."
+} else {
   SecurityRealm github_security_realm = new GithubSecurityRealm(
     githubWebUri,
     githubApiUri,
@@ -97,8 +101,4 @@ if ((clientID == null) || (clientSecret == null) || (adminUserNames == null) || 
   }
 
   println "Github OAuth2 has been set up."
-} else {
-  // Print to stdout and stderr.
-  System.err.println "Github OAuth2 is not being set up because one or more of the GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_ADMIN_USERS or GITHUB_ORGANISATIONS environment variables have not been set."
-  println "Github OAuth2 is not being set up because one or more of the GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_ADMIN_USERS or GITHUB_ORGANISATIONS environment variables have not been set."
 }
