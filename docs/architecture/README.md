@@ -12,15 +12,13 @@ Please see the [decisions directory](decisions/) for a list of all ADRs.
 
 ### Components diagram
 
-This is a draft, waiting for review.
-
 ![Components diagrams 1](diagrams/components_diagram.png)
 
 Note: this diagram has been created with GSuite - you can find it in the team folder.
 
 ### Sequence diagram
 
-This is a draft, waiting for review.
+This diagram shows the roles that our Jenkins nodes play in the process of building code into artefacts. Note how a Jenkins agent is ephemeral, and its lifecycle is controlled by the Jenkins master node.
 
 ![Sequence diagrams 1](diagrams/sequence_diagram1.png)
 
