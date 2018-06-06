@@ -29,10 +29,14 @@ Refer to our [Contributing guide](CONTRIBUTING.md).
     ```
 
 2. Configure your DNS zone
-		Edit terraform_dns/terraform.tfvars with your required configuration
+		Edit terraform_dns/terraform.tfvars and change "team_name" and "top_level_domain_name", this will create a Route 53 zone called [team_name].[top_level_domain_name]
+
+3. Configure your EIPs
+		Edit terraform_dns/terraform.tfvars and change "team_environments".  For each environment specified an EIP will be created.
 
 
-## Provision DNS Zone
+## Provision DNS Zone and EIP
+
 1. Export secrets
 
     In order to initialise with Terraform the S3 bucket we have created, we need to export some secrets from the `~/.aws/credentials` file.
@@ -48,8 +52,9 @@ Refer to our [Contributing guide](CONTRIBUTING.md).
     ```
     cd terraform_dns
     ./tools/create-dns-s3-state-bucket -d build.gds-reliability.engineering -p re-build-systems -t [your team name]
-    terraform init -backend-config="region=eu-west-2" -backend-config="bucket=tfstate-dns-[your team name].build.gds-reliability.engineering" -backend-config="key=zone-team1.build.gds-reliability.engineering.tfstate"
+    terraform init -backend-config="region=eu-west-2" -backend-config="bucket=tfstate-dns-[your team name].build.gds-reliability.engineering" -backend-config="key=[your team name].build.gds-reliability.engineering.tfstate"
     ```
+
 
 ## Licence
 

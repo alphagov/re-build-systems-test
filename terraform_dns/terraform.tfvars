@@ -4,6 +4,12 @@ aws_profile = "re-build-systems"
 
 aws_region = "eu-west-2"
 
-subdomain = "team1"
+team_name = "team2"
+
+team_environments = [
+  "dev",
+  "staging",
+  "prod",
+]
 
 top_level_domain_name = "build.gds-reliability.engineering"

@@ -15,10 +15,28 @@ provider "aws" {
 }
 
 resource "aws_route53_zone" "primary_zone" {
-  name = "${var.subdomain}.${var.top_level_domain_name}"
+  name = "${var.team_name}.${var.top_level_domain_name}"
 
   tags {
     ManagedBy = "terraform"
-    Name      = "${var.subdomain}.${var.top_level_domain_name}"
+    Name      = "${var.team_name}.${var.top_level_domain_name}"
+  }
+
+  lifecycle {
+    prevent_destroy = false 
+  }
+}
+
+resource "aws_eip" "jenkins2_eips" {
+  count = "${length(var.team_environments)}"
+  vpc   = false
+
+  lifecycle {
+    prevent_destroy = false 
+  }
+
+  tags = {
+    ManagedBy = "terraform"
+    Name      = "jenkins2_eips_${element(var.team_environments, count.index)}_${var.team_name}_${var.top_level_domain_name}"
   }
 }
