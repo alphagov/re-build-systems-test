@@ -85,10 +85,23 @@ You will receive an `id` and `secret` you will need to use later on.
 
 1. Run Terraform
 
+    In the following commands, make sure you replace the `[environment-name]` placeholder
+
     ```
     cd terraform
-    terraform init -backend-config="region=eu-west-2" -backend-config="bucket=tfstate-re-build-systems-[environment-name]" -backend-config="key=re-build-systems.tfstate"
-    terraform apply -var-file=../../re-build-systems-config/terraform/terraform.tfvars  -var environment=[environment-name]
+    ```
+    
+    ```
+    terraform init \
+        -backend-config="region=eu-west-2" \
+        -backend-config="bucket=tfstate-re-build-systems-daniele" \
+        -backend-config="key=re-build-systems.tfstate"
+    ```
+    
+    ```
+    terraform apply \
+      -var-file=../../re-build-systems-config/terraform/terraform.tfvars  \
+      -var environment=[environment-name]
     ```
 
 1. Use the new Jenkins instance
