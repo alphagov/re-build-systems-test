@@ -106,11 +106,11 @@ You will receive an `id` and `secret` you will need to use later on.
 
 1. Use the new Jenkins instance
 
-    The previous `terraform apply` outputs some values. The most useful are the `jenkins2_eip` and `public_dns_name` (values of these are printed in bold in the example output above).
-
+    Make note of `jenkins2_eip` output by the previous command.
+    
     * Visit the Jenkins installation at the URL you decided to use
 
-    * SSH into the instance with `ssh -i [path-to-your-private-ssh-key] ubuntu@[jenkins2_eip]`
+    * If needed, SSH into the instance with `ssh -i [path-to-your-private-ssh-key] ubuntu@[jenkins2_eip]`
         * To switch to the root user, run `sudo su -`
 
 ### Recommendations
