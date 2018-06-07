@@ -31,7 +31,7 @@ Things you will need to have:
 
 * Dependencies installed on your laptop:
 
-    * `terraform` v0.11.7
+    * `terraform` `>=` `0.11.7`
 
     * `python` `>=` `2.7`
     
@@ -46,13 +46,13 @@ You will receive an `id` and `secret` you will need to use later on.
 
     ```
     [re-build-systems]
-    aws_access_key_id = [aws-key]
-    aws_secret_access_key = [aws-secret]
+    aws_access_key_id = [your-aws-key-here]
+    aws_secret_access_key = [your-aws-secret-here]
     ```
 
-1. Check out this repository.
+1. Clone this repository.
 
-1. Check out [this other repository](https://github.com/alphagov/re-build-systems-config) which contains configuration
+1. Clone [this other repository](https://github.com/alphagov/re-build-systems-config) which contains configuration
 
     The two working copies should live in the same directory, like so:
     
@@ -71,14 +71,19 @@ You will receive an `id` and `secret` you will need to use later on.
 
 1. In the configuration folder, customise the `terraform.tfvars` file, in particular these entries:
     * `github_client_id`, `github_client_secret` as you got them when the Github OAuth app was created
-    * `github_organisation` is the list of Github teams you want to grant access to your Jenkins installation
-    * `github_admin_users` is the list of administrators (use their Github usernames)
+    * `github_organisation` is the list of the Github teams you want to grant access to your Jenkins installation
+    * `github_admin_users` is the list of the Github usernames who will become Jenkins administrators
+    * `product` is used as a tag for the resources created on AWS - it can be anything you find relevant
 
 1. Create an S3 bucket to host the terraform state file:
 
+    Move back to the working copy of the main repository (this one, not the configuration one), and run
+
     ```
-    cd [the_working_copy_of_this_repo]
-    terraform/tools/create-s3-state-bucket -b re-build-systems -e [environment-name] -p re-build-systems
+    terraform/tools/create-s3-state-bucket \
+        -b re-build-systems
+        -p re-build-systems
+        -e [environment-name]
     ```
 
 1. Export secrets
