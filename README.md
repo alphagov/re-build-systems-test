@@ -120,8 +120,10 @@ You will receive an `id` and `secret` you will need to use later on.
     * Visit the Jenkins installation at the URL you decided to use
 
 ### Debugging
-    * If needed, SSH into the instance with `ssh -i [path-to-your-private-ssh-key] ubuntu@[jenkins2_eip]`
-        * To switch to the root user, run `sudo su -`
+    
+If needed, SSH into the instance with `ssh -i [path-to-your-private-ssh-key] ubuntu@[jenkins2_eip]`
+
+To switch to the root user, run `sudo su -`
 
 ### Recommendations
 
