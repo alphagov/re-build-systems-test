@@ -31,9 +31,11 @@ Things you will need to have:
 
 * Dependencies installed on your laptop:
 
-    * Terraform v0.11.7
+    * `terraform` v0.11.7
 
-    * `brew install awscli python3`
+    * `python` `>=` `2.7`
+    
+    * `awscli`
 
 * Request a Github OAuth application to be created. The RE team can do that for you - you only need to provide the URL you have decided to use for your Jenkins.
 You will receive an `id` and `secret` you will need to use later on.
@@ -60,6 +62,12 @@ You will receive an `id` and `secret` you will need to use later on.
         ```
 
 1. Copy your SSH **public** key to the `re-build-system-config`/`terraform`/`keys` folder with this name: `re-build-systems-[environment-name]-ssh-deployer.pub`.
+
+    If you don't have one, generate it this way:
+
+    ```
+    ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+    ```
 
 1. In the configuration folder, customise the `terraform.tfvars` file, in particular these entries:
     * `github_client_id`, `github_client_secret` as you got them when the Github OAuth app was created
@@ -111,6 +119,7 @@ You will receive an `id` and `secret` you will need to use later on.
     
     * Visit the Jenkins installation at the URL you decided to use
 
+### Debugging
     * If needed, SSH into the instance with `ssh -i [path-to-your-private-ssh-key] ubuntu@[jenkins2_eip]`
         * To switch to the root user, run `sudo su -`
 
