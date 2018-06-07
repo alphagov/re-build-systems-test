@@ -110,13 +110,16 @@ You will receive an `id` and `secret` you will need to use later on.
         -backend-config="bucket=tfstate-re-build-systems-[environment-name]" \
         -backend-config="key=re-build-systems.tfstate"
     ```
-    If you get this `Error loading modules: bad response code: 401`, that may be because of the content in your `.netrc` file. To work around that, you can temporarily rename the file, so that `terraform` will ignore it.
     
     ```
     terraform apply \
       -var-file=../../re-build-systems-config/terraform/terraform.tfvars  \
       -var environment=[environment-name]
     ```
+    
+    If you get this `Error loading modules: bad response code: 401` when running the `terraform init` command,
+    that may be because of the content in your `.netrc` file. To work around that,
+    you can temporarily rename the file, so that `terraform` will ignore it.    
 
 1. Use the new Jenkins instance
 
