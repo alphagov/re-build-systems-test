@@ -81,8 +81,8 @@ You will receive an `id` and `secret` you will need to use later on.
 
     ```
     terraform/tools/create-s3-state-bucket \
-        -b re-build-systems
-        -p re-build-systems
+        -b re-build-systems \
+        -p re-build-systems \
         -e [environment-name]
     ```
 
