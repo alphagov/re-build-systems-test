@@ -1,6 +1,6 @@
 # Reliability Engineering - Build Systems
 
-This repository provides the infrastructure code for provisioning a containerised Jenkins platform on AWS, consisting of a master node and an agents node (see the architectural section below for more details).
+This repository provides the infrastructure code for provisioning a containerised Jenkins platform on AWS, consisting of a master node and an agents node (see the section on architectural documentation below for more details).
 
 ## Architectural documentation
 
@@ -12,24 +12,24 @@ Architectural documentation is available [here](docs/architecture/README.md).
 
 ### Before you start
 
-Things you need to decide upon:
+Decide on the:
 
-* The URL for your Jenkins website
+* URL for your Jenkins website
 
-* The AWS account in which you want to provision the platform (we create a dedicated VPC)
+* AWS account in which you want to provision the platform (provisioning this infrastructure will create a dedicated VPC)
 
-* An environment name, which will be referred as `[environment-name]` from now on.
-  That is usually something like `test`, `staging`, `production` or your name if you are doing development or testing (e.g. `daniele`). 
+* Environment name, which will be referred as `[environment-name]` from now on.
+  This is usually something like `test`, `staging`, `production`, or `your name` if you are doing development.
 
-* The Github team(s) you want to allow access to your Jenkins installation
+* Teams you want to access your Jenkins
 
-* The administrator(s) of the Jenkins installation
+* People you want to be administrators of your Jenkins
 
-Things you will need to have:
+Make sure you have:
 
-* An AWS user account with programmatic access - the account will need to be able to create S3 buckets, EC2 instances, VPCs, DNS records and security groups.
+* An AWS user account with programmatic access - this account will need to be able to create S3 buckets, EC2 instances, VPCs, DNS records and security groups.
 
-* Dependencies installed on your laptop:
+* The following dependencies installed on your laptop:
 
     * `terraform` `>=` `0.11.7`
 
@@ -37,8 +37,8 @@ Things you will need to have:
     
     * `awscli`
 
-* Request a Github OAuth application to be created. The RE team can do that for you - you only need to provide the URL you have decided to use for your Jenkins.
-You will receive an `id` and `secret` you will need to use later on.
+* Ask RE to create a Github OAuth application for you. You need to provide the URL you have decided to use for your Jenkins.
+You will receive an `id` and `secret` you will need later on.
 
 ### Provisioning steps
 
