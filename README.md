@@ -107,7 +107,7 @@ You will receive an `id` and `secret` you will need later on.
     ```
     terraform init \
         -backend-config="region=eu-west-2" \
-        -backend-config="key=re-build-systems.tfstate" \        
+        -backend-config="key=re-build-systems.tfstate" \  
         -backend-config="bucket=tfstate-re-build-systems-[environment-name]"
     ```
     
