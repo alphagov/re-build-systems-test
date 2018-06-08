@@ -1,13 +1,13 @@
 # Reliability Engineering - Build Systems
 
-This repository provides the infrastructure code for provisioning a containerised Jenkins platform on AWS, consisting of a master node and an agents node (see the section on architectural documentation below for more details).
+This repository provides the infrastructure code for provisioning a containerised Jenkins 2 platform on AWS, consisting of a master node and an agents node (see the section on architectural documentation below for more details).
 
 ## Architectural documentation
 
 Architectural documentation is available [here](docs/architecture/README.md).
 
 
-## Provisioning Jenkins2 on AWS
+## Provisioning Jenkins on AWS
 
 
 ### Before you start
@@ -42,7 +42,7 @@ You will receive an `id` and `secret` you will need later on.
 
 ### Provisioning steps
 
-1. Currently, the AWS user credentials need to be stored in `~/.aws/credentials`, like so:
+1. Add the AWS user credentials to `~/.aws/credentials`, like so:
 
     ```
     [re-build-systems]
@@ -63,17 +63,17 @@ You will receive an `id` and `secret` you will need later on.
 
 1. Copy your SSH **public** key to the `re-build-system-config`/`terraform`/`keys` folder with this name: `re-build-systems-[environment-name]-ssh-deployer.pub`.
 
-    If you don't have one, generate it this way:
+    If you don't have an SSH key, generate one like so:
 
     ```
-    ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+    ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
     ```
 
 1. In the configuration folder, customise the `terraform.tfvars` file, in particular these entries:
-    * `github_client_id`, `github_client_secret` as you got them when the Github OAuth app was created
-    * `github_organisation` is the list of the Github teams you want to grant access to your Jenkins installation
+    * `github_client_id`, `github_client_secret` as they were given to you when the Github OAuth app was created
+    * `github_organisation` is the list of the Github teams you want to grant access to your Jenkins
     * `github_admin_users` is the list of the Github usernames who will become Jenkins administrators
-    * `product` is used as a tag for the resources created on AWS - it can be anything you find relevant
+    * `product` is used as a tag for the resources created on AWS - it can be anything you like
 
 1. Create an S3 bucket to host the terraform state file:
 
@@ -98,7 +98,7 @@ You will receive an `id` and `secret` you will need later on.
 
 1. Run Terraform
 
-    In the following commands, make sure you replace the `[environment-name]` placeholder
+    In the following commands, replace the `[environment-name]` placeholder
 
     ```
     cd terraform
@@ -121,34 +121,34 @@ You will receive an `id` and `secret` you will need later on.
     that may be because of the content in your `.netrc` file. To work around that,
     you can temporarily rename the file, so that `terraform` will ignore it.    
 
-1. Use the new Jenkins instance
+1. Use the new Jenkins
 
     Make note of `jenkins2_eip` output by the previous command.
     
-    * Visit the Jenkins installation at the URL you decided to use
+    Visit the Jenkins at the URL you decided to use
 
 ### Debugging
     
-If needed, SSH into the instance with `ssh -i [path-to-your-private-ssh-key] ubuntu@[jenkins2_eip]`
+If needed, SSH into the instance via `ssh -i [path-to-your-private-ssh-key] ubuntu@[jenkins2_eip]`
 
 To switch to the root user, run `sudo su -`
 
 ### Recommendations
 
-This is a list of things you may consider doing next:
+Next, you may want to:
 
 * implement HTTPS
 * enable AWS CloudTrail
 * remove the default `ubuntu` account from the AWS instance(s)
 
 
-## Provisioning Jenkins2 on your laptop for development
+## Provisioning Jenkins on your laptop for development
 
-This section is relevant only if you are interested in develop this project.
+This section is relevant only if you are interested in developing this project.
 
-This will provision a Docker container running Jenkins2 on your laptop.
+You need `docker` >= `v18.03.0`.
 
-You need `docker` >= `v18.03.0`
+These commands provision a Docker container running Jenkins on your laptop.
 
 ```
 cd docker
@@ -156,15 +156,15 @@ docker build -t="jenkins/jenkins-re" .
 docker run --name myjenkins -ti -p 8000:80 -p 50000:50000 jenkins/jenkins-re:latest
 ```
 
-To access the instance browse to [here](http://localhost:8000)
+To access the Jenkins browse to [here](http://localhost:8000)
 
 
 For debugging, you can either:
 
-* access container as jenkins user:
+* access the container as jenkins user:
 `docker exec -u 1000 -it myjenkins /bin/bash`
 
-* access container as root user:
+* access the container as root user:
 `docker exec -it myjenkins /bin/bash`
 
 ## Contributing
