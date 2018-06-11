@@ -80,10 +80,9 @@ You will receive an `id` and `secret` you will need later on.
     Move back to the working copy of the main repository (this one, not the configuration one), and run
 
     ```
-    terraform/tools/create-s3-state-bucket \
-        -b re-build-systems \
-        -p re-build-systems \
-        -e [environment-name]
+    cd [your_git_working_copy]
+    export ENVIRONMENT_NAME=[environment-name]
+    terraform/tools/create-s3-state-bucket -b re-build-systems -e $ENVIRONMENT_NAME -p re-build-systems
     ```
 
 1. Export secrets
@@ -105,16 +104,17 @@ You will receive an `id` and `secret` you will need later on.
     ```
     
     ```
+    export ENVIRONMENT_NAME=[environment-name]
     terraform init \
         -backend-config="region=eu-west-2" \
         -backend-config="key=re-build-systems.tfstate" \
-        -backend-config="bucket=tfstate-re-build-systems-[environment-name]"
+        -backend-config="bucket=tfstate-re-build-systems-$ENVIRONMENT_NAME"
     ```
     
     ```
     terraform apply \
       -var-file=../../re-build-systems-config/terraform/terraform.tfvars  \
-      -var environment=[environment-name]
+      -var environment=$ENVIRONMENT_NAME
     ```
     
     You may want to take note of these values from the output of the previous command - they can be helpful for debugging:
