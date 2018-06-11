@@ -1,3 +1,5 @@
+# #### AWS preferences ####
+
 variable "allowed_ips" {
   type = "list"
 }
@@ -36,15 +38,36 @@ variable "cloudflare_ips" {
   ]
 }
 
-variable "dockerversion" {
-  description = "Docker version to install"
+variable "instance_type" {
   type        = "string"
+  description = "This defines the default (aws) instance type."
+  type        = "string"
+  default     = "t2.small"
 }
+
+variable "private_subnet" {
+  type    = "string"
+  default = "10.0.1.0/24"
+}
+
+variable "public_subnet" {
+  type    = "string"
+  default = "10.0.101.0/24"
+}
+
+# #### Team and DNS preferences ####
 
 variable "environment" {
   description = "Environment (test, staging, production, etc)"
   type        = "string"
 }
+
+variable "product" {
+  description = "The name of the product"
+  type        = "string"
+}
+
+# #### Github preferences ####
 
 variable "github_admin_users" {
   description = "List of Github admin users."
@@ -74,30 +97,15 @@ variable "gitrepo" {
   type = "string"
 }
 
+# #### Dockers and Jenkins preferences
+
+variable "dockerversion" {
+  description = "Docker version to install"
+  type        = "string"
+}
+
 variable "hostname_suffix" {
   type = "string"
-}
-
-variable "instance_type" {
-  type        = "string"
-  description = "This defines the default (aws) instance type."
-  type        = "string"
-  default     = "t2.small"
-}
-
-variable "private_subnet" {
-  type    = "string"
-  default = "10.0.1.0/24"
-}
-
-variable "product" {
-  description = "The name of the product"
-  type        = "string"
-}
-
-variable "public_subnet" {
-  type    = "string"
-  default = "10.0.101.0/24"
 }
 
 variable "server_name" {
