@@ -66,17 +66,22 @@ Refer to our [Contributing guide](CONTRIBUTING.md).
     export AWS_DEFAULT_REGION="eu-west-2"
     ```
 
-    If you are using bash, then adding a space at the start of the `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` commands in the above prevents them from being added to `~/.bash_history`, which is accessed by the `history` command.
+    If you are using bash, then adding a space at the start of the `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` commands in the above prevents them from being added to `~/.bash_history`.
 
-2. Run Terraform
+2. Run Terraform to create S3 bucket to hold state file
 
     ```
-    export TEAM_NAME = [your team name]
+    export TEAM_NAME=[your team name with no whitespace characters]
     cd terraform_dns
     ./tools/create-dns-s3-state-bucket -d build.gds-reliability.engineering -p re-build-systems -t $TEAM_NAME
     terraform init -backend-config="region=$AWS_DEFAULT_REGION" -backend-config="bucket=tfstate-dns-$TEAM_NAME.build.gds-reliability.engineering" -backend-config="key=$TEAM_NAME.build.gds-reliability.engineering.tfstate"
     ```
 
+3. Reprovision the DNS
+
+    ```
+    
+    ```
 
 ## Licence
 
