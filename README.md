@@ -52,7 +52,7 @@ You will receive an `id` and `secret` you will need later on.
 
 1. Clone this repository.
 
-1. Clone [this other repository](https://github.com/alphagov/re-build-systems-config) which contains configuration
+1. Generate an SSH public/private key pair. This is just to bootstrap the provisioning process.
 
     The two working copies should live in the same directory, like so:
     
@@ -68,6 +68,8 @@ You will receive an `id` and `secret` you will need later on.
     ```
     ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
     ```
+
+    If you are from GDS, you can checkout [this repo](https://github.com/alphagov/re-build-systems-config) as your config folder.
 
 1. In the configuration folder, customise the `terraform.tfvars` file, in particular these entries:
     * `github_client_id`, `github_client_secret` as they were given to you when the Github OAuth app was created
@@ -101,9 +103,6 @@ You will receive an `id` and `secret` you will need later on.
 
     ```
     cd terraform
-    ```
-    
-    ```
     export ENVIRONMENT_NAME=[environment-name]
     terraform init \
         -backend-config="region=eu-west-2" \
