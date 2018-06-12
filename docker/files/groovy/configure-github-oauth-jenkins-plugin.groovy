@@ -1,78 +1,104 @@
-#!groovy
+// Script taken from example at https://plugins.jenkins.io/github-oauth and modified.
+/*
+The MIT License
 
-// imports
-import hudson.security.AuthorizationStrategy
-import hudson.security.SecurityRealm
+Copyright (c) 2011 Michael O'Cleirigh
+Copyright (c) 2013-2014 Sam Kottler
+Copyright (c) 2015-2017 Sam Gleske
+Copyright (c) 2004-, Kohsuke Kawaguchi, Sun Microsystems, Inc., and a number of other of contributors - https://github.com/jenkinsci/jenkins
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
 import jenkins.model.Jenkins
 import org.jenkinsci.plugins.GithubAuthorizationStrategy
 import org.jenkinsci.plugins.GithubSecurityRealm
+import hudson.security.SecurityRealm
+import hudson.security.AuthorizationStrategy
 
 def env = System.getenv()
 
+//permissions are ordered similar to web UI
+// Admin User Names
+String adminUserNames = env['GITHUB_ADMIN_USERS']
+
+// Participant in Organisation
+String organisationNames = env['GITHUB_ORGANISATIONS']
+
+// Use Github repository permissions
+boolean useRepositoryPermissions = true
+
+// Grant READ permissions to all Authenticated Users
+boolean authenticatedUserReadPermission = false
+
+// Grant CREATE Job permissions to all Authenticated Users
+boolean authenticatedUserCreateJobPermission = false
+
+// Grant READ permissions for /github-webhook
+boolean allowGithubWebHookPermission = false
+
+// Grant READ permissions for /cc.xml
+boolean allowCcTrayPermission = false
+
+// Grant READ permissions for Anonymous Users
+boolean allowAnonymousReadPermission = false
+
+// Grant ViewStatus permissions for Anonymous Users
+boolean allowAnonymousJobStatusPermission = false
+
+// Github api details
+String clientID = env['GITHUB_CLIENT_ID']
+String clientSecret = env['GITHUB_CLIENT_SECRET']
+String githubApiUri = "https://api.github.com"
+String githubWebUri = "https://github.com"
+String oauthScopes = "read:org"
+
 // check github auth details are not blank
-if ((env['GITHUB_CLIENT_ID'] == null) || (env['GITHUB_CLIENT_SECRET'] == null) || (env['GITHUB_ADMIN_USERS'] == null) || (env['GITHUB_ORGANISATIONS'] == null)) {
-  println "GITHUB_CLIENT_ID=${env['GITHUB_CLIENT_ID']}"
-  println "GITHUB_CLIENT_SECRET=${env['GITHUB_CLIENT_SECRET']}"
-  println "GITHUB_ADMIN_USERS=${env['GITHUB_ADMIN_USERS']}"
-  println "GITHUB_ORGANISATIONS=${env['GITHUB_ORGANISATIONS']}"
-  println "Skipping Github Auth configuration, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_ADMIN_USERS or GITHUB_ORGANISTIONS environment variables are blank"
+if ((clientID == null) || (clientSecret == null) || (adminUserNames == null) || (organisationNames == null)) {
+  // Print to stdout and stderr.
+  System.err.println "Github OAuth2 is not being set up because one or more of the GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_ADMIN_USERS or GITHUB_ORGANISATIONS environment variables have not been set."
+  println "Github OAuth2 is not being set up because one or more of the GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_ADMIN_USERS or GITHUB_ORGANISATIONS environment variables have not been set."
 } else {
-  println "Configuring Github Authentication"
-  println "GITHUB_CLIENT_ID=${env['GITHUB_CLIENT_ID']}"
-  println "GITHUB_CLIENT_SECRET=${env['GITHUB_CLIENT_SECRET']}"
-  println "GITHUB_ADMIN_USERS=${env['GITHUB_ADMIN_USERS']}"
-  println "GITHUB_ORGANISATIONS=${env['GITHUB_ORGANISATIONS']}"
-
-  // parameters
-  def githubSecurityRealmParameters = [
-    clientID:     env['GITHUB_CLIENT_ID'],
-    clientSecret: env['GITHUB_CLIENT_SECRET'],
-    githubApiUri: 'https://api.github.com',
-    githubWebUri: 'https://github.com',
-    oauthScopes:  'read:org'
-  ]
-
-  def githubAuthorizationStrategyParameters = [
-    adminUserNames:                         env['GITHUB_ADMIN_USERS'],   // admin User Names
-    allowAnonymousJobStatusPermission:      false,                       // grant ViewStatus permissions for Anonymous Users
-    allowAnonymousReadPermission:           false,                       // grant READ permissions for Anonymous Users
-    allowCcTrayPermission:                  false,                       // grant READ permissions for /cc.xml
-    allowGithubWebHookPermission:           false,                       // grant READ permissions for /github-webhook
-    authenticatedUserCreateJobPermission:   false,                       // grant CREATE Job permissions to all Authenticated Users
-    authenticatedUserReadPermission:        false,                       // grant READ permissions to all Authenticated Users
-    organizationNames:                      env['GITHUB_ORGANISATIONS'], // participant in organizations
-    useRepositoryPermissions:               true                         // use Github repository permissions
-  ]
-
-  // https://github.com/jenkinsci/github-oauth-plugin/blob/github-oauth-0.28.1/src/main/java/org/jenkinsci/plugins/GithubSecurityRealm.java
-  SecurityRealm githubSecurityRealm = new GithubSecurityRealm(
-    githubSecurityRealmParameters.githubWebUri,
-    githubSecurityRealmParameters.githubApiUri,
-    githubSecurityRealmParameters.clientID,
-    githubSecurityRealmParameters.clientSecret,
-    githubSecurityRealmParameters.oauthScopes
+  SecurityRealm github_security_realm = new GithubSecurityRealm(
+    githubWebUri,
+    githubApiUri,
+    clientID,
+    clientSecret,
+    oauthScopes
   )
 
-  // https://github.com/jenkinsci/github-oauth-plugin/blob/github-oauth-0.28.1/src/main/java/org/jenkinsci/plugins/GithubAuthorizationStrategy.java
-  AuthorizationStrategy githubAuthorizationStrategy = new GithubAuthorizationStrategy(
-    githubAuthorizationStrategyParameters.adminUserNames,
-    githubAuthorizationStrategyParameters.authenticatedUserReadPermission,
-    githubAuthorizationStrategyParameters.useRepositoryPermissions,
-    githubAuthorizationStrategyParameters.authenticatedUserCreateJobPermission,
-    githubAuthorizationStrategyParameters.organizationNames,
-    githubAuthorizationStrategyParameters.allowGithubWebHookPermission,
-    githubAuthorizationStrategyParameters.allowCcTrayPermission,
-    githubAuthorizationStrategyParameters.allowAnonymousReadPermission,
-    githubAuthorizationStrategyParameters.allowAnonymousJobStatusPermission
-  )
+  AuthorizationStrategy github_authorisation = new GithubAuthorizationStrategy(adminUserNames,
+      authenticatedUserReadPermission,
+      useRepositoryPermissions,
+      authenticatedUserCreateJobPermission,
+      organisationNames,
+      allowGithubWebHookPermission,
+      allowCcTrayPermission,
+      allowAnonymousReadPermission,
+      allowAnonymousJobStatusPermission)
 
-  // get Jenkins instance
-  Jenkins jenkins = Jenkins.getInstance()
+  //check for equality, no need to modify the runtime if no settings changed
+  if(!github_authorisation.equals(Jenkins.instance.getAuthorizationStrategy())) {
+      Jenkins.instance.setAuthorizationStrategy(github_authorisation)
+      Jenkins.instance.setSecurityRealm(github_security_realm)
+      Jenkins.instance.save()
+  }
 
-  // add configuration to Jenkins
-  jenkins.setSecurityRealm(githubSecurityRealm)
-  jenkins.setAuthorizationStrategy(githubAuthorizationStrategy)
-
-  // save current Jenkins state to disk
-  jenkins.save()
+  println "Github OAuth2 has been set up."
 }
