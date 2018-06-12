@@ -55,7 +55,7 @@ variable "public_subnet" {
   default = "10.0.101.0/24"
 }
 
-# #### Team and DNS preferences ####
+# #### Team preferences ####
 
 variable "environment" {
   description = "Environment (test, staging, production, etc)"
@@ -97,7 +97,7 @@ variable "gitrepo" {
   type = "string"
 }
 
-# #### Dockers and Jenkins preferences
+# #### Docker and Jenkins preferences ####
 
 variable "dockerversion" {
   description = "Docker version to install"
