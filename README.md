@@ -117,21 +117,33 @@ You will receive an `id` and `secret` you will need later on.
       -var environment=[environment-name]
     ```
     
+    You may want to take note of these values from the output of the previous command - they can be helpful for debugging:
+    
+    * `jenkins2_eip` - the public elastic IP of the master node
+    
+    * `jenkins2_worker_private_ip` - the private IP of the agents node
+    
     If you get this `Error loading modules: bad response code: 401` when running the `terraform init` command,
     that may be because of the content in your `.netrc` file. To work around that,
     you can temporarily rename the file, so that `terraform` will ignore it.    
 
 1. Use the new Jenkins
-
-    Make note of `jenkins2_eip` output by the previous command.
     
     Visit the Jenkins at the URL you decided to use
 
 ### Debugging
     
-If needed, SSH into the instance via `ssh -i [path-to-your-private-ssh-key] ubuntu@[jenkins2_eip]`
+To SSH into the master instance run:
+```
+ssh -i [path-to-your-private-ssh-key] ubuntu@[jenkins2_eip]
+```
 
-To switch to the root user, run `sudo su -`
+To SSH into the agents instance you need to use the master node as a proxy, like so:
+```
+ssh -i [path-to-your-private-ssh-key] -o ProxyCommand='ssh -W %h:%p ubuntu@[jenkins2_eip]' ubuntu@[jenkins2_worker_private_ip]
+```
+
+Once logged in with the `ubuntu` user, you can switch to the root user by running `sudo su -`.
 
 ### Recommendations
 

@@ -8,6 +8,9 @@ module "jenkins2_sg_worker" {
 
   egress_rules = ["all-all"]
 
+  ingress_cidr_blocks = ["${var.public_subnet}"]
+  ingress_rules = ["ssh-tcp"]
+
   ingress_with_cidr_blocks = [
     {
       from_port   = 2375
