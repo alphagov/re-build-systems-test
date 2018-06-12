@@ -23,7 +23,7 @@ resource "aws_route53_zone" "primary_zone" {
   }
 
   lifecycle {
-    prevent_destroy = false 
+    prevent_destroy = false
   }
 }
 
@@ -33,7 +33,7 @@ resource "aws_eip" "jenkins2_eips" {
   vpc   = false
 
   lifecycle {
-    prevent_destroy = false 
+    prevent_destroy = false
   }
 
   tags = {

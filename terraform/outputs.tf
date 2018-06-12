@@ -61,3 +61,27 @@ output "public_subnets" {
   description = "List of IDs of public subnets"
   value       = ["${module.jenkins2_vpc.public_subnets}"]
 }
+
+output "jenkins2_env_eip_ids" {
+  value = "${data.terraform_remote_state.customer_network.jenkins2_env_eip_ids}"
+}
+
+output "jenkins2_env_eip_ips" {
+  value = "${data.terraform_remote_state.customer_network.jenkins2_env_eip_ips}"
+}
+
+output "team_domain_name" {
+  value = "${data.terraform_remote_state.customer_network.team_domain_name}"
+}
+
+output "team_zone_id" {
+  value = "${data.terraform_remote_state.customer_network.team_zone_id}"
+}
+
+output "dns_state_bucket" {
+  value = "tfstate-dns-${var.team_name}.${var.hostname_suffix}"
+}
+
+output "dns_state_file" {
+	value "${var.team_name}.${var.hostname_suffix}.tfstate"
+}

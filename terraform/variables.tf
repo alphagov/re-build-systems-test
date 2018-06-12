@@ -125,6 +125,12 @@ variable "server_root_volume_size" {
   default     = "50"
 }
 
+variable "team_name" {
+  description = "Team Name"
+  type        = "string"
+  default     = "team2"
+}
+
 variable "ubuntu_release" {
   description = "Which version of ubuntu to install on Jenkins Server"
   type        = "string"
