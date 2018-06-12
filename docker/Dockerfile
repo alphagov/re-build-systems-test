@@ -29,8 +29,6 @@ COPY files/log.properties /usr/share/jenkins/ref/log.properties
 # copy jenkins groovy configuration scripts
 COPY files/groovy/*.groovy /usr/share/jenkins/ref/init.groovy.d/
 
-COPY files/config.xml  /usr/share/jenkins/ref/config.xml
-
 # import jobs
 COPY jobs/ /usr/share/jenkins/ref/jobs/
 
