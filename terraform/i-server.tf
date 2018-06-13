@@ -74,6 +74,7 @@ data "template_file" "jenkins2_server_template" {
     dockerversion        = "${var.dockerversion}"
     fqdn                 = "${var.server_name}.${var.hostname_suffix}"
     gitrepo              = "${var.gitrepo}"
+    gitrepo_branch       = "${var.gitrepo_branch}"
     hostname             = "${var.server_name}.${var.hostname_suffix}"
     region               = "${var.aws_region}"
     github_admin_users   = "${join(",", var.github_admin_users)}"

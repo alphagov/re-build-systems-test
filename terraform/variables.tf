@@ -97,6 +97,11 @@ variable "gitrepo" {
   type = "string"
 }
 
+variable "gitrepo_branch" {
+  type    = "string"
+  default = "master"
+}
+
 # #### Docker and Jenkins preferences ####
 
 variable "dockerversion" {
