@@ -20,6 +20,7 @@ resource "aws_route53_zone" "primary_zone" {
   tags {
     ManagedBy = "terraform"
     Name      = "${var.team_name}.${var.top_level_domain_name}"
+    Team      = "${var.team_name}"
   }
 
   lifecycle {
@@ -38,5 +39,6 @@ resource "aws_eip" "jenkins2_eips" {
   tags = {
     ManagedBy = "terraform"
     Name      = "jenkins2_eips_${element(var.team_environments, count.index)}_${var.team_name}_${var.top_level_domain_name}"
+    Team      = "${var.team_name}"
   }
 }
