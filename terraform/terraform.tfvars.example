@@ -30,8 +30,6 @@ gitrepo = "https://github.com/alphagov/re-build-systems.git"
 
 hostname_suffix = "build.example.com"
 
-product = "re-build-systems"
-
 server_instance_type = "t2.small"
 
 server_name = "jenkins2"
@@ -39,6 +37,8 @@ server_name = "jenkins2"
 server_persistent_storage_size = "60"
 
 server_root_volume_size = "40"
+
+team_name = "team1"
 
 ubuntu_release = "xenial-16.04-amd64-server"
 

@@ -2,7 +2,7 @@ module "jenkins2_sg_worker" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "1.22.0"
 
-  name        = "jenkins2_sg_worker_${var.product}_${var.environment}"
+  name        = "jenkins2_sg_worker_${var.team_name}_${var.environment}"
   description = "Jenkins2 Security Group Allowing HTTP and SSH"
   vpc_id      = "${module.jenkins2_vpc.vpc_id}"
 

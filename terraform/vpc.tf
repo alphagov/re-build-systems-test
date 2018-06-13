@@ -2,7 +2,7 @@ module "jenkins2_vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "1.30.0"
 
-  name = "jenkins2_vpc_${var.product}-${var.environment}"
+  name = "jenkins2_vpc_${var.team_name}_${var.environment}"
 
   enable_dns_hostnames = true
   enable_dns_support   = true
@@ -19,7 +19,7 @@ module "jenkins2_vpc" {
   tags = {
     Environment = "${var.environment}"
     ManagedBy   = "terraform"
-    Name        = "jenkins2_vpc_${var.product}_${var.environment}"
-    Product     = "${var.product}"
+    Name        = "jenkins2_vpc_${var.team_name}_${var.environment}"
+    Team        = "${var.team_name}"
   }
 }

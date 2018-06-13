@@ -2,10 +2,6 @@ output "image_id" {
   value = "${data.aws_ami.source.id}"
 }
 
-output "jenkins2_eip" {
-  value = "${aws_eip.jenkins2_eip.public_ip}"
-}
-
 # Commented because this DNS name resolves to the original public IPv4 address of the EC2. We need the public DNS name that resolves to the eip.
 # output "jenkins2_dns_name" {
 #   description = "Jenkins2 DNS name - uri of the EC2 instance created"
@@ -68,6 +64,10 @@ output "jenkins2_env_eip_ids" {
 
 output "jenkins2_env_eip_ips" {
   value = "${data.terraform_remote_state.customer_network.jenkins2_env_eip_ips}"
+}
+
+output "jenkins2_env_eip" {
+  value = "${lookup(data.terraform_remote_state.customer_network.jenkins2_env_eip_ips, var.environment)}"
 }
 
 output "team_domain_name" {

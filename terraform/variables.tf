@@ -62,11 +62,6 @@ variable "environment" {
   type        = "string"
 }
 
-variable "product" {
-  description = "The name of the product"
-  type        = "string"
-}
-
 # #### Github preferences ####
 
 variable "github_admin_users" {

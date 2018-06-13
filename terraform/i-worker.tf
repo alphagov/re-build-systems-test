@@ -1,12 +1,12 @@
 module "jenkins2_worker" {
   source                      = "terraform-aws-modules/ec2-instance/aws"
   version                     = "1.5.0"
-  name                        = "${var.worker_name}.${var.environment}.${var.hostname_suffix}"
+  name                        = "${var.worker_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
   ami                         = "${data.aws_ami.source.id}"
   instance_type               = "${var.worker_instance_type}"
   associate_public_ip_address = true
   user_data                   = "${data.template_file.jenkins2_worker_template.rendered}"
-  key_name                    = "jenkins2_key_${var.product}-${var.environment}"
+  key_name                    = "jenkins2_key_${var.team_name}_${var.environment}"
   monitoring                  = true
   vpc_security_group_ids      = ["${module.jenkins2_sg_worker.this_security_group_id}"]
   subnet_id                   = "${element(module.jenkins2_vpc.public_subnets,0)}"
@@ -19,8 +19,8 @@ module "jenkins2_worker" {
   tags {
     Environment = "${var.environment}"
     ManagedBy   = "terraform"
-    Name        = "jenkins2_worker_ec2_${var.product}_${var.environment}"
-    Product     = "${var.product}"
+    Name        = "jenkins2_worker_ec2_${var.team_name}_${var.environment}"
+    Team        = "${var.team_name}"
   }
 }
 
@@ -30,9 +30,8 @@ data "template_file" "jenkins2_worker_template" {
   vars {
     awsenv        = "${var.environment}"
     dockerversion = "${var.dockerversion}"
-    fqdn          = "${var.worker_name}.${var.hostname_suffix}"
-    gitrepo       = "${var.gitrepo}"
-    hostname      = "${var.worker_name}.${var.hostname_suffix}"
+    fqdn          = "${var.worker_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
+    hostname      = "${var.worker_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
     region        = "${var.aws_region}"
   }
 }
