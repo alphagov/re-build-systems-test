@@ -83,5 +83,5 @@ output "dns_state_bucket" {
 }
 
 output "dns_state_file" {
-	value = "${var.team_name}.${var.hostname_suffix}.tfstate"
+  value = "${var.team_name}.${var.hostname_suffix}.tfstate"
 }
