@@ -1,6 +1,6 @@
 allowed_ips = [
-  "x.x.x.x/32",
-  "y.y.y.y/32",
+  "aa.bb.cc.dd/32",
+  "ww.xx.yy.zz/32",
 ]
 
 aws_az = "eu-west-2a"
@@ -11,13 +11,13 @@ aws_profile = "re-build-systems"
 
 dockerversion = "18.03.1~ce-0~ubuntu"
 
-github_client_id = "abcdefghij"
+github_client_id = "aabbccddee"
 
-github_client_secret = "0123456789"
+github_client_secret = "abcdefghijklmnopqrstuvwxzy0123456789"
 
 github_organisations = [
-    `team1`,
-    `team2`
+  "team1",
+  "team2",
 ]
 
 github_admin_users = [
@@ -27,6 +27,8 @@ github_admin_users = [
 ]
 
 gitrepo = "https://github.com/alphagov/re-build-systems.git"
+
+gitrepo_branch = "master"
 
 hostname_suffix = "build.example.com"
 
@@ -38,7 +40,7 @@ server_persistent_storage_size = "60"
 
 server_root_volume_size = "40"
 
-team_name = "team1"
+team_name = "team2"
 
 ubuntu_release = "xenial-16.04-amd64-server"
 
