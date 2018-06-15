@@ -1,4 +1,4 @@
-data "terraform_remote_state" "customer_network" {
+data "terraform_remote_state" "team_dns_and_eips" {
   backend = "s3"
 
   config {

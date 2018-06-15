@@ -109,5 +109,5 @@ resource "aws_volume_attachment" "jenkins2_server_storage_attachment" {
 
 resource "aws_eip_association" "jenkins2_eip" {
   instance_id   = "${element(module.jenkins2_server.id,0)}"
-  allocation_id = "${lookup(data.terraform_remote_state.customer_network.jenkins2_env_eip_ids, var.environment)}"
+  allocation_id = "${lookup(data.terraform_remote_state.team_dns_and_eips.jenkins2_env_eip_ids, var.environment)}"
 }

@@ -59,23 +59,23 @@ output "public_subnets" {
 }
 
 output "jenkins2_env_eip_ids" {
-  value = "${data.terraform_remote_state.customer_network.jenkins2_env_eip_ids}"
+  value = "${data.terraform_remote_state.team_dns_and_eips.jenkins2_env_eip_ids}"
 }
 
 output "jenkins2_env_eip_ips" {
-  value = "${data.terraform_remote_state.customer_network.jenkins2_env_eip_ips}"
+  value = "${data.terraform_remote_state.team_dns_and_eips.jenkins2_env_eip_ips}"
 }
 
 output "jenkins2_env_eip" {
-  value = "${lookup(data.terraform_remote_state.customer_network.jenkins2_env_eip_ips, var.environment)}"
+  value = "${lookup(data.terraform_remote_state.team_dns_and_eips.jenkins2_env_eip_ips, var.environment)}"
 }
 
 output "team_domain_name" {
-  value = "${data.terraform_remote_state.customer_network.team_domain_name}"
+  value = "${data.terraform_remote_state.team_dns_and_eips.team_domain_name}"
 }
 
 output "team_zone_id" {
-  value = "${data.terraform_remote_state.customer_network.team_zone_id}"
+  value = "${data.terraform_remote_state.team_dns_and_eips.team_zone_id}"
 }
 
 output "dns_state_bucket" {

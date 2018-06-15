@@ -11,11 +11,11 @@ resource "aws_route53_zone" "private_facing" {
 }
 
 resource "aws_route53_record" "jenkins2_eip_public" {
-  zone_id = "${data.terraform_remote_state.customer_network.team_zone_id}"
+  zone_id = "${data.terraform_remote_state.team_dns_and_eips.team_zone_id}"
   name    = "${var.server_name}.${var.environment}"
   type    = "A"
   ttl     = "60"
 
   #records = ["${aws_eip.jenkins2_eip.public_ip}"]
-  records = ["${lookup(data.terraform_remote_state.customer_network.jenkins2_env_eip_ips, var.environment)}"]
+  records = ["${lookup(data.terraform_remote_state.team_dns_and_eips.jenkins2_env_eip_ips, var.environment)}"]
 }
