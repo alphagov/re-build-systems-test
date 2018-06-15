@@ -29,10 +29,10 @@ Refer to our [Contributing guide](CONTRIBUTING.md).
     ```
 
 2. Configure your DNS zone
-    Edit terraform_dns/terraform.tfvars and change "team_name" and "top_level_domain_name", this will create a Route 53 zone called [team_name].[top_level_domain_name]
+    Edit ../../re-build-systems-config/terraform_dns/terraform.tfvars and change "team_name" and "top_level_domain_name", this will create a Route 53 zone called [team_name].[top_level_domain_name]
 
 3. Configure your EIPs
-    Edit terraform_dns/terraform.tfvars and change "team_environments".  For each environment specified an EIP will be created.
+    Edit ../../re-build-systems-config/terraform_dns/terraform.tfvars and change "team_environments".  For each environment specified an EIP will be created.
 
 
 ## Provision DNS Zone and EIP
@@ -61,13 +61,10 @@ Refer to our [Contributing guide](CONTRIBUTING.md).
 3. Reprovision the DNS
 
     ```
-    export AWS_ACCESS_KEY_ID="AABBCCDDEEFFG"
-    export AWS_SECRET_ACCESS_KEY="abcdefghijklmnopqrstuvwxyz1234567890"
-    export AWS_DEFAULT_REGION="eu-west-2"
+    terraform apply \
+      -var-file=../../re-build-systems-config/terraform_dns/terraform.tfvars  \
+      -var environment=$ENVIRONMENT_NAME
     ```
-
-    If you are using bash, then adding a space at the start of the `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` commands in the above prevents them from being added to `~/.bash_history`.
-
 
 ## Licence
 
