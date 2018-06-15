@@ -42,7 +42,7 @@ You will receive an `id` and `secret` you will need later on.
 
 ### Provisioning steps
 
-1. Add the AWS user credentials to `~/.aws/credentials`, like so:
+1. Add your AWS user credentials to `~/.aws/credentials`, like so:
 
     ```
     [re-build-systems]
@@ -50,41 +50,41 @@ You will receive an `id` and `secret` you will need later on.
     aws_secret_access_key = [your-aws-secret-here]
     ```
 
-1. Clone this repository.
+1. Generate an SSH key pair in a location of your choice. This is meant to be used as a temporary shared key for the team to access the servers after provisioning.
 
-1. Generate an SSH public/private key pair. This is just to bootstrap the provisioning process.
-
-    The two working copies should live in the same directory, like so:
-    
-        ```
-        |-- re-build-systems
-        |-- re-build-systems-config
-        ```
-
-1. Copy your SSH **public** key to the `re-build-system-config`/`terraform`/`keys` folder with this name: `re-build-systems-[environment-name]-ssh-deployer.pub`.
-
-    If you don't have an SSH key, generate one like so:
+    You can use this command to generate one:
 
     ```
     ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
     ```
+    
+    You will need to use these keys later on in the steps.
+    
+1. Clone this repository in a location of your choice.
+   
+1. In the `terraform` folder, rename `terraform.tfvars.example` to `terraform.tfvars`.
 
-    If you are from GDS, you can checkout [this repo](https://github.com/alphagov/re-build-systems-config) as your config folder.
-
-1. In the configuration folder, customise the `terraform.tfvars` file, in particular these entries:
+1. Customise the `terraform.tfvars` file, in particular these entries:
     * `github_client_id`, `github_client_secret` as they were given to you when the Github OAuth app was created
     * `github_organisation` is the list of the Github teams you want to grant access to your Jenkins
     * `github_admin_users` is the list of the Github usernames who will become Jenkins administrators
     * `product` is used as a tag for the resources created on AWS - it can be anything you like
 
-1. Create an S3 bucket to host the terraform state file:
-
-    Move back to the working copy of the main repository (this one, not the configuration one), and run
+1. For convenience, export the environment name, so that you won't need to type it in the next steps:
 
     ```
-    cd [your_git_working_copy]
-    export ENVIRONMENT_NAME=[environment-name]
-    terraform/tools/create-s3-state-bucket -b re-build-systems -e $ENVIRONMENT_NAME -p re-build-systems
+    export JENKINS_ENV_NAME=[environment-name]
+    ```
+
+1. Create an S3 bucket to host the terraform state file.
+
+    From the root of your working copy run
+
+    ```
+    terraform/tools/create-s3-state-bucket \
+        -b re-build-systems \
+        -e $JENKINS_ENV_NAME \
+        -p re-build-systems
     ```
 
 1. Export secrets
@@ -99,21 +99,18 @@ You will receive an `id` and `secret` you will need later on.
 
 1. Run Terraform
 
-    In the following commands, replace the `[environment-name]` placeholder
-
     ```
     cd terraform
-    export ENVIRONMENT_NAME=[environment-name]
     terraform init \
         -backend-config="region=eu-west-2" \
         -backend-config="key=re-build-systems.tfstate" \
-        -backend-config="bucket=tfstate-re-build-systems-$ENVIRONMENT_NAME"
+        -backend-config="bucket=tfstate-re-build-systems-$JENKINS_ENV_NAME"
     ```
     
     ```
     terraform apply \
-      -var-file=../../re-build-systems-config/terraform/terraform.tfvars  \
-      -var environment=$ENVIRONMENT_NAME
+        -var-file=../../re-build-systems-config/terraform/terraform.tfvars  \
+        -var environment=$JENKINS_ENV_NAME
     ```
     
     You may want to take note of these values from the output of the previous command - they can be helpful for debugging:
@@ -134,12 +131,12 @@ You will receive an `id` and `secret` you will need later on.
     
 To SSH into the master instance run:
 ```
-ssh -i [path-to-your-private-ssh-key] ubuntu@[jenkins2_eip]
+ssh -i [path-to-the-private-ssh-key-you-generated] ubuntu@[jenkins2_eip]
 ```
 
 To SSH into the agents instance you need to use the master node as a proxy, like so:
 ```
-ssh -i [path-to-your-private-ssh-key] -o ProxyCommand='ssh -W %h:%p ubuntu@[jenkins2_eip]' ubuntu@[jenkins2_worker_private_ip]
+ssh -i [path-to-the-private-ssh-key-you-generated] -o ProxyCommand='ssh -W %h:%p ubuntu@[jenkins2_eip]' ubuntu@[jenkins2_worker_private_ip]
 ```
 
 Once logged in with the `ubuntu` user, you can switch to the root user by running `sudo su -`.
@@ -150,6 +147,7 @@ Next, you may want to:
 
 * implement HTTPS
 * enable AWS CloudTrail
+* remove the generic SSH key used during provisioning and use personal keys.
 * remove the default `ubuntu` account from the AWS instance(s)
 
 
