@@ -1,12 +1,12 @@
 module "jenkins2_server" {
   source                      = "terraform-aws-modules/ec2-instance/aws"
   version                     = "1.5.0"
-  name                        = "${var.server_name}.${var.environment}.${var.hostname_suffix}"
+  name                        = "${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
   ami                         = "${data.aws_ami.source.id}"
   instance_type               = "${var.instance_type}"
   associate_public_ip_address = true
   user_data                   = "${data.template_file.jenkins2_server_template.rendered}"
-  key_name                    = "jenkins2_key_${var.product}-${var.environment}"
+  key_name                    = "jenkins2_key_${var.team_name}_${var.environment}"
   monitoring                  = true
   vpc_security_group_ids      = ["${module.jenkins2_sg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_server_private_facing.this_security_group_id}", "${module.jenkins2_sg_cloudflare.this_security_group_id}"]
   subnet_id                   = "${element(module.jenkins2_vpc.public_subnets,0)}"
@@ -19,8 +19,8 @@ module "jenkins2_server" {
   tags {
     Environment = "${var.environment}"
     ManagedBy   = "terraform"
-    Name        = "jenkins2_ec2_${var.product}_${var.environment}"
-    Product     = "${var.product}"
+    Name        = "jenkins2_ec2_${var.team_name}_${var.environment}"
+    Team        = "${var.team_name}"
   }
 }
 
@@ -72,9 +72,10 @@ data "template_file" "jenkins2_server_template" {
   vars {
     awsenv               = "${var.environment}"
     dockerversion        = "${var.dockerversion}"
-    fqdn                 = "${var.server_name}.${var.hostname_suffix}"
+    fqdn                 = "${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
     gitrepo              = "${var.gitrepo}"
-    hostname             = "${var.server_name}.${var.hostname_suffix}"
+    gitrepo_branch       = "${var.gitrepo_branch}"
+    hostname             = "${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
     region               = "${var.aws_region}"
     github_admin_users   = "${join(",", var.github_admin_users)}"
     github_client_id     = "${var.github_client_id}"
@@ -95,8 +96,8 @@ resource "aws_ebs_volume" "jenkins2_server_storage" {
   tags {
     Environment = "${var.environment}"
     ManagedBy   = "terraform"
-    Name        = "jenkins2_ebs_${var.product}_${var.environment}"
-    Product     = "${var.product}"
+    Name        = "jenkins2_ebs_${var.team_name}_${var.environment}"
+    Team        = "${var.team_name}"
   }
 }
 
@@ -104,4 +105,9 @@ resource "aws_volume_attachment" "jenkins2_server_storage_attachment" {
   device_name = "/dev/xvdf"
   volume_id   = "${aws_ebs_volume.jenkins2_server_storage.id}"
   instance_id = "${element(module.jenkins2_server.id,0)}"
+}
+
+resource "aws_eip_association" "jenkins2_eip" {
+  instance_id   = "${element(module.jenkins2_server.id,0)}"
+  allocation_id = "${lookup(data.terraform_remote_state.team_dns_and_eips.jenkins2_env_eip_ids, var.environment)}"
 }

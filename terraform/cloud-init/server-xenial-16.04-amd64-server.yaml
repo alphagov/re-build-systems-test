@@ -238,7 +238,7 @@ runcmd:
   - apt-get install -y docker-ce=${dockerversion}
   - [ systemctl, status, docker ]
   - [ mkdir, /docker ]
-  - git clone ${gitrepo} /docker
+  - git clone -b ${gitrepo_branch} ${gitrepo} /docker
   - [ docker, build, -t=jenkins/jenkins-re, "/docker/docker" ]
   - /usr/local/bin/mount-persistent-storage
   - [ mv, /tmp/gitvars, /docker/gitvars ]

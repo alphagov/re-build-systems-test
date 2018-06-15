@@ -52,7 +52,7 @@ You will receive an `id` and `secret` you will need later on.
 
 1. Clone this repository.
 
-1. Clone [this other repository](https://github.com/alphagov/re-build-systems-config) which contains configuration
+1. Generate an SSH public/private key pair. This is just to bootstrap the provisioning process.
 
     The two working copies should live in the same directory, like so:
     
@@ -69,6 +69,8 @@ You will receive an `id` and `secret` you will need later on.
     ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
     ```
 
+    If you are from GDS, you can checkout [this repo](https://github.com/alphagov/re-build-systems-config) as your config folder.
+
 1. In the configuration folder, customise the `terraform.tfvars` file, in particular these entries:
     * `github_client_id`, `github_client_secret` as they were given to you when the Github OAuth app was created
     * `github_organisation` is the list of the Github teams you want to grant access to your Jenkins
@@ -80,10 +82,9 @@ You will receive an `id` and `secret` you will need later on.
     Move back to the working copy of the main repository (this one, not the configuration one), and run
 
     ```
-    terraform/tools/create-s3-state-bucket \
-        -b re-build-systems \
-        -p re-build-systems \
-        -e [environment-name]
+    cd [your_git_working_copy]
+    export ENVIRONMENT_NAME=[environment-name]
+    terraform/tools/create-s3-state-bucket -b re-build-systems -e $ENVIRONMENT_NAME -p re-build-systems
     ```
 
 1. Export secrets
@@ -102,19 +103,17 @@ You will receive an `id` and `secret` you will need later on.
 
     ```
     cd terraform
-    ```
-    
-    ```
+    export ENVIRONMENT_NAME=[environment-name]
     terraform init \
         -backend-config="region=eu-west-2" \
         -backend-config="key=re-build-systems.tfstate" \
-        -backend-config="bucket=tfstate-re-build-systems-[environment-name]"
+        -backend-config="bucket=tfstate-re-build-systems-$ENVIRONMENT_NAME"
     ```
     
     ```
     terraform apply \
       -var-file=../../re-build-systems-config/terraform/terraform.tfvars  \
-      -var environment=[environment-name]
+      -var environment=$ENVIRONMENT_NAME
     ```
     
     You may want to take note of these values from the output of the previous command - they can be helpful for debugging:
