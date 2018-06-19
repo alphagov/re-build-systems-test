@@ -10,26 +10,7 @@ Architectural documentation is available [here](docs/architecture/README.md).
 ## Provisioning Jenkins on AWS
 
 
-### Before you start
-
-Decide on the:
-
-* URL for your Jenkins website
-
-* AWS account in which you want to provision the platform (provisioning this infrastructure will create a dedicated VPC)
-
-* Environment name, which will be referred as `[environment-name]` from now on.
-  This is usually something like `test`, `staging`, `production`, or `your name` if you are doing development.
-
-* Teams you want to access your Jenkins
-
-* People you want to be administrators of your Jenkins
-
-Make sure you have:
-
-* An AWS user account with programmatic access - this account will need to be able to create S3 buckets, EC2 instances, VPCs, DNS records and security groups.
-
-* The following dependencies installed on your laptop:
+### Prerequisites
 
     * `terraform` `=` `0.11.7`
 
@@ -37,8 +18,6 @@ Make sure you have:
 
     * `awscli`
 
-* Ask RE to create a Github OAuth application for you. You need to provide the URL you have decided to use for your Jenkins.
-You will receive an `id` and `secret` you will need later on.
 
 ### Provisioning steps
 
