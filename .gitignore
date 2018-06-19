@@ -1,6 +1,7 @@
 # Terraform
 terraform/.terraform
 terraform/terraform.tfstate*
+terraform/terraform.tfvars
 terraform/terraform.plan
 terraform/keys/*
 
