@@ -48,6 +48,7 @@ Architectural documentation is available [here](docs/architecture/README.md).
 1. In the `terraform` folder, rename `terraform.tfvars.example` to `terraform.tfvars`.
 
 1. Customise the `terraform.tfvars` file, in particular these entries:
+    * `allowed_ips` the IPs you want to allow access to your Jenkins - consult the user manual if you have one
     * `github_client_id`, `github_client_secret` as they were given to you when the Github OAuth app was created
     * `github_organisation` is the list of the Github teams you want to grant access to your Jenkins
     * `github_admin_users` is the list of the Github usernames who will become Jenkins administrators
