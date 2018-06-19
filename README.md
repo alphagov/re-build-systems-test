@@ -34,7 +34,7 @@ Make sure you have:
     * `terraform` `>=` `0.11.7`
 
     * `python` `>=` `2.7`
-    
+
     * `awscli`
 
 * Ask RE to create a Github OAuth application for you. You need to provide the URL you have decided to use for your Jenkins.
@@ -50,18 +50,22 @@ You will receive an `id` and `secret` you will need later on.
     aws_secret_access_key = [your-aws-secret-here]
     ```
 
-1. Generate an SSH key pair in a location of your choice. This is meant to be used as a temporary shared key for the team to access the servers after provisioning.
+1. Generate an SSH key pair in a location of your choice.
 
     You can use this command to generate one:
 
     ```
-    ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
+    ssh-keygen -t rsa -b 4096 -C "[key comment]"
     ```
-    
-    You will need to use these keys later on in the steps.
-    
+
+    We suggest the `key comment` to contain the name of your team and the environment name.
+
+    The public key will only be used later on in these steps.
+
+    The private key will need to be shared amongst the team, to allow them to SSH into the servers.
+
 1. Clone this repository in a location of your choice.
-   
+
 1. In the `terraform` folder, rename `terraform.tfvars.example` to `terraform.tfvars`.
 
 1. Customise the `terraform.tfvars` file, in particular these entries:
@@ -106,29 +110,29 @@ You will receive an `id` and `secret` you will need later on.
         -backend-config="key=re-build-systems.tfstate" \
         -backend-config="bucket=tfstate-re-build-systems-$JENKINS_ENV_NAME"
     ```
-    
+
     ```
     terraform apply \
         -var-file=../../re-build-systems-config/terraform/terraform.tfvars  \
         -var environment=$JENKINS_ENV_NAME
     ```
-    
+
     You may want to take note of these values from the output of the previous command - they can be helpful for debugging:
-    
+
     * `jenkins2_eip` - the public elastic IP of the master node
-    
+
     * `jenkins2_worker_private_ip` - the private IP of the agents node
-    
+
     If you get this `Error loading modules: bad response code: 401` when running the `terraform init` command,
     that may be because of the content in your `.netrc` file. To work around that,
     you can temporarily rename the file, so that `terraform` will ignore it.    
 
 1. Use the new Jenkins
-    
+
     Visit the Jenkins at the URL you decided to use
 
 ### Debugging
-    
+
 To SSH into the master instance run:
 ```
 ssh -i [path-to-the-private-ssh-key-you-generated] ubuntu@[jenkins2_eip]
@@ -147,7 +151,7 @@ Next, you may want to:
 
 * implement HTTPS
 * enable AWS CloudTrail
-* remove the generic SSH key used during provisioning and use personal keys.
+* remove the generic SSH key used during provisioning and use personal keys
 * remove the default `ubuntu` account from the AWS instance(s)
 
 
