@@ -46,8 +46,8 @@ You will receive an `id` and `secret` you will need later on.
 
     ```
     [re-build-systems]
-    aws_access_key_id = [your-aws-key-here]
-    aws_secret_access_key = [your-aws-secret-here]
+    aws_access_key_id = [your aws key here]
+    aws_secret_access_key = [your aws secret here]
     ```
 
 1. Generate an SSH key pair in a location of your choice.
@@ -96,8 +96,8 @@ You will receive an `id` and `secret` you will need later on.
     In order to initialise the S3 bucket we have created with Terraform, we need to export some secrets:
 
     ```
-    export AWS_ACCESS_KEY_ID="[aws-key]"
-    export AWS_SECRET_ACCESS_KEY="[aws-secret]"
+    export AWS_ACCESS_KEY_ID="[aws key]"
+    export AWS_SECRET_ACCESS_KEY="[aws secret]"
     export AWS_DEFAULT_REGION="eu-west-2"
     ```
 
@@ -106,7 +106,7 @@ You will receive an `id` and `secret` you will need later on.
     ```
     cd terraform
     terraform init \
-        -backend-config="region=eu-west-2" \
+        -backend-config="region=$AWS_DEFAULT_REGION" \
         -backend-config="key=re-build-systems.tfstate" \
         -backend-config="bucket=tfstate-re-build-systems-$JENKINS_ENV_NAME"
     ```
