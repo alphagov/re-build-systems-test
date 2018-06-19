@@ -55,6 +55,10 @@ variable "public_subnet" {
   default = "10.0.101.0/24"
 }
 
+variable "ssh_public_key_file" {
+  type = "string"
+}
+
 # #### Team preferences ####
 
 variable "environment" {
