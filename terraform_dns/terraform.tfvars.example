@@ -1,8 +1,7 @@
-aws_az = "eu-west-2a"
+### USER SETTINGS ###
 
-aws_profile = "re-build-systems"
-
-aws_region = "eu-west-2"
+# refer to the user manual for the value to set here
+top_level_domain_name = "build.example.com"
 
 team_name = "team2"
 
@@ -12,4 +11,11 @@ team_environments = [
   "prod",
 ]
 
-top_level_domain_name = "build.example.com"
+
+### AWS SETTINGS ###
+
+aws_az = "eu-west-2a"
+
+aws_profile = "re-build-systems"
+
+aws_region = "eu-west-2"

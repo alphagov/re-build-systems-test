@@ -1,39 +1,35 @@
 # Reliability Engineering - Build Systems - Team DNS and EIP Configuration
 
-It will configure a teams subdomain and eip, which will allow them to remain persistent as they will be maintained within their own state file.
-
-
-## Contributing
-
-Refer to our [Contributing guide](CONTRIBUTING.md).
+It will configure a teams subdomain and EIP, which will allow them to remain persistent as they will be maintained within their own state file.
 
 ## Prerequisites
 
-    * Install Terraform v0.11.7 (see https://www.terraform.io/intro/getting-started/install.html for guidance for your system)
+    * terraform = 0.11.7
 
-    * Install Python3
-      On a Mac, you can use
-      `brew install awscli python3`
+    * python >= 2.7
 
-      On a Linux machine, you can use
-      `apt-get install python3`
+    * awscli
 
 ## Configuration
 
-1. Configure your ~/.aws/credentials file with your own details:
+1. Add your AWS user credentials to `~/.aws/credentials`, like so:
 
     ```
     [re-build-systems]
-    aws_access_key_id = AABBCCDDEEFFG
-    aws_secret_access_key = abcdefghijklmnopqrstuvwxyz1234567890
+    aws_access_key_id = [your aws key here]
+    aws_secret_access_key = [your aws secret here]
     ```
 
-2. Configure your DNS zone
-    Edit ../../re-build-systems-config/terraform_dns/terraform.tfvars and change "team_name" and "top_level_domain_name", this will create a Route 53 zone called [team_name].[top_level_domain_name]
+1. In the `terraform` folder, rename `terraform.tfvars.example` to `terraform.tfvars`.
 
-3. Configure your EIPs
-    Edit ../../re-build-systems-config/terraform_dns/terraform.tfvars and change "team_environments".  For each environment specified an EIP will be created.
+1. In the file you just renamed, customise the settings in the `### USER SETTINGS ###` section at the top.  
+   For each environment you define, a new Route 53 zone will be created as [team_environments].[team_name].[top_level_domain_name]
 
+1. For conveniency, export the `team_name` you just set:
+
+    ```
+    export TEAM_NAME=[your team name as defined in the `terraform.tfvars` file]
+    ```
 
 ## Provision DNS Zone and EIP
 
@@ -42,29 +38,39 @@ Refer to our [Contributing guide](CONTRIBUTING.md).
     In order to initialise with Terraform the S3 bucket we have created, we need to export some secrets from the `~/.aws/credentials` file.
 
     ```
-    export AWS_ACCESS_KEY_ID="AABBCCDDEEFFG"
-    export AWS_SECRET_ACCESS_KEY="abcdefghijklmnopqrstuvwxyz1234567890"
+    export AWS_ACCESS_KEY_ID="[aws key]"
+    export AWS_SECRET_ACCESS_KEY="[aws secret]"
     export AWS_DEFAULT_REGION="eu-west-2"
     ```
 
-    If you are using bash, then adding a space at the start of the `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` commands in the above prevents them from being added to `~/.bash_history`.
+    If you are using bash, then adding a space at the start of the `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` commands in the above should prevent them from being added to `~/.bash_history`.
 
-2. Run Terraform to create S3 bucket to hold state file
+2. Create the S3 bucket to hold the Terraform state file
 
     ```
-    export TEAM_NAME=[your team name with no whitespace characters]
     cd terraform_dns
-    ./tools/create-dns-s3-state-bucket -d build.gds-reliability.engineering -p re-build-systems -t $TEAM_NAME
-    terraform init -backend-config="region=$AWS_DEFAULT_REGION" -backend-config="bucket=tfstate-dns-$TEAM_NAME.build.gds-reliability.engineering" -backend-config="key=$TEAM_NAME.build.gds-reliability.engineering.tfstate"
+    ./tools/create-dns-s3-state-bucket \
+        -d build.gds-reliability.engineering \
+        -p re-build-systems \
+        -t $TEAM_NAME
     ```
 
-3. Reprovision the DNS
+3. Provision the DNS
+    
+    ```        
+    terraform init \
+        -backend-config="region=$AWS_DEFAULT_REGION" \
+        -backend-config="bucket=tfstate-dns-$TEAM_NAME.build.gds-reliability.engineering" \
+        -backend-config="key=$TEAM_NAME.build.gds-reliability.engineering.tfstate"
+    ```
 
     ```
-    terraform apply \
-      -var-file=../../re-build-systems-config/terraform_dns/terraform.tfvars  \
-      -var environment=$ENVIRONMENT_NAME
+    terraform apply -var-file=./terraform.tfvars
     ```
+
+## Contributing
+
+    Refer to our [Contributing guide](CONTRIBUTING.md).
 
 ## Licence
 
