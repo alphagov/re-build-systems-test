@@ -31,7 +31,7 @@ Make sure you have:
 
 * The following dependencies installed on your laptop:
 
-    * `terraform` `>=` `0.11.7`
+    * `terraform` `=` `0.11.7`
 
     * `python` `>=` `2.7`
 
