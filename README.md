@@ -59,6 +59,8 @@ Architectural documentation is available [here](docs/architecture/README.md).
     export JENKINS_ENV_NAME=[environment-name]
     ```
 
+    This is usually something like test, staging, production, or your name if you are doing development.
+
 1. Create an S3 bucket to host the terraform state file.
 
     From the root of your working copy run
