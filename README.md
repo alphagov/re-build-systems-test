@@ -92,7 +92,7 @@ Architectural documentation is available [here](docs/architecture/README.md).
 
     ```
     terraform apply \
-        -var-file=../../re-build-systems-config/terraform/terraform.tfvars  \
+        -var-file=./terraform.tfvars  \
         -var environment=$JENKINS_ENV_NAME \
         -var ssh_public_key_file=[path to your public ssh key]
     ```
