@@ -43,7 +43,7 @@ Architectural documentation is available [here](docs/architecture/README.md).
 
     The private key will need to be shared amongst the team, to allow them to SSH into the servers.
 
-1. Clone this repository in a location of your choice.
+1. If not done already, clone this repository in a location of your choice.
 
 1. In the `terraform` folder, rename `terraform.tfvars.example` to `terraform.tfvars`.
 
