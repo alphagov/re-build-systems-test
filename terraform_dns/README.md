@@ -20,10 +20,12 @@ It will configure a teams subdomain and EIP, which will allow them to remain per
     aws_secret_access_key = [your aws secret here]
     ```
 
-1. In the `terraform` folder, rename `terraform.tfvars.example` to `terraform.tfvars`.
+1. Clone this repository in a location of your choice.
+
+1. In the `terraform_dns` folder, rename `terraform.tfvars.example` to `terraform.tfvars`.
 
 1. In the file you just renamed, customise the settings in the `### USER SETTINGS ###` section at the top.  
-   For each environment you define, a new Route 53 zone will be created as [team_environments].[team_name].[top_level_domain_name]
+   For each environment you define, a new hostname will be created as [team_environments].[team_name].[top_level_domain_name]
 
 1. For conveniency, export the `team_name` you just set:
 
@@ -32,6 +34,16 @@ It will configure a teams subdomain and EIP, which will allow them to remain per
     ```
 
 ## Provision DNS Zone and EIP
+
+1. Create the S3 bucket to hold the Terraform state file
+
+    ```
+    cd terraform_dns
+    ./tools/create-dns-s3-state-bucket \
+        -d build.gds-reliability.engineering \
+        -p re-build-systems \
+        -t $TEAM_NAME
+    ```
 
 1. Export secrets
 
@@ -45,17 +57,8 @@ It will configure a teams subdomain and EIP, which will allow them to remain per
 
     If you are using bash, then adding a space at the start of the `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` commands in the above should prevent them from being added to `~/.bash_history`.
 
-2. Create the S3 bucket to hold the Terraform state file
 
-    ```
-    cd terraform_dns
-    ./tools/create-dns-s3-state-bucket \
-        -d build.gds-reliability.engineering \
-        -p re-build-systems \
-        -t $TEAM_NAME
-    ```
-
-3. Provision the DNS
+1. Provision the DNS
     
     ```        
     terraform init \
