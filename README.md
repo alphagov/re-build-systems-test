@@ -52,7 +52,8 @@ Architectural documentation is available [here](docs/architecture/README.md).
     * `github_client_id`, `github_client_secret` as they were given to you when the Github OAuth app was created
     * `github_organisation` is the list of the Github teams you want to grant access to your Jenkins
     * `github_admin_users` is the list of the Github usernames who will become Jenkins administrators
-    * `product` is used as a tag for the resources created on AWS - it can be anything you like
+    * `team` is your team name
+    * `hostname_suffix` is your hostname suffix
 
 1. For convenience, export the environment name, so that you won't need to type it in the next steps:
 
