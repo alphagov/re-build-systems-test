@@ -59,6 +59,7 @@ Architectural documentation is available [here](docs/architecture/README.md).
 
     ```
     export JENKINS_ENV_NAME=[environment-name]
+    export JENKINS_TEAM_NAME=[team-name]
     ```
 
     This is usually something like test, staging, production, or your name if you are doing development.
@@ -69,7 +70,7 @@ Architectural documentation is available [here](docs/architecture/README.md).
 
     ```
     terraform/tools/create-s3-state-bucket \
-        -b re-build-systems \
+        -t $JENKINS_TEAM_NAME \
         -e $JENKINS_ENV_NAME \
         -p re-build-systems
     ```
@@ -91,7 +92,7 @@ Architectural documentation is available [here](docs/architecture/README.md).
     terraform init \
         -backend-config="region=$AWS_DEFAULT_REGION" \
         -backend-config="key=re-build-systems.tfstate" \
-        -backend-config="bucket=tfstate-re-build-systems-$JENKINS_ENV_NAME"
+        -backend-config="bucket=tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME"
     ```
 
     ```
