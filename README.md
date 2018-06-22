@@ -1,6 +1,6 @@
 # Reliability Engineering - Build Systems
 
-This repository provides the infrastructure code for provisioning a containerised Jenkins (v. 2) platform
+This repository provides the infrastructure code for provisioning a containerised Jenkins (version 2) platform
 on AWS, consisting of a master node and an agents node. Users will login via Github.
 
 ## Architectural documentation
@@ -28,7 +28,7 @@ These are the steps to get to a running Jenkins platform:
 * Step 1 - Provision the DNS infrastructure
 
 * Step 2 - Contact RE so that they can set up things for you
-    
+
 * Step 3 - Once that is done, you can provision the main Jenkins infrastructure
 
 * Step 4 - Use your Jenkins!
@@ -41,7 +41,7 @@ This will define the URLs of your Jenkins, based on the `team_environments` you 
 Some examples:
 
     `dev.my-team.build.gds-reliability.engineering`
-    
+
     `staging.my-team.build.gds-reliability.engineering`
 
 In the configuration file, you will need to define `top_level_domain_name` as `build.gds-reliability.engineering`.
@@ -95,7 +95,7 @@ In the configuration file, you will need to define `top_level_domain_name` as `b
 
 
 1. Provision the DNS
-    
+
     ```        
     terraform init \
         -backend-config="region=$AWS_DEFAULT_REGION" \
@@ -116,8 +116,8 @@ Send the final output from the previous step to RE.
 RE will do two things:
 
 * enable your DNS records
-    
-* create the Github OAuth app to allow login to your Jenkins 
+
+* create the Github OAuth app to allow login to your Jenkins
 
 
 
