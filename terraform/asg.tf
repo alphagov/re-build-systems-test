@@ -12,7 +12,7 @@ locals {
     },
     {
       key                 = "Name"
-      value               = "jenkins2_asg-${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
+      value               = "asg-${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
       propagate_at_launch = true
     },
     {
@@ -24,7 +24,7 @@ locals {
 }
 
 resource "aws_launch_configuration" "lc_jenkins2_server" {
-  name          = "alc-${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}-"
+  name          = "lc-${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
   image_id      = "${data.aws_ami.source.id}"
   instance_type = "${var.instance_type}"
 
@@ -44,28 +44,28 @@ resource "aws_launch_configuration" "lc_jenkins2_server" {
 }
 
 resource "aws_autoscaling_group" "asg_jenkins2_server" {
-  name_prefix = "asg-${var.server_name}-${var.environment}-${var.team_name}-"
+  name_prefix               = "asg.${var.team_name}."
+  launch_configuration      = "${aws_launch_configuration.lc_jenkins2_server.name}"
+  health_check_grace_period = 300
+  health_check_type         = "ELB"
+  vpc_zone_identifier       = ["${module.jenkins2_vpc.public_subnets}"]
+  desired_capacity          = 1
+  min_size                  = 1
+  max_size                  = 1
 
-  launch_configuration = "${aws_launch_configuration.lc_jenkins2_server.name}"
-
-  #launch_template = {
-  #  id      = "${aws_launch_template.lc_jenkins2_server.id}"
-  #  version = "$$Latest"
-  #}
-
-  vpc_zone_identifier = ["${module.jenkins2_vpc.public_subnets}"]
-  desired_capacity    = 1
-  min_size            = 1
-  max_size            = 1
   lifecycle {
     create_before_destroy = true
   }
+
   tags = ["${local.asg_jenkins2_extra_tags}"]
 }
 
 resource "aws_elb" "elb_jenkins2_server" {
   name               = "elb-${var.server_name}-${var.environment}-${var.team_name}"
-  availability_zones = ["eu-west-2a"]
+  # availability_zones = ["eu-west-2a"]
+  security_groups    = ["${module.jenkins2_sg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_server_private_facing.this_security_group_id}", "${module.jenkins2_sg_cloudflare.this_security_group_id}"]
+
+  subnets = ["${element(module.jenkins2_vpc.public_subnets,0)}"]
 
   listener {
     instance_port      = 80
