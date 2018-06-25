@@ -60,6 +60,15 @@ resource "aws_autoscaling_group" "asg_jenkins2_server" {
   tags = ["${local.asg_jenkins2_extra_tags}"]
 }
 
+resource "aws_route53_record" "jenkins2_asg_public" {
+  zone_id = "${data.terraform_remote_state.team_dns_and_eips.team_zone_id}"
+  name    = "asg.${var.environment}"
+  type    = "CNAME"
+  ttl     = "60"
+
+  records = ["${aws_elb.elb_jenkins2_server.name}"]
+}
+
 resource "aws_elb" "elb_jenkins2_server" {
   name               = "elb-${var.server_name}-${var.environment}-${var.team_name}"
   # availability_zones = ["eu-west-2a"]
