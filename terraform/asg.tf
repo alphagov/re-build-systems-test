@@ -23,13 +23,34 @@ locals {
   ]
 }
 
+data "template_file" "jenkins2_asg_server_template" {
+  template = "${file("cloud-init/server-asg-${var.ubuntu_release}.yaml")}"
+
+  depends_on = ["aws_efs_file_system.jenkins2_master_fs"]
+
+  vars {
+    awsenv               = "${var.environment}"
+    dockerversion        = "${var.dockerversion}"
+    efs_file_system      = "${aws_efs_file_system.jenkins2_master_fs.id}"
+    fqdn                 = "${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
+    gitrepo              = "${var.gitrepo}"
+    gitrepo_branch       = "${var.gitrepo_branch}"
+    hostname             = "${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
+    region               = "${var.aws_region}"
+    github_admin_users   = "${join(",", var.github_admin_users)}"
+    github_client_id     = "${var.github_client_id}"
+    github_client_secret = "${var.github_client_secret}"
+    github_organisations = "${join(",", var.github_organisations)}"
+  }
+}
+
 resource "aws_launch_configuration" "lc_jenkins2_server" {
   name          = "lc-${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
   image_id      = "${data.aws_ami.source.id}"
   instance_type = "${var.instance_type}"
 
   # associate_public_ip_address = true
-  user_data = "${data.template_file.jenkins2_server_template.rendered}"
+  user_data = "${data.template_file.jenkins2_asg_server_template.rendered}"
   key_name  = "jenkins2_key_${var.team_name}_${var.environment}"
 
   # vpc_security_group_ids      = ["${module.jenkins2_sg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_server_private_facing.this_security_group_id}", "${module.jenkins2_sg_cloudflare.this_security_group_id}"]
