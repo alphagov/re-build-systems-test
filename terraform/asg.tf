@@ -66,13 +66,14 @@ resource "aws_route53_record" "jenkins2_asg_public" {
   type    = "CNAME"
   ttl     = "60"
 
-  records = ["${aws_elb.elb_jenkins2_server.name}"]
+  records = ["${aws_elb.elb_jenkins2_server.dns_name}"]
 }
 
 resource "aws_elb" "elb_jenkins2_server" {
-  name               = "elb-${var.server_name}-${var.environment}-${var.team_name}"
+  name = "elb-${var.server_name}-${var.environment}-${var.team_name}"
+
   # availability_zones = ["eu-west-2a"]
-  security_groups    = ["${module.jenkins2_sg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_server_private_facing.this_security_group_id}", "${module.jenkins2_sg_cloudflare.this_security_group_id}"]
+  security_groups = ["${module.jenkins2_sg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_server_private_facing.this_security_group_id}", "${module.jenkins2_sg_cloudflare.this_security_group_id}"]
 
   subnets = ["${element(module.jenkins2_vpc.public_subnets,0)}"]
 
