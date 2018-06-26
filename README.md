@@ -16,8 +16,6 @@ Make sure you have this software installed on your laptop:
 
     * `terraform` `=` `0.11.7`
 
-    * `python` `>=` `2.7`
-
     * `awscli`
 
 
