@@ -1,9 +1,9 @@
 ### USER SETTINGS ###
 
 # refer to the user manual for the value to set here
-top_level_domain_name = "build.example.com"
+top_level_domain_name = "Add in your domain name here, for example: build.example.com"
 
-team_name = "team2"
+team_name = "Add in the name of your team here, for example: team2"
 
 team_environments = [
   "dev",
