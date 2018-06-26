@@ -59,9 +59,10 @@ resource "aws_launch_configuration" "lc_jenkins2_server" {
     volume_size           = "${var.server_root_volume_size}"
     delete_on_termination = "true"
   }]
-  lifecycle {
-    create_before_destroy = true
-  }
+
+#  lifecycle {
+#    create_before_destroy = true
+#  }
 }
 
 resource "aws_autoscaling_group" "asg_jenkins2_server" {
@@ -74,9 +75,9 @@ resource "aws_autoscaling_group" "asg_jenkins2_server" {
   min_size                  = 1
   max_size                  = 1
 
-  lifecycle {
-    create_before_destroy = true
-  }
+#  lifecycle {
+#    create_before_destroy = true
+#  }
 
   tags = ["${local.asg_jenkins2_extra_tags}"]
 }
