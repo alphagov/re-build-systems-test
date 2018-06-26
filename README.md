@@ -1,23 +1,7 @@
 # Reliability Engineering - Build Systems
 
-This repository provides the infrastructure code for provisioning a containerised Jenkins (version 2) platform
-on AWS, consisting of a master node and an agents node. Users will login via Github.
-
-## Architectural documentation
-
-Architectural documentation is available [here](docs/architecture/README.md).
-
-
-## Prerequisites
-
-You will need an AWS user account with programmatic access - this account will need to be able to create S3 buckets, EC2 instances, VPCs, DNS records and security groups.
-
-Make sure you have this software installed on your laptop:
-
-    * `terraform` `=` `0.11.7`
-
-    * `awscli`
-
+This repository provides the infrastructure code for provisioning a Jenkins build system. This build system is a containerised Jenkins (version 2) platform
+on AWS, consisting of a master node and an agent node. Once provisioned, users log into the Jenkins using their Github account.
 
 ## Overview
 
@@ -30,6 +14,24 @@ These are the steps to get to a running Jenkins platform:
 * Step 3 - Once that is done, you can provision the main Jenkins infrastructure
 
 * Step 4 - Use your Jenkins!
+
+## Architectural documentation
+
+If you would like more information about the architecture of this platform, you can read the [architectural documentation](docs/architecture/README.md).
+
+
+## Prerequisites
+
+You will need: 
+
+* basic understanding of how to use Terraform
+
+* an AWS user account with administrator access
+
+* the following software installed on your laptop:
+    * terraform v0.11.7
+    * awscli
+
 
 ## Step 1 - Provision the DNS infrastructure
 
