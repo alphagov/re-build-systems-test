@@ -107,13 +107,13 @@ resource "aws_elb" "elb_jenkins2_server" {
     ssl_certificate_id = "${aws_acm_certificate.tls_certificate.arn}"
   }
 
-  #  health_check {
-  #    healthy_threshold   = 2
-  #    unhealthy_threshold = 2
-  #    timeout             = 3
-  #    target              = "HTTP:80/"
-  #    interval            = 30
-  #  }
+   health_check {
+     healthy_threshold   = 2
+     unhealthy_threshold = 10
+     timeout             = 5
+     target              = "HTTP:80/"
+     interval            = 60
+   }
 
   tags {
     Environment = "${var.environment}"

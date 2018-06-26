@@ -3,12 +3,13 @@ FROM jenkins/jenkins:lts
 # 80 = nginx
 # 8080 = jenkins
 # 50000 = jenkins workers
-EXPOSE 50000 80
+EXPOSE 80 8080 50000
 
 # set a health check to make sure jenkins is working
 HEALTHCHECK --interval=5s \
             --timeout=5s \
-            CMD curl -f http://127.0.0.1:8080 || exit 1
+            --start-period=60s \
+            CMD "nc -zv 127.0.0.1 80 &> /dev/null ; if [ 0 != $? ]; then exit 1; fi;"
 
 # Install build tools
 USER root

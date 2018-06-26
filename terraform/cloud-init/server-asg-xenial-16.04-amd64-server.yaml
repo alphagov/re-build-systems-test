@@ -212,4 +212,4 @@ runcmd:
   - git clone -b ${gitrepo_branch} ${gitrepo} /docker
   - [ docker, build, -t=jenkins/jenkins-re, "/docker/docker" ]
   - [ mv, /tmp/gitvars, /docker/gitvars ]
-  - [ docker, run, --name, myjenkins, -d, -p, "80:80", -p, "50000:50000", --env-file, "/docker/gitvars", -v, "/mnt/jenkins-efs:/var/jenkins_home", "jenkins/jenkins-re:latest" ]
+  - [ docker, run, --name, myjenkins, -d, -p, "80:80", -p, "50000:50000", -p, "8080:8080", --env-file, "/docker/gitvars", -v, "/mnt/jenkins-efs:/var/jenkins_home", "jenkins/jenkins-re:latest" ]
