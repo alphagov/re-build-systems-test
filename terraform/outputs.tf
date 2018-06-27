@@ -8,30 +8,30 @@ output "image_id" {
 #   value = ["${module.jenkins2_server.public_dns}"]
 # }
 
-output "jenkins2_sg_server_internet_facing_id" {
-  description = "jenkins2 server internet security group id"
-  value       = "${module.jenkins2_sg_server_internet_facing.this_security_group_id}"
-}
+#output "jenkins2_sg_server_internet_facing_id" {
+#  description = "jenkins2 server internet security group id"
+#  value       = "${module.jenkins2_sg_server_internet_facing.this_security_group_id}"
+#}
 
-output "jenkins2_sg_server_private_facing_id" {
-  description = "jenkins2 server private security group id"
-  value       = "${module.jenkins2_sg_server_private_facing.this_security_group_id}"
-}
+#output "jenkins2_sg_server_private_facing_id" {
+#  description = "jenkins2 server private security group id"
+#  value       = "${module.jenkins2_sg_server_private_facing.this_security_group_id}"
+#}
 
-output "jenkins2_sg_worker_id" {
-  description = "jenkins2 worker security group id"
-  value       = "${module.jenkins2_sg_worker.this_security_group_id}"
-}
+#output "jenkins2_sg_worker_id" {
+#  description = "jenkins2 worker security group id"
+#  value       = "${module.jenkins2_sg_worker.this_security_group_id}"
+#}
 
-output "jenksin2_server_private_ip" {
-  description = "jenkins2 server private ip"
-  value       = ["${module.jenkins2_server.private_ip}"]
-}
+#output "jenksin2_server_private_ip" {
+#  description = "jenkins2 server private ip"
+#  value       = ["${module.jenkins2_server.private_ip}"]
+#}
 
-output "jenksin2_server_public_ip" {
-  description = "jenkins2 server public ip"
-  value       = ["${module.jenkins2_server.public_ip}"]
-}
+#output "jenksin2_server_public_ip" {
+#  description = "jenkins2 server public ip"
+#  value       = ["${module.jenkins2_server.public_ip}"]
+#}
 
 output "jenkins2_vpc_id" {
   description = "The ID of the VPC"
