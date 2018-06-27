@@ -203,13 +203,16 @@ runcmd:
   - [ apt-get, update ]
   - [ apt-get, upgrade ]
   - apt-get install -y docker-ce=${dockerversion}
-  - [ apt-get, install, amazon-efs-utils]
-  - mkdir -p /mnt/jenkins-efs
-  - chown 1000:1000 /mnt/jenkins-efs
-  - mount -t efs ${efs_file_system}:/ /mnt/jenkins-efs
   - [ systemctl, status, docker ]
   - [ mkdir, /docker ]
   - git clone -b ${gitrepo_branch} ${gitrepo} /docker
+  - mkdir -p /mnt/jenkins-efs
+  - chown 1000:1000 /mnt/jenkins-efs
+  - apt-get -y install /docker/docker/terraform/packages/amazon-efs-utils*deb
+  - echo "${efs_file_system}:/ /mnt/jenkins-efs efs tls,_netdev" >> /etc/fstab
+  - echo "Waiting 90 seconds before mounting EFS"
+  - sleep 90
+  - mount -a -t efs defaults
   - [ docker, build, -t=jenkins/jenkins-re, "/docker/docker" ]
   - [ mv, /tmp/gitvars, /docker/gitvars ]
   - [ docker, run, --name, myjenkins, -d, -p, "80:80", -p, "50000:50000", -p, "8080:8080", --env-file, "/docker/gitvars", -v, "/mnt/jenkins-efs:/var/jenkins_home", "jenkins/jenkins-re:latest" ]
