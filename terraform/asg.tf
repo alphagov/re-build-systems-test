@@ -61,7 +61,7 @@ resource "aws_launch_configuration" "lc_jenkins2_server" {
   }]
 
   lifecycle {
-     create_before_destroy = true
+    create_before_destroy = true
   }
 }
 
