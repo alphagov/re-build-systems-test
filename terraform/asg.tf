@@ -45,7 +45,7 @@ data "template_file" "jenkins2_asg_server_template" {
 }
 
 resource "aws_launch_configuration" "lc_jenkins2_server" {
-  name          = "lc-${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
+  name_prefix   = "lc-${var.server_name}.${var.environment}.${var.team_name}-"
   image_id      = "${data.aws_ami.source.id}"
   instance_type = "${var.instance_type}"
 
@@ -60,9 +60,9 @@ resource "aws_launch_configuration" "lc_jenkins2_server" {
     delete_on_termination = "true"
   }]
 
-#  lifecycle {
-#    create_before_destroy = true
-#  }
+  lifecycle {
+     create_before_destroy = true
+  }
 }
 
 resource "aws_autoscaling_group" "asg_jenkins2_server" {
