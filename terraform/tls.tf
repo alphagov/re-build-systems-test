@@ -1,6 +1,5 @@
 locals {
   san_domains = [
-#    "www.${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}",
     "asg.${var.environment}.${var.team_name}.${var.hostname_suffix}",
   ]
 }
