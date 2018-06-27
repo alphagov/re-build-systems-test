@@ -28,6 +28,8 @@ This documentation will lead you through three steps to set up your Jenkins plat
 
 * log in to your new Jenkins and try it out
 
+Once you have provisioned the DNS infrastructure, the Reliability Engineering team will make your Jenkins URL live and set up your Github OAuth so you can log in to your Jenkins. You may have to wait up to two working days for this to be done before you can provision the main Jenkins infrastructure.
+
 ## Provision the DNS infrastructure
 
 Provisioning the DNS infrastructure allows you to set up the URLs you will use to access your Jenkins. 
@@ -42,7 +44,7 @@ For this step, you will need to choose:
 * your team name
 
 
-### Configuring the DNS
+### Configure DNS
 
 1. Add your AWS user credentials to `~/.aws/credentials`
 
@@ -52,11 +54,11 @@ For this step, you will need to choose:
     aws_secret_access_key = [your aws secret here]
     ```
 
-1. Clone this repository to a location of your choice
+1. Clone this repository to a location of your choice.
 
-1. Go to the `terraform_dns` folder and rename `terraform.tfvars.example` to `terraform.tfvars`
+1. Go to the `terraform_dns` folder and rename `terraform.tfvars.example` to `terraform.tfvars`.
 
-1. Go into the `terraform.tfvars` file you just renamed and customise the user settings under `### USER SETTINGS ###` 
+1. Go into the `terraform.tfvars` file you just renamed and customise the user settings under `### CUSTOM USER SETTINGS ###`. 
 
    For each environment you define, a new URL will be created in the form: 
    
@@ -66,13 +68,13 @@ For this step, you will need to choose:
    
    `https://dev.my-team.gds-reliability.engineering` and `https://staging.my-team.gds-reliability.engineering`
 
-1. Export the `team_name` 
+1. Export the `team_name` as a variable to use when running the DNS Terraform
 
     ```
     export TEAM_NAME=[your team name as defined in the `terraform.tfvars` file]
     ```
 
-### Provisioning
+### Run DNS Terraform
 
 1. Create the S3 bucket to hold the Terraform state file
 
@@ -86,17 +88,16 @@ For this step, you will need to choose:
 
 1. Export secrets
 
-    In order to initialise with Terraform the S3 bucket we have created, we need to export some secrets from the `~/.aws/credentials` file.
+    In order to initialise the S3 bucket, you need to export secrets from the `~/.aws/credentials` file.
+    
+    If you are using bash, then add a space at the start of `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
 
     ```
     export AWS_ACCESS_KEY_ID="[aws key]"
     export AWS_SECRET_ACCESS_KEY="[aws secret]"
     export AWS_DEFAULT_REGION="eu-west-2"
     ```
-
-    If you are using bash, then adding a space at the start of the `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` commands in the above should prevent them from being added to `~/.bash_history`.
-
-
+    
 1. Provision the DNS
 
     ```        
@@ -109,18 +110,13 @@ For this step, you will need to choose:
     ```
     terraform apply -var-file=./terraform.tfvars
     ```
+    
+1. Send the output in the terminal to the GDS Reliability Engineering team.
 
+    The Reliability Engineering team will make your URL live and set up your Github OAuth so you can log in to your Jenkins.
+    
+    This step may take up to two working days.
 
-
-## Step  - RE NOW PART OF STEP 1!!!!!
-
-Send the final output from the previous step to RE.
-
-RE will do two things:
-
-* enable your DNS records
-
-* create the Github OAuth app to allow login to your Jenkins
 
 
 
