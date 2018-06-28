@@ -40,6 +40,6 @@ resource "aws_route53_record" "jenkins2_worker_private" {
   zone_id = "${aws_route53_zone.private_facing.zone_id}"
   name    = "${var.worker_name}"
   type    = "A"
-  ttl     = "3600"
+  ttl     = "300"
   records = ["${module.jenkins2_worker.private_ip}"]
 }
