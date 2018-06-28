@@ -204,6 +204,7 @@ runcmd:
   - [ apt-get, upgrade ]
   - apt-get install -y docker-ce=${dockerversion}
   - [ systemctl, status, docker ]
+  - [ apt-get, -y, install, netcat ]
   - [ mkdir, /docker ]
   - git clone -b ${gitrepo_branch} ${gitrepo} /docker
   - mkdir -p /mnt/jenkins-efs
