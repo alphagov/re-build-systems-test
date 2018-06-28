@@ -53,7 +53,7 @@ resource "aws_launch_configuration" "lc_jenkins2_server" {
   user_data = "${data.template_file.jenkins2_asg_server_template.rendered}"
   key_name  = "jenkins2_key_${var.team_name}_${var.environment}"
 
-  security_groups = ["${module.jenkins2_sg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_asg_server.this_security_group_id}", "${module.jenkins2_sg_cloudflare.this_security_group_id}"]
+  security_groups = ["${module.jenkins2_sg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_asg_server.this_security_group_id}"]
 
   root_block_device = [{
     volume_size           = "${var.server_root_volume_size}"
@@ -95,7 +95,7 @@ resource "aws_elb" "elb_jenkins2_server" {
   name = "elb-${var.server_name}-${var.environment}-${var.team_name}"
 
   # availability_zones = ["eu-west-2a"]
-  security_groups = ["${module.jenkins2_sg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_server_private_facing.this_security_group_id}", "${module.jenkins2_sg_cloudflare.this_security_group_id}"]
+  security_groups = ["${module.jenkins2_sg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_server_private_facing.this_security_group_id}"]
 
   subnets = ["${element(module.jenkins2_vpc.public_subnets,0)}"]
 
