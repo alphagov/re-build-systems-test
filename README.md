@@ -247,33 +247,6 @@ Next, you may want to:
 * remove the default `ubuntu` account from the AWS instance(s)
 
 
-## Step 3
-
-## Provisioning Jenkins on your laptop for development
-
-This section is relevant only if you are interested in developing this project.
-
-You need `docker` >= `v18.03.0`.
-
-These commands provision a Docker container running Jenkins on your laptop.
-
-```
-cd docker
-docker build -t="jenkins/jenkins-re" .
-docker run --name myjenkins -ti -p 8000:80 -p 50000:50000 jenkins/jenkins-re:latest
-```
-
-To access the Jenkins browse to [here](http://localhost:8000)
-
-
-For debugging, you can either:
-
-* access the container as jenkins user:
-`docker exec -u 1000 -it myjenkins /bin/bash`
-
-* access the container as root user:
-`docker exec -it myjenkins /bin/bash`
-
 ## Contributing
 
 Refer to our [Contributing guide](CONTRIBUTING.md).
