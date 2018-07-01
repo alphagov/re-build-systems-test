@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ef -o pipefail
 
-AWS_REGION="${AWS_DEFAULT_REGION:-eu-west-2}"
+AWS_REGION="${AWS_DEFAULT_REGION:-eu-west-1}"
 
 function print_help_and_exit() {
   [ "$1" ] && echo "$1"
