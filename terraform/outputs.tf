@@ -14,18 +14,6 @@ output "image_id" {
   value = "${data.aws_ami.source.id}"
 }
 
-output "jenkins2_env_eip_ids" {
-  value = "${data.terraform_remote_state.team_dns_and_eips.jenkins2_env_eip_ids}"
-}
-
-output "jenkins2_env_eip" {
-  value = "${lookup(data.terraform_remote_state.team_dns_and_eips.jenkins2_env_eip_ips, var.environment)}"
-}
-
-output "jenkins2_env_eip_ips" {
-  value = "${data.terraform_remote_state.team_dns_and_eips.jenkins2_env_eip_ips}"
-}
-
 output "jenkins2_url" {
   value = "https://${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
 }
@@ -46,9 +34,9 @@ output "public_subnets" {
 }
 
 output "team_domain_name" {
-  value = "${data.terraform_remote_state.team_dns_and_eips.team_domain_name}"
+  value = "${data.terraform_remote_state.team_dns.team_domain_name}"
 }
 
 output "team_zone_id" {
-  value = "${data.terraform_remote_state.team_dns_and_eips.team_zone_id}"
+  value = "${data.terraform_remote_state.team_dns.team_zone_id}"
 }

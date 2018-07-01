@@ -120,7 +120,7 @@ resource "aws_autoscaling_attachment" "asg_attachment_to_elb" {
 }
 
 resource "aws_route53_record" "dns_record_asg" {
-  zone_id = "${data.terraform_remote_state.team_dns_and_eips.team_zone_id}"
+  zone_id = "${data.terraform_remote_state.team_dns.team_zone_id}"
   name    = "asg.${var.environment}"
   type    = "A"
 
@@ -132,7 +132,7 @@ resource "aws_route53_record" "dns_record_asg" {
 }
 
 resource "aws_route53_record" "dns_record_servername" {
-  zone_id = "${data.terraform_remote_state.team_dns_and_eips.team_zone_id}"
+  zone_id = "${data.terraform_remote_state.team_dns.team_zone_id}"
   name    = "${var.server_name}.${var.environment}"
   type    = "A"
 
