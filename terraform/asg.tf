@@ -82,15 +82,6 @@ resource "aws_autoscaling_group" "asg_jenkins2_server" {
   tags = ["${local.asg_jenkins2_extra_tags}"]
 }
 
-resource "aws_route53_record" "jenkins2_asg_public" {
-  zone_id = "${data.terraform_remote_state.team_dns_and_eips.team_zone_id}"
-  name    = "asg.${var.environment}"
-  type    = "CNAME"
-  ttl     = "60"
-
-  records = ["${aws_elb.elb_jenkins2_server.dns_name}"]
-}
-
 resource "aws_elb" "elb_jenkins2_server" {
   name = "elb-${var.server_name}-${var.environment}-${var.team_name}"
 
@@ -126,4 +117,28 @@ resource "aws_elb" "elb_jenkins2_server" {
 resource "aws_autoscaling_attachment" "asg_attachment_bar" {
   autoscaling_group_name = "${aws_autoscaling_group.asg_jenkins2_server.id}"
   elb                    = "${aws_elb.elb_jenkins2_server.id}"
+}
+
+resource "aws_route53_record" "dns_record_asg" {
+  zone_id = "${data.terraform_remote_state.team_dns_and_eips.team_zone_id}"
+  name    = "asg.${var.environment}"
+  type    = "A"
+
+  alias {
+    name                   = "${aws_elb.elb_jenkins2_server.dns_name}"
+    zone_id                = "${aws_elb.elb_jenkins2_server.zone_id}"
+    evaluate_target_health = true
+  }
+}
+
+resource "aws_route53_record" "dns_record_servername" {
+  zone_id = "${data.terraform_remote_state.team_dns_and_eips.team_zone_id}"
+  name    = "${var.server_name}.${var.environment}"
+  type    = "A"
+
+  alias {
+    name                   = "${aws_elb.elb_jenkins2_server.dns_name}"
+    zone_id                = "${aws_elb.elb_jenkins2_server.zone_id}"
+    evaluate_target_health = true
+  }
 }
