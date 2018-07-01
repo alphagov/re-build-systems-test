@@ -1,8 +1,8 @@
 resource "aws_efs_file_system" "jenkins2_efs_server" {
-  creation_token = "jenkins2_efs_${var.team_name}_${var.environment}"
+  creation_token = "efs-${var.server_name}.${var.environment}.${var.team_name}"
 
   tags {
-    Name        = "jenkins2-efs-${var.environment}-${var.team_name}"
+    Name        = "efs-${var.server_name}.${var.environment}.${var.team_name}"
     ManagedBy   = "terraform"
     Team        = "${var.team_name}"
     Environment = "${var.environment}"
