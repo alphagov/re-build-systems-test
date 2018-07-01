@@ -95,12 +95,6 @@ variable "server_name" {
   type        = "string"
 }
 
-variable "server_persistent_storage_size" {
-  description = "Size for the persistent storage for the Jenkins Server (GB)"
-  type        = "string"
-  default     = "50"
-}
-
 variable "server_root_volume_size" {
   description = "Size of the Jenkins Server root volume (GB)"
   type        = "string"

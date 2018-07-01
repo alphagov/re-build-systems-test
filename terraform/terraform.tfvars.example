@@ -36,8 +36,6 @@ server_instance_type = "t2.small"
 
 server_name = "jenkins2"
 
-server_persistent_storage_size = "60"
-
 server_root_volume_size = "40"
 
 team_name = "team2"
