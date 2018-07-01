@@ -66,7 +66,7 @@ resource "aws_launch_configuration" "lc_jenkins2_server" {
 }
 
 resource "aws_autoscaling_group" "asg_jenkins2_server" {
-  name_prefix               = "asg-${var.server_name}.${var.environment}-${var.team_name}-"
+  name_prefix               = "asg-${var.server_name}.${var.environment}.${var.team_name}-"
   launch_configuration      = "${aws_launch_configuration.lc_jenkins2_server.name}"
   health_check_grace_period = 300
   health_check_type         = "ELB"
