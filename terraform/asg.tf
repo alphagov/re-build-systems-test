@@ -114,7 +114,7 @@ resource "aws_elb" "elb_jenkins2_server" {
   }
 }
 
-resource "aws_autoscaling_attachment" "asg_attachment_bar" {
+resource "aws_autoscaling_attachment" "asg_attachment_to_elb" {
   autoscaling_group_name = "${aws_autoscaling_group.asg_jenkins2_server.id}"
   elb                    = "${aws_elb.elb_jenkins2_server.id}"
 }
