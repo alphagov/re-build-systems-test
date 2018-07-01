@@ -10,11 +10,6 @@ variable "aws_region" {
   type = "string"
 }
 
-variable "team_environments" {
-  description = "Environments needing EIPs"
-  type        = "list"
-}
-
 variable "team_name" {
   description = "Team Name"
   type        = "string"
