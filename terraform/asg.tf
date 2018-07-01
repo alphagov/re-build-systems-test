@@ -75,15 +75,15 @@ resource "aws_autoscaling_group" "asg_jenkins2_server" {
   min_size                  = 1
   max_size                  = 1
 
-#  lifecycle {
-#    create_before_destroy = true
-#  }
+  #  lifecycle {
+  #    create_before_destroy = true
+  #  }
 
   tags = ["${local.asg_jenkins2_extra_tags}"]
 }
 
 resource "aws_elb" "elb_jenkins2_server" {
-  name = "elb-${var.server_name}-${var.environment}-${var.team_name}"
+  name = "elb-${var.server_name}.${var.environment}.${var.team_name}"
 
   # availability_zones = ["eu-west-2a"]
   security_groups = ["${module.jenkins2_sg_asg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_asg_server_internal.this_security_group_id}"]
