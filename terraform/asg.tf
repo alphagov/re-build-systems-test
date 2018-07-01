@@ -26,12 +26,12 @@ locals {
 data "template_file" "jenkins2_asg_server_template" {
   template = "${file("cloud-init/server-asg-${var.ubuntu_release}.yaml")}"
 
-  depends_on = ["aws_efs_file_system.jenkins2_efs_master"]
+  depends_on = ["aws_efs_file_system.jenkins2_efs_server"]
 
   vars {
     awsenv               = "${var.environment}"
     dockerversion        = "${var.dockerversion}"
-    efs_file_system      = "${aws_efs_file_system.jenkins2_efs_master.id}"
+    efs_file_system      = "${aws_efs_file_system.jenkins2_efs_server.id}"
     fqdn                 = "${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
     gitrepo              = "${var.gitrepo}"
     gitrepo_branch       = "${var.gitrepo_branch}"
