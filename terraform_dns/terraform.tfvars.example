@@ -1,18 +1,18 @@
-### USER SETTINGS ###
+### CUSTOM USER SETTINGS - change these values for your custom Jenkins ###
 
-# refer to the user manual for the value to set here
-top_level_domain_name = "Add in your domain name here, for example: build.example.com"
-
+# The name of your team that will be part of your URLs
 team_name = "Add in the name of your team here, for example: team2"
 
+# The name of the environments you want to provision Jenkins for, you can call these whatever you like. We've given some examples here.
 team_environments = [
   "dev",
   "staging",
   "prod",
 ]
 
+### STANDARD SETTINGS - you shouldn't need to change these ###
 
-### AWS SETTINGS ###
+top_level_domain_name = "build.gds-reliability.engineering"
 
 aws_az = "eu-west-2a"
 
