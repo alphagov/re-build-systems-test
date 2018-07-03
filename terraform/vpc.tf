@@ -9,9 +9,8 @@ module "jenkins2_vpc" {
 
   cidr = "10.0.0.0/16"
 
-  azs             = ["${var.aws_az}"]
-  private_subnets = ["${var.private_subnet}"]
-  public_subnets  = ["${var.public_subnet}"]
+  azs            = ["${var.aws_az}"]
+  public_subnets = ["${var.public_subnet}"]
 
   # enable_nat_gateway = true
   # single_nat_gateway = true

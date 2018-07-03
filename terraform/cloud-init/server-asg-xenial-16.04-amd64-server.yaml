@@ -11,39 +11,6 @@ random_seed:
 locale: en_GB.UTF-8
 write_files:
   - content: |
-      #!/usr/bin/env bash
-      echo "Waiting until EBS attachment to instance complete"
-      while [ ! -e /dev/xvdf ]; do sleep 1; done
-      check_xvdf=$(lsblk /dev/xvdf -no KNAME,FSTYPE|tr -d '[:space:]'|tr a-z A-Z)
-      if [ ! x"$check_xvdf" == "xXVDFEXT4" ]; then
-        echo "New EBS volume detected, formating"
-        # Note: We are formatting the raw device rather than a partition on the raw device
-        #       This allows for easier and simpler disk expansion in the future
-        mkfs.ext4 -F -m 0 -O dir_index,sparse_super,uninit_bg -q /dev/xvdf
-      else
-        echo "/dev/xvdf Already formatted, skipping"
-      fi
-      fstab_string='/dev/xvdf /mnt/jenkins-ebs ext4 defaults,nofail,nobootwait 0 2'
-      grepresult=$(grep -x -F -c '/dev/xvdf /mnt/jenkins-ebs ext4 defaults,nofail,nobootwait 0 2' /etc/fstab)
-      if [ $grepresult -eq 0 ]; then
-        echo "Adding mountpoint to fstab"
-        echo "$fstab_string" | tee -a /etc/fstab
-      fi
-      if [ ! -d /mnt/jenkins-ebs ]; then
-        echo "Creating mountpoint /mnt/jenkins-ebs"
-        mkdir -p /mnt/jenkins-ebs
-        chown 1000:1000 /mnt/jenkins-ebs
-      fi
-      if [ ! $(mount | grep xvdf | wc -l) == "1" ]; then
-        echo "Mounting /dev/xvdf on /mnt/jenkins-ebs"
-        mount -t ext4 /dev/xvdf /mnt/jenkins-ebs
-        chown 1000:1000 /mnt/jenkins-ebs
-      else
-        echo "/dev/xvdf Already mounted, skipping"
-      fi
-    path: /usr/local/bin/mount-persistent-storage
-    permissions: '0555'
-  - content: |
       GITHUB_ADMIN_USERS=${github_admin_users}
       GITHUB_CLIENT_ID=${github_client_id}
       GITHUB_CLIENT_SECRET=${github_client_secret}
@@ -237,9 +204,16 @@ runcmd:
   - [ apt-get, upgrade ]
   - apt-get install -y docker-ce=${dockerversion}
   - [ systemctl, status, docker ]
+  - [ apt-get, -y, install, netcat ]
   - [ mkdir, /docker ]
   - git clone -b ${gitrepo_branch} ${gitrepo} /docker
+  - mkdir -p /mnt/jenkins-efs
+  - apt-get -y install /docker/terraform/packages/amazon-efs-utils*deb
+  - echo "${efs_file_system}:/ /mnt/jenkins-efs efs tls,_netdev" >> /etc/fstab
+  - echo "Waiting 90 seconds before mounting EFS"
+  - sleep 90
+  - mount -a -t efs defaults
+  - chown 1000:1000 /mnt/jenkins-efs
   - [ docker, build, -t=jenkins/jenkins-re, "/docker/docker" ]
-  - /usr/local/bin/mount-persistent-storage
   - [ mv, /tmp/gitvars, /docker/gitvars ]
-  - [ docker, run, --name, myjenkins, -d, -p, "80:80", -p, "50000:50000", --env-file, "/docker/gitvars", -v, "/mnt/jenkins-ebs:/var/jenkins_home", "jenkins/jenkins-re:latest" ]
+  - [ docker, run, --name, myjenkins, -d, -p, "80:80", -p, "50000:50000", -p, "8080:8080", --env-file, "/docker/gitvars", -v, "/mnt/jenkins-efs:/var/jenkins_home", "jenkins/jenkins-re:latest" ]

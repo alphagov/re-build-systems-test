@@ -95,7 +95,7 @@ For this step, you will need to choose:
     ```
     export AWS_ACCESS_KEY_ID="[aws key]"
     export AWS_SECRET_ACCESS_KEY="[aws secret]"
-    export AWS_DEFAULT_REGION="eu-west-2"
+    export AWS_DEFAULT_REGION="eu-west-1"
     ```
     
 1. Provision the DNS
@@ -189,7 +189,7 @@ This step needs to be done for each environment you defined in STEP 1 (e.g. `dev
     ```
     export AWS_ACCESS_KEY_ID="[aws key]"
     export AWS_SECRET_ACCESS_KEY="[aws secret]"
-    export AWS_DEFAULT_REGION="eu-west-2"
+    export AWS_DEFAULT_REGION="eu-west-1"
     ```
 
 1. Run Terraform

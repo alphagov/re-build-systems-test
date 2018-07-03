@@ -2,7 +2,7 @@
 workflow-aggregator:2.5
 
 # Github plugin - brings only a bunch of deps
-github:1.29.0
+github:1.29.2
 
 # Github Auth plugin
 github-oauth:0.29
