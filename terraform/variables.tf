@@ -16,28 +16,6 @@ variable "aws_region" {
   type = "string"
 }
 
-variable "cloudflare_ips" {
-  description = "Allowed Cloudflare IP Addresses"
-  type        = "list"
-
-  default = [
-    "103.21.244.0/22",
-    "103.22.200.0/22",
-    "103.31.4.0/22",
-    "104.16.0.0/12",
-    "108.162.192.0/18",
-    "131.0.72.0/22",
-    "141.101.64.0/18",
-    "162.158.0.0/15",
-    "172.64.0.0/13",
-    "173.245.48.0/20",
-    "188.114.96.0/20",
-    "190.93.240.0/20",
-    "197.234.240.0/22",
-    "198.41.128.0/17",
-  ]
-}
-
 variable "instance_type" {
   type        = "string"
   description = "This defines the default (aws) instance type."
@@ -115,12 +93,6 @@ variable "hostname_suffix" {
 variable "server_name" {
   description = "Name of the jenkins2 server"
   type        = "string"
-}
-
-variable "server_persistent_storage_size" {
-  description = "Size for the persistent storage for the Jenkins Server (GB)"
-  type        = "string"
-  default     = "50"
 }
 
 variable "server_root_volume_size" {
