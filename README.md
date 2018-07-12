@@ -8,7 +8,7 @@ If you would like more information about the architecture of this build system, 
 
 ## Prerequisites
 
-You will need: 
+You will need:
 
 * basic understanding of how to use Terraform
 
@@ -32,9 +32,9 @@ Once you have provisioned the DNS infrastructure, the Reliability Engineering te
 
 ## Provision the DNS infrastructure
 
-Provisioning the DNS infrastructure allows you to set up the URLs you will use to access your Jenkins. 
+Provisioning the DNS infrastructure allows you to set up the URLs you will use to access your Jenkins.
 
-You will have to provision a separate Jenkins for each environment. For example, you might want separate 'development' and 'production' environments. These environments will have different URLs. 
+You will have to provision a separate Jenkins for each environment. For example, you might want separate 'development' and 'production' environments. These environments will have different URLs.
 
 You can start by provisioning the DNS for one environment and add other environments later.
 
@@ -48,6 +48,8 @@ For this step, you will need to choose:
 
 1. Add your AWS user credentials to `~/.aws/credentials`
 
+  If this file does not exist, create it first.
+
     ```
     [re-build-systems]
     aws_access_key_id = [your aws key here]
@@ -58,14 +60,14 @@ For this step, you will need to choose:
 
 1. Go to the `terraform_dns` folder and rename `terraform.tfvars.example` to `terraform.tfvars`.
 
-1. Go into the `terraform.tfvars` file you just renamed and customise the user settings under `### CUSTOM USER SETTINGS ###`. 
+1. Go into the `terraform.tfvars` file you just renamed and customise the user settings under `### CUSTOM USER SETTINGS ###`.
 
-   For each environment you define, a new URL will be created in the form: 
-   
+   For each environment you define, a new URL will be created in the form:
+
    `https://[team_environments].[team_name].gds-reliability.engineering`
-   
-   So, if you choose `team_environments = ["dev", "staging"]` and `team_name = "my-team"`, the following URLs will be created: 
-   
+
+   So, if you choose `team_environments = ["dev", "staging"]` and `team_name = "my-team"`, the following URLs will be created:
+
    `https://dev.my-team.gds-reliability.engineering` and `https://staging.my-team.gds-reliability.engineering`
 
 1. Export the `team_name` as a variable to use when running the DNS Terraform
@@ -89,7 +91,7 @@ For this step, you will need to choose:
 1. Export secrets
 
     In order to initialise the S3 bucket, you need to export secrets from the `~/.aws/credentials` file.
-    
+
     If you are using bash, then add a space at the start of `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
 
     ```
@@ -97,7 +99,7 @@ For this step, you will need to choose:
     export AWS_SECRET_ACCESS_KEY="[aws secret]"
     export AWS_DEFAULT_REGION="eu-west-1"
     ```
-    
+
 1. Provision the DNS
 
     ```        
@@ -110,11 +112,11 @@ For this step, you will need to choose:
     ```
     terraform apply -var-file=./terraform.tfvars
     ```
-    
+
 1. Send the output in the terminal to the GDS Reliability Engineering team.
 
     The Reliability Engineering team will make your URL live and set up your Github OAuth so you can log in to your Jenkins.
-    
+
     This step may take up to two working days.
 
 
