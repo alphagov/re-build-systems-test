@@ -64,11 +64,11 @@ For this step, you will need to choose:
 
    For each environment you define, a new URL will be created in the form:
 
-   `https://[team_environments].[team_name].gds-reliability.engineering`
+   `https://[team_environments].[team_name].build.gds-reliability.engineering`
 
    So, if you choose `team_environments = ["dev", "staging"]` and `team_name = "my-team"`, the following URLs will be created:
 
-   `https://dev.my-team.gds-reliability.engineering` and `https://staging.my-team.gds-reliability.engineering`
+   `https://dev.my-team.build.gds-reliability.engineering` and `https://staging.my-team.build.gds-reliability.engineering`
 
 1. Export the `team_name` as a variable to use when running the DNS Terraform
 

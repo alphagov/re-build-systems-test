@@ -19,15 +19,23 @@ Documentation can be found [here](https://github.com/alphagov/re-build-systems-d
 
 This allows the product team to setup authentication to the Jenkins via Github OAuth.
 
-An app needs to be created for each environment (and therefore URL) the team created. Use these settings (placeholders you need to replace are in square brackets):
+An app needs to be created for each environment (and therefore URL) the team created.
 
-* Application name:  re-build-auth-app-[team name]-[environment] , e.g. `re-build-auth-app-eidas-dev`
+Use the following settings to setup your app. Any fields or options that are not mentioned here can be left blank or with their default value.
+
+The [URL] will follow the pattern `https://[environment].[team_name].build.gds-reliability.engineering`.
+
+* GitHub App name:  `re-build-auth-[team name]-[environment]` , e.g. `re-build-auth-app-eidas-dev`. You may have to deviate from this format if it exceeds 34 characters.
+
+* Description:  Build system for [URL]
 
 * Homepage URL:  [URL]
 
-* Application description:  Build system for [URL]
+* User authorization callback URL:  [URL]/securityRealm/finishLogin
 
-* Authorization callback URL:  [URL]/securityRealm/finishLogin
+* Webhook URL: [URL]
+
+* Permissions > Organization members: `Access: Read-only`
 
 ## Provide the app credentials to the product team
 
