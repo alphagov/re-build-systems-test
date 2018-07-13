@@ -161,8 +161,6 @@ This step needs to be done for each environment you defined in STEP 1 (e.g. `dev
 
     The private key will need to be shared amongst the team, to allow them to SSH into the servers.
 
-1. If not done already, clone this repository in a location of your choice.
-
 1. In the `terraform/jenkins` folder, rename `terraform.tfvars.example` to `terraform.tfvars`.
 
 1. Customise the `terraform.tfvars` file, in particular these entries:
