@@ -88,6 +88,8 @@ For this step, you will need to choose:
         -t $TEAM_NAME
     ```
 
+    If you receive an error, it may be because your `team_name` is not unique, which it must be to ensure that URLs are unique. Go back to point 4 in the previous (Configure DNS) section, change your `team_name` and then continue from there.
+
 1. Export secrets
 
     In order to initialise the S3 bucket, you need to export secrets from the `~/.aws/credentials` file.
@@ -113,7 +115,22 @@ For this step, you will need to choose:
     terraform apply -var-file=./terraform.tfvars
     ```
 
-1. Send the output in the terminal to the GDS Reliability Engineering team.
+1. You will get an output in your terminal that looks like this:
+
+    ```
+    Outputs:
+
+    team_domain_name = [team_name].build.gds-reliability.engineering
+    team_zone_id = A1AAAA11AAA11A
+    team_zone_nameservers = [
+        ns-1234.awsdns-56.org,
+        ns-7890.awsdns-12.co.uk,
+        ns-345.awsdns-67.com,
+        ns-890.awsdns-12.net
+    ]
+    ```
+
+    Copy and send this output to the GDS Reliability Engineering team.
 
     The Reliability Engineering team will make your URL live and set up your Github OAuth so you can log in to your Jenkins.
 
@@ -130,39 +147,23 @@ In this step you will provision all the infrastructure needed to run your Jenkin
 
 This step needs to be done for each environment you defined in STEP 1 (e.g. `dev`, `staging`).
 
-1. Add your AWS user credentials to `~/.aws/credentials`, like so:
-
-    ```
-    [re-build-systems]
-    aws_access_key_id = [your aws key here]
-    aws_secret_access_key = [your aws secret here]
-    ```
-
 1. Generate an SSH key pair in a location of your choice.
 
     You can use this command to generate one:
 
     ```
-    ssh-keygen -t rsa -b 4096 -C "[key comment]"
+    ssh-keygen -t rsa -b 4096 -C "[key comment]" -f ~/.ssh/build_systems_[team]_[environment]_rsa
     ```
 
     We suggest the `key comment` to contain the name of your team and the environment name.
 
-    The public key will only be used later on in these steps.
+    The public key will be used in a later step.
 
     The private key will need to be shared amongst the team, to allow them to SSH into the servers.
 
-1. If not done already, clone this repository in a location of your choice.
-
 1. In the `terraform/jenkins` folder, rename `terraform.tfvars.example` to `terraform.tfvars`.
 
-1. Customise the `terraform.tfvars` file, in particular these entries:
-    * `allowed_ips` the IPs you want to allow access to your Jenkins - consult [TODO] for the list of GDS office IPs
-    * `github_client_id`, `github_client_secret` as they were given to you when the Github OAuth app was created
-    * `github_organisation` is the list of the Github teams you want to grant access to your Jenkins
-    * `github_admin_users` is the list of the Github usernames who will become Jenkins administrators
-    * `hostname_suffix` is your hostname suffix
-    * `team` is your team name
+1. Customise the `terraform.tfvars` file by editing the settings under `## CUSTOM USER SETTINGS - change these values for your custom Jenkins ###`
 
 1. For convenience, export the environment name, so that you won't need to type it in the next steps:
 
@@ -175,10 +176,10 @@ This step needs to be done for each environment you defined in STEP 1 (e.g. `dev
 
 1. Create an S3 bucket to host the terraform state file.
 
-    From the root of your working copy run
+    Run this command from the `terraform/jenkins/tools` directory:
 
     ```
-    terraform/jenkins/tools/create-s3-state-bucket \
+    ./create-s3-state-bucket \
         -t $JENKINS_TEAM_NAME \
         -e $JENKINS_ENV_NAME \
         -p re-build-systems
@@ -186,7 +187,9 @@ This step needs to be done for each environment you defined in STEP 1 (e.g. `dev
 
 1. Export secrets
 
-    In order to initialise the S3 bucket we have created with Terraform, we need to export some secrets:
+    In order to initialise the S3 bucket we have created with Terraform, we need to export some secrets.
+
+    You did this in the `Run DNS Terraform` section of this guidance, so you only need to carry out this step if you ended your terminal session since you carried out that step.
 
     ```
     export AWS_ACCESS_KEY_ID="[aws key]"
@@ -194,21 +197,20 @@ This step needs to be done for each environment you defined in STEP 1 (e.g. `dev
     export AWS_DEFAULT_REGION="eu-west-1"
     ```
 
-1. Run Terraform
+1. Run these commands from the `terraform/jenkins` directory:
 
     ```
-    cd terraform
     terraform init \
         -backend-config="region=$AWS_DEFAULT_REGION" \
         -backend-config="key=re-build-systems.tfstate" \
         -backend-config="bucket=tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME"
     ```
-
+    If you used our suggested command to create your SSH key pair, replace the square brackets below with the values that you chose. If you did not use our suggested command, make sure you change the below command to reflect the file path to your public SSH key:
     ```
     terraform apply \
         -var-file=./terraform.tfvars  \
         -var environment=$JENKINS_ENV_NAME \
-        -var ssh_public_key_file=[path to your public ssh key]
+        -var ssh_public_key_file=~/.ssh/build_systems_[team]_[environment]_rsa.pub
     ```
 
     You may want to take note of these values from the output of the previous command - they can be helpful for debugging:
