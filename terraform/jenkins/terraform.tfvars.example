@@ -30,7 +30,7 @@ gitrepo = "https://github.com/alphagov/re-build-systems.git"
 
 gitrepo_branch = "master"
 
-hostname_suffix = "build.example.com"
+hostname_suffix = "build.gds-reliability.engineering"
 
 server_instance_type = "t2.small"
 
