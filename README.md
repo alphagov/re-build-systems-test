@@ -176,10 +176,10 @@ This step needs to be done for each environment you defined in STEP 1 (e.g. `dev
 
 1. Create an S3 bucket to host the terraform state file.
 
-    From the root of your working copy run
+    Run this command from the `terraform/jenkins/tools` directory:
 
     ```
-    terraform/jenkins/tools/create-s3-state-bucket \
+    ./create-s3-state-bucket \
         -t $JENKINS_TEAM_NAME \
         -e $JENKINS_ENV_NAME \
         -p re-build-systems
