@@ -58,7 +58,7 @@ For this step, you will need to choose:
 
 1. Clone this repository to a location of your choice.
 
-1. Go to the `terraform_dns` folder and rename `terraform.tfvars.example` to `terraform.tfvars`.
+1. Go to the `terraform/dns` folder and rename `terraform.tfvars.example` to `terraform.tfvars`.
 
 1. Go into the `terraform.tfvars` file you just renamed and customise the user settings under `### CUSTOM USER SETTINGS ###`.
 
@@ -81,7 +81,7 @@ For this step, you will need to choose:
 1. Create the S3 bucket to hold the Terraform state file
 
     ```
-    cd terraform_dns
+    cd terraform/dns
     ./tools/create-dns-s3-state-bucket \
         -d build.gds-reliability.engineering \
         -p re-build-systems \
@@ -154,7 +154,7 @@ This step needs to be done for each environment you defined in STEP 1 (e.g. `dev
 
 1. If not done already, clone this repository in a location of your choice.
 
-1. In the `terraform` folder, rename `terraform.tfvars.example` to `terraform.tfvars`.
+1. In the `terraform/jenkins` folder, rename `terraform.tfvars.example` to `terraform.tfvars`.
 
 1. Customise the `terraform.tfvars` file, in particular these entries:
     * `allowed_ips` the IPs you want to allow access to your Jenkins - consult [TODO] for the list of GDS office IPs
@@ -178,7 +178,7 @@ This step needs to be done for each environment you defined in STEP 1 (e.g. `dev
     From the root of your working copy run
 
     ```
-    terraform/tools/create-s3-state-bucket \
+    terraform/jenkins/tools/create-s3-state-bucket \
         -t $JENKINS_TEAM_NAME \
         -e $JENKINS_ENV_NAME \
         -p re-build-systems
