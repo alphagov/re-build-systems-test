@@ -187,7 +187,9 @@ This step needs to be done for each environment you defined in STEP 1 (e.g. `dev
 
 1. Export secrets
 
-    In order to initialise the S3 bucket we have created with Terraform, we need to export some secrets:
+    In order to initialise the S3 bucket we have created with Terraform, we need to export some secrets.
+
+    You did this in the `Run DNS Terraform` section of this guidance, so you only need to carry out this step if you ended your terminal session since you carried out that step.
 
     ```
     export AWS_ACCESS_KEY_ID="[aws key]"
