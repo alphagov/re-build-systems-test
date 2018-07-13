@@ -152,12 +152,12 @@ This step needs to be done for each environment you defined in STEP 1 (e.g. `dev
     You can use this command to generate one:
 
     ```
-    ssh-keygen -t rsa -b 4096 -C "[key comment]"
+    ssh-keygen -t rsa -b 4096 -C "[key comment]" -f ~/.ssh/build_systems_[team]_[environment]_rsa
     ```
 
     We suggest the `key comment` to contain the name of your team and the environment name.
 
-    The public key will only be used later on in these steps.
+    The public key will be used in a later step.
 
     The private key will need to be shared amongst the team, to allow them to SSH into the servers.
 
