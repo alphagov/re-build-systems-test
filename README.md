@@ -78,10 +78,11 @@ For this step, you will need to choose:
 
 ### Run DNS Terraform
 
-1. Create the S3 bucket to hold the Terraform state file
+1. Create the S3 bucket to hold the Terraform state file.
+
+   Run this command from the `terraform/dns/tools` directory:
 
     ```
-    cd terraform/dns
     ./tools/create-dns-s3-state-bucket \
         -d build.gds-reliability.engineering \
         -p re-build-systems \
@@ -103,6 +104,8 @@ For this step, you will need to choose:
     ```
 
 1. Provision the DNS
+
+   Run these commands from the `terraform/dns` directory:
 
     ```        
     terraform init \
