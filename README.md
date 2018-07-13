@@ -88,6 +88,8 @@ For this step, you will need to choose:
         -t $TEAM_NAME
     ```
 
+    If you receive an error, it may be because your `team_name` is not unique, which it must be to ensure that URLs are unique. Go back to point 4 in the previous (Configure DNS) section, change your `team_name` and then continue from there.
+
 1. Export secrets
 
     In order to initialise the S3 bucket, you need to export secrets from the `~/.aws/credentials` file.
