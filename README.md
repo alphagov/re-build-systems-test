@@ -163,13 +163,7 @@ This step needs to be done for each environment you defined in STEP 1 (e.g. `dev
 
 1. In the `terraform/jenkins` folder, rename `terraform.tfvars.example` to `terraform.tfvars`.
 
-1. Customise the `terraform.tfvars` file, in particular these entries:
-    * `allowed_ips` the IPs you want to allow access to your Jenkins - consult [TODO] for the list of GDS office IPs
-    * `github_client_id`, `github_client_secret` as they were given to you when the Github OAuth app was created
-    * `github_organisation` is the list of the Github teams you want to grant access to your Jenkins
-    * `github_admin_users` is the list of the Github usernames who will become Jenkins administrators
-    * `hostname_suffix` is your hostname suffix
-    * `team` is your team name
+1. Customise the `terraform.tfvars` file by editing the settings under `## CUSTOM USER SETTINGS - change these values for your custom Jenkins ###`
 
 1. For convenience, export the environment name, so that you won't need to type it in the next steps:
 
