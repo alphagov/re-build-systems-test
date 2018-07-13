@@ -115,7 +115,22 @@ For this step, you will need to choose:
     terraform apply -var-file=./terraform.tfvars
     ```
 
-1. Send the output in the terminal to the GDS Reliability Engineering team.
+1. You will get an output in your terminal that looks like this:
+
+    ```
+    Outputs:
+
+    team_domain_name = [team_name].build.gds-reliability.engineering
+    team_zone_id = A1AAAA11AAA11A
+    team_zone_nameservers = [
+        ns-1234.awsdns-56.org,
+        ns-7890.awsdns-12.co.uk,
+        ns-345.awsdns-67.com,
+        ns-890.awsdns-12.net
+    ]
+    ```
+
+    Copy and send this output to the GDS Reliability Engineering team.
 
     The Reliability Engineering team will make your URL live and set up your Github OAuth so you can log in to your Jenkins.
 
