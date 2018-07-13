@@ -197,21 +197,20 @@ This step needs to be done for each environment you defined in STEP 1 (e.g. `dev
     export AWS_DEFAULT_REGION="eu-west-1"
     ```
 
-1. Run Terraform
+1. Run these commands from the `terraform/jenkins` directory:
 
     ```
-    cd terraform
     terraform init \
         -backend-config="region=$AWS_DEFAULT_REGION" \
         -backend-config="key=re-build-systems.tfstate" \
         -backend-config="bucket=tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME"
     ```
-
+    If you used our suggested command to create your SSH key pair, replace the square brackets below with the values that you chose. If you did not use our suggested command, make sure you change the below command to reflect the file path to your public SSH key:
     ```
     terraform apply \
         -var-file=./terraform.tfvars  \
         -var environment=$JENKINS_ENV_NAME \
-        -var ssh_public_key_file=[path to your public ssh key]
+        -var ssh_public_key_file=~/.ssh/build_systems_[team]_[environment]_rsa.pub
     ```
 
     You may want to take note of these values from the output of the previous command - they can be helpful for debugging:
