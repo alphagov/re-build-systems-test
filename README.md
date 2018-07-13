@@ -147,14 +147,6 @@ In this step you will provision all the infrastructure needed to run your Jenkin
 
 This step needs to be done for each environment you defined in STEP 1 (e.g. `dev`, `staging`).
 
-1. Add your AWS user credentials to `~/.aws/credentials`, like so:
-
-    ```
-    [re-build-systems]
-    aws_access_key_id = [your aws key here]
-    aws_secret_access_key = [your aws secret here]
-    ```
-
 1. Generate an SSH key pair in a location of your choice.
 
     You can use this command to generate one:
