@@ -1,5 +1,5 @@
 resource "aws_route53_zone" "private_facing" {
-  name   = "${var.environment}.internal"
+  name   = "${var.environment}.${var.team_name}.internal"
   vpc_id = "${module.jenkins2_vpc.vpc_id}"
 
   tags {

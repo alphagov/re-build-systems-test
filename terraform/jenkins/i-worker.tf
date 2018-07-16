@@ -10,6 +10,7 @@ module "jenkins2_worker" {
   monitoring                  = true
   vpc_security_group_ids      = ["${module.jenkins2_sg_worker.this_security_group_id}"]
   subnet_id                   = "${element(module.jenkins2_vpc.public_subnets,0)}"
+  team                        = "${var.team_name}"
 
   root_block_device = [{
     volume_size           = "${var.worker_root_volume_size}"

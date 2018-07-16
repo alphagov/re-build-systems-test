@@ -203,9 +203,9 @@ write_files:
 bootcmd:
   - [ sh, -c, echo "Starting Jenkins2 Worker Server" ]
 runcmd:
-  - echo "append domain-search \"${awsenv}.internal\";" >> /etc/dhcp/dhclient.conf
+  - echo "append domain-search \"${awsenv}.${team}.internal\";" >> /etc/dhcp/dhclient.conf
   - dhclient -r; dhclient
-  - echo "search ${awsenv}.internal" >> /etc/resolvconf/resolv.conf.d/base
+  - echo "search ${awsenv}.${team}.internal" >> /etc/resolvconf/resolv.conf.d/base
   - [ apt-get, update ]
   - [ apt-get, upgrade ]
   - apt-get install -y docker-ce=${dockerversion}

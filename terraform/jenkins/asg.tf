@@ -37,6 +37,7 @@ data "template_file" "jenkins2_asg_server_template" {
     gitrepo_branch       = "${var.gitrepo_branch}"
     hostname             = "${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
     region               = "${var.aws_region}"
+    team                 = "${var.team_name}"
     github_admin_users   = "${join(",", var.github_admin_users)}"
     github_client_id     = "${var.github_client_id}"
     github_client_secret = "${var.github_client_secret}"
@@ -85,7 +86,7 @@ resource "aws_autoscaling_group" "asg_jenkins2_server" {
 resource "aws_elb" "elb_jenkins2_server" {
   name = "elb-${var.server_name}-${var.environment}-${var.team_name}"
 
-  security_groups    = ["${module.jenkins2_sg_asg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_asg_server_internal.this_security_group_id}"]
+  security_groups = ["${module.jenkins2_sg_asg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_asg_server_internal.this_security_group_id}"]
 
   subnets = ["${element(module.jenkins2_vpc.public_subnets,0)}"]
 
