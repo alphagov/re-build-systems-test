@@ -150,15 +150,22 @@ In this step you will provision all the infrastructure needed to run your Jenkin
 
 This step needs to be done for each environment you defined in STEP 1 (e.g. `dev`, `staging`).
 
+1. Export the environment and team names, as you set them during the provisioning of the DNS:
+
+    ```
+    export JENKINS_ENV_NAME=[environment-name]
+    export JENKINS_TEAM_NAME=[team-name]
+    ```
+
 1. Generate an SSH key pair in a location of your choice.
 
     You can use this command to generate one:
 
     ```
-    ssh-keygen -t rsa -b 4096 -C "[key comment]" -f ~/.ssh/build_systems_[team]_[environment]_rsa
+    ssh-keygen -t rsa -b 4096 \
+        -C "Key for Build System - team ${JENKINS_TEAM_NAME} - environment ${JENKINS_ENV_NAME}" \
+        -f ~/.ssh/build_systems_${JENKINS_TEAM_NAME}_${JENKINS_ENV_NAME}_rsa
     ```
-
-    We suggest the `key comment` to contain the name of your team and the environment name.
 
     The public key will be used in a later step.
 
@@ -167,15 +174,6 @@ This step needs to be done for each environment you defined in STEP 1 (e.g. `dev
 1. In the `terraform/jenkins` folder, rename `terraform.tfvars.example` to `terraform.tfvars`.
 
 1. Customise the `terraform.tfvars` file by editing the settings under `## CUSTOM USER SETTINGS - change these values for your custom Jenkins ###`
-
-1. For convenience, export the environment name, so that you won't need to type it in the next steps:
-
-    ```
-    export JENKINS_ENV_NAME=[environment-name]
-    export JENKINS_TEAM_NAME=[team-name]
-    ```
-
-    This is usually something like test, staging, production, or your name if you are doing development.
 
 1. Create an S3 bucket to host the terraform state file.
 
@@ -208,12 +206,12 @@ This step needs to be done for each environment you defined in STEP 1 (e.g. `dev
         -backend-config="key=re-build-systems.tfstate" \
         -backend-config="bucket=tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME"
     ```
-    If you used our suggested command to create your SSH key pair, replace the square brackets below with the values that you chose. If you did not use our suggested command, make sure you change the below command to reflect the file path to your public SSH key:
+    If you did not use our suggested command to create the SSH key pair, make sure you change the below command to reflect the file path to your public SSH key:
     ```
     terraform apply \
         -var-file=./terraform.tfvars  \
         -var environment=$JENKINS_ENV_NAME \
-        -var ssh_public_key_file=~/.ssh/build_systems_[team]_[environment]_rsa.pub
+        -var ssh_public_key_file=~/.ssh/build_systems_${JENKINS_TEAM_NAME}_${JENKINS_ENV_NAME}_rsa.pub
     ```
 
     You may want to take note of these values from the output of the previous command - they can be helpful for debugging:
