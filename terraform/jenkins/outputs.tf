@@ -10,6 +10,10 @@ output "environment" {
   value = "${var.environment}"
 }
 
+output "github_callback_url" {
+  value = "https://${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}/securityRealm/finishLogin"
+}
+
 output "image_id" {
   value = "${data.aws_ami.source.id}"
 }
