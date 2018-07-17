@@ -28,8 +28,7 @@ This documentation will lead you through three steps to set up your Jenkins plat
 
 * log in to your new Jenkins and try it out
 
-You need to provision the DNS infrastructure only once, and have the Reliability Engineering team enable your
-new domain (you may have to wait up to two working days for that).
+You need to provision the DNS infrastructure only once, and have the Reliability Engineering team enable your new domain (you may have to wait up to two working days for that).
 Then, you can provision the main Jenkins infrastructure anytime you need to create a new environment.
 
 For each environment you create the associate URL will be in this form:
