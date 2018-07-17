@@ -22,13 +22,18 @@ You will need:
 
 This documentation will lead you through three steps to set up your Jenkins platform:
 
-* provision the DNS infrastructure
+* provision the DNS infrastructure (only the first time)
 
-* provision the main Jenkins infrastructure
+* provision the main Jenkins infrastructure (for each environment you want to provision)
 
 * log in to your new Jenkins and try it out
 
-Once you have provisioned the DNS infrastructure, the Reliability Engineering team will make your Jenkins URL live and set up your Github OAuth so you can log in to your Jenkins. You may have to wait up to two working days for this to be done before you can provision the main Jenkins infrastructure.
+You need to provision the DNS infrastructure only once, and have the Reliability Engineering team enable your
+new domain (you may have to wait up to two working days for that).
+Then, you can provision the main Jenkins infrastructure anytime you need to create a new environment.
+
+For each environment you create the associate URL will be in this form:
+`https://jenkins2.[environment_name].[team_name].build.gds-reliability.engineering`
 
 ## Provision the DNS infrastructure
 
@@ -38,10 +43,7 @@ You will have to provision a separate Jenkins for each environment. For example,
 
 You can start by provisioning the DNS for one environment and add other environments later.
 
-For this step, you will need to choose:
-
-* which environments you want to set up Jenkins for and what you will call them
-* your team name
+For this step, you will need to choose your team name, which will be part of the Jenkins URL.
 
 
 ### Configure DNS
@@ -141,6 +143,9 @@ Once RE complete those tasks and come back to you, you can then move to this.
 In this step you will provision all the infrastructure needed to run your Jenkins.
 
 This step needs to be done for each environment you defined in STEP 1 (e.g. `dev`, `staging`).
+
+For this step, you will need to choose which environment you want to set up Jenkins for
+(e.g. `ci`, `dev`, `staging`) - that will be part of the URL of your Jenkins.
 
 1. Export the environment and team names, as you set them during the provisioning of the DNS:
 
