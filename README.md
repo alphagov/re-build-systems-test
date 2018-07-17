@@ -65,7 +65,7 @@ For this step, you will need to choose:
 1. Export the `team_name` as a variable to use when running the DNS Terraform
 
     ```
-    export TEAM_NAME=[your team name as defined in the `terraform.tfvars` file]
+    export JENKINS_TEAM_NAME=[your team name as defined in the `terraform.tfvars` file]
     ```
 
 ### Run DNS Terraform
@@ -78,7 +78,7 @@ For this step, you will need to choose:
     ./tools/create-dns-s3-state-bucket \
         -d build.gds-reliability.engineering \
         -p re-build-systems \
-        -t $TEAM_NAME
+        -t $JENKINS_TEAM_NAME
     ```
 
     If you receive an error, it may be because your `team_name` is not unique, which it must be to ensure that URLs are unique. Go back to point 4 in the previous (Configure DNS) section, change your `team_name` and then continue from there.
@@ -102,8 +102,8 @@ For this step, you will need to choose:
     ```        
     terraform init \
         -backend-config="region=$AWS_DEFAULT_REGION" \
-        -backend-config="bucket=tfstate-dns-$TEAM_NAME.build.gds-reliability.engineering" \
-        -backend-config="key=$TEAM_NAME.build.gds-reliability.engineering.tfstate"
+        -backend-config="bucket=tfstate-dns-$JENKINS_TEAM_NAME.build.gds-reliability.engineering" \
+        -backend-config="key=$JENKINS_TEAM_NAME.build.gds-reliability.engineering.tfstate"
     ```
 
     ```
