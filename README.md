@@ -43,9 +43,6 @@ For this step, you will need to choose:
 * which environments you want to set up Jenkins for and what you will call them
 * your team name
 
-
-### Configure DNS
-
 1. Add your AWS user credentials to `~/.aws/credentials`
 
   If this file does not exist, create it first.
@@ -67,8 +64,6 @@ For this step, you will need to choose:
     ```
     export JENKINS_TEAM_NAME=[your team name as defined in the `terraform.tfvars` file]
     ```
-
-### Run DNS Terraform
 
 1. Create the S3 bucket to hold the Terraform state file.
 
