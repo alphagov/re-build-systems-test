@@ -1,7 +1,9 @@
 ### CUSTOM USER SETTINGS - change these values for your custom Jenkins ###
 
 # The name of your team that will become part of your URL
-team_name = "your-team-name"
+team_name = "Add in the name of your team here, for example: your-team-name"
+
+### STANDARD SETTINGS - you shouldn't need to change these ###
 
 top_level_domain_name = "build.gds-reliability.engineering"
 
