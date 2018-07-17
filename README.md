@@ -141,8 +141,6 @@ Once RE complete those tasks and come back to you, you can then move to this.
 
 In this step you will provision all the infrastructure needed to run your Jenkins.
 
-This step needs to be done for each environment you defined in STEP 1 (e.g. `dev`, `staging`).
-
 For this step, you will need to choose which environment you want to set up Jenkins for
 (e.g. `ci`, `dev`, `staging`) - that will be part of the URL of your Jenkins.
 
