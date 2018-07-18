@@ -70,7 +70,7 @@ For this step, you will need to choose:
    Run this command from the `terraform/dns/tools` directory:
 
     ```
-    ./tools/create-dns-s3-state-bucket \
+    ./create-dns-s3-state-bucket \
         -d build.gds-reliability.engineering \
         -p re-build-systems \
         -t $JENKINS_TEAM_NAME
