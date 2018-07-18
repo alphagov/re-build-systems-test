@@ -11,12 +11,6 @@ allowed_ips = [
 # The team_name you defined earlier
 team_name = "your-team-name"
 
-# The client ID you were given when the GitHub OAuth app was created
-github_client_id = "aabbccddee"
-
-# The client secret you were given when the GitHub OAuth app was created
-github_client_secret = "abcdefghijklmnopqrstuvwxzy0123456789"
-
 # A list of GitHub teams you want to grant access to your Jenkins
 github_organisations = [
   "team1",

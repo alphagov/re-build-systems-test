@@ -46,7 +46,7 @@ For this step, you will need to choose your team name, which will be part of the
 
 1. Add your AWS user credentials to `~/.aws/credentials`
 
-  If this file does not exist, create it first.
+    If this file does not exist, create it first.
 
     ```
     [re-build-systems]
@@ -121,12 +121,8 @@ For this step, you will need to choose your team name, which will be part of the
     ]
     ```
 
-    Copy and send this output to the GDS Reliability Engineering team.
-
-    The Reliability Engineering team will make your URL live and set up your Github OAuth so you can log in to your Jenkins.
-
+    Copy and send this output to the GDS Reliability Engineering team, which will make your URL live.
     This step may take up to two working days.
-
 
 
 
@@ -139,12 +135,44 @@ In this step you will provision all the infrastructure needed to run your Jenkin
 For this step, you will need to choose which environment you want to set up Jenkins for
 (e.g. `ci`, `dev`, `staging`) - that will be part of the URL of your Jenkins.
 
-1. Export the environment and team names, as you set them during the provisioning of the DNS:
+1. Export the environment name you have chosen, and the team name you set during the provisioning of the DNS:
 
     ```
     export JENKINS_ENV_NAME=[environment-name]
     export JENKINS_TEAM_NAME=[team-name]
     ```
+
+1. Create a Github OAuth app
+
+    This allows to setup authentication to the Jenkins via Github.
+
+    Go to the [Register a new OAuth application](https://github.com/settings/applications/new) page and use the following settings to setup your app.
+
+    The [URL] will follow the pattern `https://jenkins2.[environment-name].[team-name].build.gds-reliability.engineering`.
+
+    * Application name:  `re-build-auth-[team name]-[environment name]` , e.g. `re-build-auth-app-eidas-dev`. You may have to deviate from this format if it exceeds 34 characters.
+
+    * Homepage URL:  [URL]
+
+    * Application description:  Build system for [URL]
+
+    * Authorization callback URL:  [URL]/securityRealm/finishLogin
+
+    Then, click the 'Register application' button.
+
+    Export the credentials as they appear on the screen:
+
+    ```
+    export JENKINS_GITHUB_OAUTH_ID=[client-id]
+    export JENKINS_GITHUB_OAUTH_SECRET=[client-secret]
+    ```
+
+1. Transfer ownership of the Github OAuth app
+
+    Skip this step if you are provisioning the platform only for test or development purpose.
+
+    Otherwise you should transfer ownership of the app to `alphagov`.\
+    To do so, click the "Transfer ownership" button located at the top of the page where you copied the credentials from. Input `alphagov` as organisation.
 
 1. Generate an SSH key pair in a location of your choice.
 
@@ -200,6 +228,8 @@ For this step, you will need to choose which environment you want to set up Jenk
     terraform apply \
         -var-file=./terraform.tfvars  \
         -var environment=$JENKINS_ENV_NAME \
+        -var github_client_id=$JENKINS_GITHUB_OAUTH_ID \
+        -var github_client_secret=$JENKINS_GITHUB_OAUTH_SECRET \
         -var ssh_public_key_file=~/.ssh/build_systems_${JENKINS_TEAM_NAME}_${JENKINS_ENV_NAME}_rsa.pub
     ```
 
