@@ -71,7 +71,7 @@ For this step, you will need to choose your team name, which will be part of the
    Run this command from the `terraform/dns/tools` directory:
 
     ```
-    ./tools/create-dns-s3-state-bucket \
+    ./create-dns-s3-state-bucket \
         -d build.gds-reliability.engineering \
         -p re-build-systems \
         -t $JENKINS_TEAM_NAME
@@ -179,7 +179,7 @@ For this step, you will need to choose which environment you want to set up Jenk
 
     In order to initialise the S3 bucket we have created with Terraform, we need to export some secrets.
 
-    You did this in the `Run DNS Terraform` section of this guidance, so you only need to carry out this step if you ended your terminal session since you carried out that step.
+    You did this in the `DNS provisioning` section of this guidance, so you only need to carry out this step if you ended your terminal session since you carried out that step.
 
     ```
     export AWS_ACCESS_KEY_ID="[aws key]"
