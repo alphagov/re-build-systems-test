@@ -8,6 +8,9 @@ allowed_ips = [
   "ww.xx.yy.zz/32",
 ]
 
+# The team_name you defined earlier
+team_name = "your-team-name"
+
 # The client ID you were given when the GitHub OAuth app was created
 github_client_id = "aabbccddee"
 
@@ -29,10 +32,6 @@ github_admin_users = [
 
 # The suffix of the URL that you setup earlier. If you're in GDS you may not have to change this
 hostname_suffix = "build.gds-reliability.engineering"
-
-# The team_name you defined earlier
-team_name = "team2"
-
 
 ### STANDARD SETTINGS - you shouldn't need to change these ###
 
