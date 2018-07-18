@@ -78,3 +78,91 @@ From Jenkins, 'New item' -> 'Pipeline'. Then, the settings are as follows:
 * Pipeline Definition: Pipeline script from SCM Pipeline
 * SCM: Git
 * Pipeline Repository URL: [git-repo-url]
+
+## Decommissioning of the Jenkins
+
+There are 4 steps to decommission the Jenkins platform for one of your environments:
+
+* decommissioning the Jenkins infrastructure, via `terraform destroy`
+
+* decommissioning the DNS infrastructure, via `terraform destroy`
+
+* deleting the S3 buckets used for the Terraform state files
+
+* deleting the Github OAuth app
+
+### Before you start
+
+1. Move to the directory in which you cloned the repository originally.\
+If you don't have it anymore, clone the repository again and customise the `terraform.tfvars`
+as you did during the provisioning steps, for both the `terraform\dns` and `terraform\jenkins` directories.
+
+1. Make sure you still have this in `~/.aws/credentials`, otherwise add it again:
+
+       ```
+       [re-build-systems]
+       aws_access_key_id = [your aws key here]
+       aws_secret_access_key = [your aws secret here]
+       ```
+
+1. Export those credentials
+
+   If you are using bash, then add a space at the start of export AWS_ACCESS_KEY_ID and export AWS_SECRET_ACCESS_KEY to prevent them from being added to ~/.bash_history.
+
+   ```
+   export AWS_ACCESS_KEY_ID="[aws key]"
+   export AWS_SECRET_ACCESS_KEY="[aws secret]"
+   export AWS_DEFAULT_REGION="eu-west-1"
+   ```
+
+1. Export these environment variables
+
+    ```
+    export JENKINS_ENV_NAME=[environment-name]
+    export JENKINS_TEAM_NAME=[team-name]
+    ```
+
+### Decommissioning the Jenkins infrastructure
+
+1. Run this from the `terraform/jenkins` directory:
+
+    ```
+    terraform destroy \
+        -var environment=$JENKINS_ENV_NAME \
+        -var-file=./terraform.tfvars \
+        -var ssh_public_key_file=~/.ssh/build_systems_${JENKINS_TEAM_NAME}_${JENKINS_ENV_NAME}_rsa.pub
+    ```
+
+    The previous `terraform destroy` command may fail to delete everything on the first run. If so, just run it again.
+
+### Decommissioning the DNS infrastructure
+
+1. Run this from the `terraform/dns` directory:
+
+    ```
+    terraform destroy -var-file=./terraform.tfvars
+    ```
+
+    The previous `terraform destroy` command may fail to delete everything on the first run. If so, just run it again.
+
+### Deleting the Terraform state S3 buckets
+
+1. Make sure you have `jq` (version `> 1.5.0`) installed
+
+1. Run these commands from anywhere:
+
+    ```
+    aws s3api delete-objects \
+      --bucket tfstate-dns-$JENKINS_TEAM_NAME.build.gds-reliability.engineering \
+      --delete "$(aws s3api list-object-versions --bucket tfstate-dns-$JENKINS_TEAM_NAME.build.gds-reliability.engineering | jq '{Objects: [.Versions[] | {Key:.Key, VersionId : .VersionId}], Quiet: false}')"
+    ```
+
+    ```
+    aws s3api delete-objects \
+          --bucket tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME \
+          --delete "$(aws s3api list-object-versions --bucket tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME | jq '{Objects: [.Versions[] | {Key:.Key, VersionId : .VersionId}], Quiet: false}')"
+    ```
+
+### Deleting the Github OAuth app
+
+Go to [Github developer settings](https://github.com/settings/developers) > `OAuth Apps` > Select the app > `Delete application`
