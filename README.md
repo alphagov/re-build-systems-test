@@ -68,7 +68,7 @@ For this step, you will need to choose your team name, which will be part of the
 
 1. Create the S3 bucket to hold the Terraform state file.
 
-   Run this command from the `terraform/dns/tools` directory:
+   Run this command from the `tools` directory:
 
     ```
     ./create-dns-s3-state-bucket \
@@ -194,7 +194,7 @@ For this step, you will need to choose which environment you want to set up Jenk
 
 1. Create an S3 bucket to host the terraform state file.
 
-    Run this command from the `terraform/jenkins/tools` directory:
+    Run this command from the `tools` directory:
 
     ```
     ./create-s3-state-bucket \

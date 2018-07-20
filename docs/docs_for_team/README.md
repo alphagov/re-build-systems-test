@@ -161,18 +161,14 @@ as you did during the provisioning steps, for both the `terraform\dns` and `terr
 
 1. Make sure you have `jq` (version `> 1.5.0`) installed
 
-1. Run these commands from anywhere:
+1. Run these commands from the `tools` directory:
 
     ```
-    aws s3api delete-objects \
-        --bucket tfstate-dns-$JENKINS_TEAM_NAME.build.gds-reliability.engineering \
-        --delete "$(aws s3api list-object-versions --bucket tfstate-dns-$JENKINS_TEAM_NAME.build.gds-reliability.engineering | jq '{Objects: [.Versions[] | {Key:.Key, VersionId : .VersionId}], Quiet: false}')"
+    ./delete-s3-bucket tfstate-dns-$JENKINS_TEAM_NAME.build.gds-reliability.engineering
     ```
 
     ```
-    aws s3api delete-objects \
-        --bucket tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME \
-        --delete "$(aws s3api list-object-versions --bucket tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME | jq '{Objects: [.Versions[] | {Key:.Key, VersionId : .VersionId}], Quiet: false}')"
+    ./delete-s3-bucket tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME
     ```
 
 ### Deleting the Github OAuth app
