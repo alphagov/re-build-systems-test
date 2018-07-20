@@ -3,7 +3,7 @@
 This repository provides the infrastructure code for provisioning a Jenkins build system. This build system is a containerised Jenkins (version 2) platform
 on AWS, consisting of a master node and an agent node. Once provisioned, users log into the Jenkins using their Github account.
 
-If you would like more information about the architecture of this build system, you can read the [architectural documentation](docs/architecture/README.md).
+If you would like more information about the architecture of this build system, you can read the [architectural documentation].
 
 
 ## Prerequisites
@@ -146,7 +146,7 @@ For this step, you will need to choose which environment you want to set up Jenk
 
     This allows to setup authentication to the Jenkins via Github.
 
-    Go to the [Register a new OAuth application](https://github.com/settings/applications/new) page and use the following settings to setup your app.
+    Go to the [Register a new OAuth application] page and use the following settings to setup your app.
 
     The [URL] will follow the pattern `https://jenkins2.[environment-name].[team-name].build.gds-reliability.engineering`.
 
@@ -278,3 +278,6 @@ Refer to our [Contributing guide](CONTRIBUTING.md).
 ## Licence
 
 [MIT License](LICENCE)
+
+[architectural documentation]: docs/architecture/README.md
+[Register a new OAuth application]: https://github.com/settings/applications/new
