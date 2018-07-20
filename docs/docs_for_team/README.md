@@ -129,6 +129,15 @@ as you did during the provisioning steps, for both the `terraform\dns` and `terr
 
     The previous `terraform destroy` command may fail to delete everything on the first run. If so, just run it again.
 
+    There is also a chance that this will fail and ask you to run a `terraform init`. If this happens then run the following command before trying to destroy again.
+
+    ```
+    terraform init \
+        -backend-config="region=$AWS_DEFAULT_REGION" \
+        -backend-config="key=re-build-systems.tfstate" \
+        -backend-config="bucket=tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME"
+    ```
+
 ### Decommissioning the DNS infrastructure
 
 1. Run this from the `terraform/dns` directory:
@@ -139,6 +148,15 @@ as you did during the provisioning steps, for both the `terraform\dns` and `terr
 
     The previous `terraform destroy` command may fail to delete everything on the first run. If so, just run it again.
 
+    There is also a chance that this will fail and ask you to run a `terraform init`. If this happens then run the following command before trying to destroy again.
+
+    ```
+    terraform init \
+        -backend-config="region=$AWS_DEFAULT_REGION" \
+        -backend-config="bucket=tfstate-dns-$JENKINS_TEAM_NAME.build.gds-reliability.engineering" \
+        -backend-config="key=$JENKINS_TEAM_NAME.build.gds-reliability.engineering.tfstate"
+    ```
+
 ### Deleting the Terraform state S3 buckets
 
 1. Make sure you have `jq` (version `> 1.5.0`) installed
@@ -147,14 +165,14 @@ as you did during the provisioning steps, for both the `terraform\dns` and `terr
 
     ```
     aws s3api delete-objects \
-      --bucket tfstate-dns-$JENKINS_TEAM_NAME.build.gds-reliability.engineering \
-      --delete "$(aws s3api list-object-versions --bucket tfstate-dns-$JENKINS_TEAM_NAME.build.gds-reliability.engineering | jq '{Objects: [.Versions[] | {Key:.Key, VersionId : .VersionId}], Quiet: false}')"
+        --bucket tfstate-dns-$JENKINS_TEAM_NAME.build.gds-reliability.engineering \
+        --delete "$(aws s3api list-object-versions --bucket tfstate-dns-$JENKINS_TEAM_NAME.build.gds-reliability.engineering | jq '{Objects: [.Versions[] | {Key:.Key, VersionId : .VersionId}], Quiet: false}')"
     ```
 
     ```
     aws s3api delete-objects \
-          --bucket tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME \
-          --delete "$(aws s3api list-object-versions --bucket tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME | jq '{Objects: [.Versions[] | {Key:.Key, VersionId : .VersionId}], Quiet: false}')"
+        --bucket tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME \
+        --delete "$(aws s3api list-object-versions --bucket tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME | jq '{Objects: [.Versions[] | {Key:.Key, VersionId : .VersionId}], Quiet: false}')"
     ```
 
 ### Deleting the Github OAuth app
