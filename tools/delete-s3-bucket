@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -eu
+
+function print_help_and_exit() {
+  echo "Deletes an S3 bucket (including content and revisions) given its name"
+  echo ""
+  echo "$0 <bucket name>"
+  echo ""
+  echo "<bucket name>        = the name of the bucket you want to remove"
+  exit 1
+}
+
+if [[ $# -eq 0 ]] ; then
+    echo "No arguments supplied!"
+    print_help_and_exit
+fi
+
+echo $1
+
+echo "Deleting object and revisions in bucket $1"
+aws s3api delete-objects \
+  --bucket $1 \
+  --delete "$(aws s3api list-object-versions --bucket $1 | jq '{Objects: [.Versions[] | {Key:.Key, VersionId : .VersionId}], Quiet: false}')"
+
+echo "Deleting bucket $1"
+aws s3api delete-bucket --bucket $1
+
+echo "All done"
