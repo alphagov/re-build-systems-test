@@ -16,23 +16,17 @@ agent {
 }
 ```
 
-`docker-jnlp-java-agent` is an the Docker  image you define in Jenkins, via
-'Manage Jenkins' -> 'Configure system' -> 'Cloud' -> 'Add a new cloud'.
-The settings are:
+Your docker image can be defined using the [template file](https://github.com/alphagov/re-build-systems/blob/master/docker/files/groovy/add-sample-agent-docker-image.groovy).
+Please make a copy of that file and edit it to your own specification. There are four variables that need adjusting;
 
-* Name: docker-worker-2-java
-* Docker Host URI: tcp://worker:2375
-* Label: docker-jnlp-java-agent
-* Docker image: [builder-docker-image-url]
-* Remote filesystem root: /home/jenkins
-* Connect method: Attach Docker container
+* image - The hash or tagged name of the image that you wish docker to run
+* labelString - Must match the agent:label in the Jenkinsfile of your app
+* name - Name of this Docker Cloud
+* serverUrl - URI to the Docker Host you are using.
 
-That can also be done via a Groovy script.
+These are all labelled 'custom' within the template file.
 
-`builder-docker-image-url` is the URL of the Docker image which is going to build the code (for example, it may be hosted on Dockerhub).
-
-The way you build the image is by inheriting from the `jenkins/jnlp-slave` base image and install
-your development tools on top of it.
+For extra guidance on using Jenkins' Docker plugin visit their [help page](https://wiki.jenkins.io/display/JENKINS/Docker+Plugin)
 
 This is an example of a builder Docker image for Maven (bear in mind that the Jenkins slave image installs Java8):
 
