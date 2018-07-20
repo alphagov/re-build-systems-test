@@ -2,11 +2,11 @@
 
 ## Provisioning of the Jenkins
 
-Documentation is in [the main README of the repo](https://github.com/alphagov/re-build-systems-dns).
+Documentation is in [the main README of the repo].
 
 ## How to set up a job using Jenkinsfile
 
-This is an [example of a project](https://github.com/alphagov/re-build-systems-sample-java-app/tree/jenkinsfile-supported-by-re-build-mvp) that can be built using this Jenkins platform.
+This is an [example of a project] that can be built using this Jenkins platform.
 
 It shows how to structure the Jenkinsfile - the most important part is this:
 
@@ -16,7 +16,7 @@ agent {
 }
 ```
 
-Your docker image can be defined using the [template file](https://github.com/alphagov/re-build-systems/blob/master/docker/files/groovy/add-sample-agent-docker-image.groovy).
+Your docker image can be defined using the [template file].
 Please make a copy of that file and edit it to your own specification. There are four variables that need adjusting;
 
 * image - The hash or tagged name of the image that you wish docker to run
@@ -26,7 +26,7 @@ Please make a copy of that file and edit it to your own specification. There are
 
 These are all labelled 'custom' within the template file.
 
-For extra guidance on using Jenkins' Docker plugin visit their [help page](https://wiki.jenkins.io/display/JENKINS/Docker+Plugin)
+For extra guidance on using Jenkins' Docker plugin visit their [help page]
 
 This is an example of a builder Docker image for Maven (bear in mind that the Jenkins slave image installs Java8):
 
@@ -173,4 +173,11 @@ as you did during the provisioning steps, for both the `terraform\dns` and `terr
 
 ### Deleting the Github OAuth app
 
-Go to [Github developer settings](https://github.com/settings/developers) > `OAuth Apps` > Select the app > `Delete application`
+Go to [Github developer settings] > `OAuth Apps` > Select the app > `Delete application`
+
+
+[the main README of the repo]: https://github.com/alphagov/re-build-systems-dns
+[example of a project]: https://github.com/alphagov/re-build-systems-sample-java-app/tree/jenkinsfile-supported-by-re-build-mvp
+[template file]: https://github.com/alphagov/re-build-systems/blob/master/docker/files/groovy/add-sample-agent-docker-image.groovy
+[help page]: https://wiki.jenkins.io/display/JENKINS/Docker+Plugin
+[Github developer settings]: https://github.com/settings/developers
