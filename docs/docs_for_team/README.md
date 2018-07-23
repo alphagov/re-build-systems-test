@@ -73,6 +73,10 @@ From Jenkins, 'New item' -> 'Pipeline'. Then, the settings are as follows:
 * SCM: Git
 * Pipeline Repository URL: [git-repo-url]
 
+## Known bugs
+
+As it stands Docker configuration is loaded from a git branch specified in the [cloud init yaml file]. If you make changes to your Docker config, including adding an image as in the instructions above, you must make sure that your changes are pushed to a branch on git. Before running a `terraform apply` you will need to update the [Jenkins variables file] with the name of your working branch rather than master. In this way the name of your working branch need never be committed to git. We are planning on automating this process.
+
 ## Decommissioning of the Jenkins
 
 There are 4 steps to decommission the Jenkins platform for one of your environments:
@@ -179,5 +183,7 @@ Go to [Github developer settings] > `OAuth Apps` > Select the app > `Delete appl
 [the main README of the repo]: https://github.com/alphagov/re-build-systems-dns
 [example of a project]: https://github.com/alphagov/re-build-systems-sample-java-app/tree/jenkinsfile-supported-by-re-build-mvp
 [template file]: https://github.com/alphagov/re-build-systems/blob/master/docker/files/groovy/add-sample-agent-docker-image.groovy
+[cloud init yaml file]: (terraform/jenkins/cloud-init/server-asg-xenial-16.04-amd64-server.yaml)
+[Jenkins variables file]: (terraform/jenkins/variables.tf)
 [help page]: https://wiki.jenkins.io/display/JENKINS/Docker+Plugin
 [Github developer settings]: https://github.com/settings/developers
