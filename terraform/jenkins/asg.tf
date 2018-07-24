@@ -20,6 +20,11 @@ locals {
       value               = "${var.team_name}"
       propagate_at_launch = true
     },
+    {
+      key                 = "Type"
+      value               = "Jenkins-master"
+      propagate_at_launch = true
+    },
   ]
 }
 
@@ -85,7 +90,7 @@ resource "aws_autoscaling_group" "asg_jenkins2_server" {
 resource "aws_elb" "elb_jenkins2_server" {
   name = "elb-${var.server_name}-${var.environment}-${var.team_name}"
 
-  security_groups    = ["${module.jenkins2_sg_asg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_asg_server_internal.this_security_group_id}"]
+  security_groups = ["${module.jenkins2_sg_asg_server_internet_facing.this_security_group_id}", "${module.jenkins2_sg_asg_server_internal.this_security_group_id}"]
 
   subnets = ["${element(module.jenkins2_vpc.public_subnets,0)}"]
 
