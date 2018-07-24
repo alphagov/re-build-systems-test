@@ -245,7 +245,7 @@ For this step, you will need to choose which environment you want to set up Jenk
 
 1. Use the new Jenkins
 
-    Visit the Jenkins at the URL you decided to use
+    Visit the Jenkins at the URL shown by the output of the previous command (`jenkins2_url`).
 
 ### Debugging
 
@@ -265,7 +265,6 @@ Once logged in with the `ubuntu` user, you can switch to the root user by runnin
 
 Next, you may want to:
 
-* implement HTTPS
 * enable AWS CloudTrail
 * remove the generic SSH key used during provisioning and use personal keys
 * remove the default `ubuntu` account from the AWS instance(s)
