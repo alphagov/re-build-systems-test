@@ -21,6 +21,7 @@ module "jenkins2_worker" {
     ManagedBy   = "terraform"
     Name        = "jenkins2_worker_ec2_${var.team_name}_${var.environment}"
     Team        = "${var.team_name}"
+    Type        = "Jenkins-worker"
   }
 }
 
