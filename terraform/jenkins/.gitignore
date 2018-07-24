@@ -1,4 +1,4 @@
-.terraform
-terraform.tfstate*
-terraform.tfvars
-terraform.plan
+**/.terraform
+**/terraform.tfstate*
+**/*.tfvars
+**/*plan*
