@@ -233,12 +233,6 @@ For this step, you will need to choose which environment you want to set up Jenk
         -var ssh_public_key_file=~/.ssh/build_systems_${JENKINS_TEAM_NAME}_${JENKINS_ENV_NAME}_rsa.pub
     ```
 
-    You may want to take note of these values from the output of the previous command - they can be helpful for debugging:
-
-    * `jenkins2_eip` - the public elastic IP of the master node
-
-    * `jenkins2_worker_private_ip` - the private IP of the agents node
-
     If you get this `Error loading modules: bad response code: 401` when running the `terraform init` command,
     that may be because of the content in your `.netrc` file. To work around that,
     you can temporarily rename the file, so that `terraform` will ignore it.    
@@ -251,13 +245,16 @@ For this step, you will need to choose which environment you want to set up Jenk
 
 To SSH into the master instance run:
 ```
-ssh -i [path-to-the-private-ssh-key-you-generated] ubuntu@[jenkins2_eip]
+ssh -i [path-to-the-private-ssh-key-you-generated] ubuntu@[master_ec2_public_dns]
 ```
+
+You can get `master_ec2_public_dns` (the public DNS of the master EC2 instance) via the AWS console or `awscli` - just be aware that may change.
 
 To SSH into the agents instance you need to use the master node as a proxy, like so:
 ```
-ssh -i [path-to-the-private-ssh-key-you-generated] -o ProxyCommand='ssh -W %h:%p ubuntu@[jenkins2_eip]' ubuntu@[jenkins2_worker_private_ip]
+ssh -i [path-to-the-private-ssh-key-you-generated] -o ProxyCommand='ssh -W %h:%p ubuntu@[master_ec2_public_dns]' ubuntu@[agent_ec2_public_dns]
 ```
+Again, you can get `master_ec2_public_dns` and `agent_ec2_public_dns` via the AWS console or `awscli`.
 
 Once logged in with the `ubuntu` user, you can switch to the root user by running `sudo su -`.
 
