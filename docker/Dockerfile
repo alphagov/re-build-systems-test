@@ -9,7 +9,7 @@ EXPOSE 80 8080 50000
 HEALTHCHECK --interval=5s \
             --timeout=5s \
             --start-period=60s \
-            CMD "nc -zv 127.0.0.1 80 &> /dev/null ; if [ 0 != $? ]; then exit 1; fi;"
+            CMD nc -zv 127.0.0.1 80 &> /dev/null ; if [ 0 != $? ]; then exit 1; fi;
 
 # Install build tools
 USER root
@@ -41,6 +41,9 @@ RUN apt-get update
 RUN apt-get install -y nginx
 COPY files/nginx-jenkins /etc/nginx/sites-enabled/jenkins
 RUN rm -rf /etc/nginx/sites-enabled/default
+
+# install nc for healthcheck
+RUN apt-get install -y netcat
 
 # drop back to jenkins user
 USER jenkins
