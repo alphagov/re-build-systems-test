@@ -42,6 +42,7 @@ data "template_file" "jenkins2_asg_server_template" {
     gitrepo_branch       = "${var.gitrepo_branch}"
     hostname             = "${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
     region               = "${var.aws_region}"
+    team                 = "${var.team_name}"
     github_admin_users   = "${join(",", var.github_admin_users)}"
     github_client_id     = "${var.github_client_id}"
     github_client_secret = "${var.github_client_secret}"
