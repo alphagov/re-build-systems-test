@@ -6,10 +6,7 @@ FROM jenkins/jenkins:lts
 EXPOSE 80 8080 50000
 
 # set a health check to make sure jenkins is working
-HEALTHCHECK --interval=5s \
-            --timeout=5s \
-            --start-period=60s \
-            CMD nc -zv 127.0.0.1 80 &> /dev/null ; if [ 0 != $? ]; then exit 1; fi;
+HEALTHCHECK CMD nc -zv 127.0.0.1 80 || exit 1
 
 # Install build tools
 USER root
