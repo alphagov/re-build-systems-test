@@ -8,6 +8,10 @@ resource "aws_acm_certificate" "tls_certificate" {
   domain_name               = "${var.server_name}.${var.environment}.${var.team_name}.${var.hostname_suffix}"
   validation_method         = "DNS"
   subject_alternative_names = "${local.san_domains}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_route53_record" "dns_validation" {
