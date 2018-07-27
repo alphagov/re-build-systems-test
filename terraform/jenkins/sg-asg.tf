@@ -8,10 +8,10 @@ module "jenkins2_sg_asg_server_internal" {
 
   ingress_with_cidr_blocks = [
     {
-      from_port   = 50000
-      to_port     = 50000
+      from_port   = 22
+      to_port     = 22
       protocol    = "tcp"
-      description = "Docker hosts talking back to server - JNLP"
+      description = "ELB talking to server - SSH"
       cidr_blocks = "${var.public_subnet}"
     },
     {
@@ -19,6 +19,13 @@ module "jenkins2_sg_asg_server_internal" {
       to_port     = 80
       protocol    = "tcp"
       description = "Docker hosts talking back to server - HTTP"
+      cidr_blocks = "${var.public_subnet}"
+    },
+    {
+      from_port   = 50000
+      to_port     = 50000
+      protocol    = "tcp"
+      description = "Docker hosts talking back to server - JNLP"
       cidr_blocks = "${var.public_subnet}"
     },
   ]
