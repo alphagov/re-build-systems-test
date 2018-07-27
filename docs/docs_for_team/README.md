@@ -6,29 +6,46 @@ Documentation is in [the main README of the repo].
 
 ## How to set up a job using Jenkinsfile
 
-This is an [example of a project] that can be built using this Jenkins platform.
+This is an [example of a project] that can be built using this Jenkins platform - there you can see
+how we defined its [Jenkinsfile].
 
-It shows how to structure the Jenkinsfile - the most important part is this:
+You can build that project by running the `build-sample-java-app` job, which should be in your Jenkins by default.
 
-```
-agent {
-    label 'sample-docker-jnlp-java-agent'
-}
-```
+There are a number of steps to set up a job using Jenkinsfile:
 
-Your docker image can be defined using the [template file].
-Please make a copy of that file and edit it to your own specification. There are four variables that need adjusting;
+* Build a Docker image for the Jenkins agent
 
-* image - The hash or tagged name of the image that you wish docker to run
-* labelString - Must match the agent:label in the Jenkinsfile of your app
-* name - Name of this Docker Cloud
-* serverUrl - URI to the Docker Host you are using.
+* Publish the Docker image
 
-These are all labelled 'custom' within the template file.
+* Setup a Docker Cloud in Jenkins
 
-For extra guidance on using Jenkins' Docker plugin visit their [help page]
+* Specify the Docker Cloud in the Jenkinsfile
 
-This is an example of a builder Docker image for Maven (bear in mind that the Jenkins slave image installs Java8):
+* Create the Jenkins job
+
+Let's describe them one by one.
+
+### Build a Docker image for the Jenkins agent
+
+The Docker container of your Jenkins agent has two responsibilities:
+
+* communicating with the Jenkins master
+
+* carrying out the work specified by the job
+
+Therefore, we will need to have two sets of software installed on it:
+
+* the official Jenkins agent components
+
+* all the tools needed to execute the Jenkins job - e.g. JDK, Ruby, ... - we can call this `toolchain`
+
+As a container can inherit from only one image, we have two possibilities:
+
+#### Build the container based on the Jenkins slave
+
+The Jenkins software depends on Java, so the `jenkins/jnlp-slave` image already installs the JDK for Java 8, using Debian 9 as operating system (at the time of writing).
+
+This is an example of a Docker image for Maven:
 
 ```
 FROM jenkins/jnlp-slave
@@ -64,6 +81,87 @@ USER ${user}
 ENV LC_ALL en_GB.UTF-8
 CMD ["/bin/bash"]
 ```
+
+#### Build the container based on the toolchain
+
+* Inherit and build your toolchain:
+
+```
+FROM ruby
+
+RUN apt update
+RUN apt install -y ruby-dev
+RUN apt install -y bundler
+[reducted]
+```
+
+* On top of it, install JDK 8, as it is needed by the Jenkins software - obviously you don't need this step if your toolchain already had the JDK 8.
+
+* Append these lines to install the Jenkins software (provided the base image is based on Debian or Ubuntu):
+
+```
+ARG user=jenkins
+ARG group=jenkins
+ARG uid=10000
+ARG gid=10000
+
+USER root
+ENV HOME /home/${user}
+RUN groupadd -g ${gid} ${group}
+RUN useradd -c "Jenkins user" -d $HOME -u ${uid} -g ${gid} -m ${user}
+
+ARG VERSION=3.20
+ARG AGENT_WORKDIR=/home/${user}/agent
+RUN curl --create-dirs -sSLo /usr/share/jenkins/slave.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${VERSION}/remoting-${VERSION}.jar \
+  && chmod 755 /usr/share/jenkins \
+  && chmod 644 /usr/share/jenkins/slave.jar
+
+USER ${user}
+ENV AGENT_WORKDIR=${AGENT_WORKDIR}
+RUN mkdir /home/${user}/.jenkins && mkdir -p ${AGENT_WORKDIR}
+VOLUME /home/${user}/.jenkins
+VOLUME ${AGENT_WORKDIR}
+WORKDIR /home/${user}
+
+USER root
+RUN curl --create-dirs -SLo /usr/local/bin/jenkins-slave https://raw.githubusercontent.com/jenkinsci/docker-jnlp-slave/master/jenkins-slave \
+  && chmod 755 /usr/local/bin/jenkins-slave
+
+USER ${user}
+ENTRYPOINT ["/usr/local/bin/jenkins-slave"]
+```
+
+### Publish the Docker image
+
+After building the image, you have to publish it to a repository (e.g. Docker Hub) so that it can be referenced from Jenkins.
+
+### Setup a Docker Cloud in Jenkins
+
+A Docker Cloud is
+
+Your new Docker Cloud can be defined using the [template file].
+Please make a copy of that file and edit it to your own specification. There are four variables that need adjusting:
+
+* image - The identifier of the image you have published in the previous step
+* labelString - Must match the agent:label in the Jenkinsfile of your app
+* name - Name of this Docker Cloud
+* serverUrl - URI to the Docker Host you are using (probably you don't need to change this).
+
+These are all labelled 'custom' within the template file.
+
+For extra guidance on using Jenkins' Docker plugin visit their [help page].
+
+### Specify the Docker Cloud in the Jenkinsfile
+
+At the top of the Jenkinsfile of the project you want to add a line like this, based on the label you chose at the previous step:
+
+```
+agent {
+    label 'sample-docker-jnlp-java-agent'
+}
+```
+
+### Create the Jenkins job
 
 Then, the last part is to create a new job that will use the Jenkinsfile of the repository.
 From Jenkins, 'New item' -> 'Pipeline'. Then, the settings are as follows:
@@ -182,6 +280,7 @@ Go to [Github developer settings] > `OAuth Apps` > Select the app > `Delete appl
 
 [the main README of the repo]: https://github.com/alphagov/re-build-systems
 [example of a project]: https://github.com/alphagov/re-build-systems-sample-java-app/tree/jenkinsfile-supported-by-re-build-mvp
+[Jenkinsfile]: https://jenkins.io/doc/book/pipeline/jenkinsfile/
 [template file]: /docker/files/groovy/add-sample-agent-docker-image.groovy
 [cloud init yaml file]: /terraform/jenkins/cloud-init/server-asg-xenial-16.04-amd64-server.yaml
 [Jenkins variables file]: /terraform/jenkins/variables.tf
