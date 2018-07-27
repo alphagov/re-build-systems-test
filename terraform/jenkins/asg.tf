@@ -103,6 +103,13 @@ resource "aws_elb" "elb_jenkins2_server" {
     ssl_certificate_id = "${aws_acm_certificate.tls_certificate.arn}"
   }
 
+  listener {
+    instance_port     = 22
+    instance_protocol = "tcp"
+    lb_port           = 22
+    lb_protocol       = "tcp"
+  }
+
   health_check {
     healthy_threshold   = 2
     unhealthy_threshold = 10

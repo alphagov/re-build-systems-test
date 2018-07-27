@@ -245,25 +245,13 @@ For this step, you will need to choose which environment you want to set up Jenk
 
 To SSH into the master instance run:
 ```
-ssh -i [path-to-the-private-ssh-key-you-generated] ubuntu@[master_ec2_public_dns]
-```
-
-You can get `master_ec2_public_dns` (the public DNS of the master EC2 instance) via the AWS console or `awscli` - just be aware that may change.
-
-To get the DNS name of the Jenkins master using the AWS cli, you can use the following:
-
-```
-# Jenkins master
-aws ec2 describe-instances --region=eu-west-1 --filters "Name=tag:Type,Values=Jenkins-master" | grep PublicDnsName | head -1 | cut -d':' -f2 | sed 's/[ ",]//g'
-# Jenkins worker
-aws ec2 describe-instances --region=eu-west-1 --filters "Name=tag:Type,Values=Jenkins-worker" | grep PublicDnsName | head -1 | cut -d':' -f2 | sed 's/[ ",]//g'
+ssh -i [path-to-the-private-ssh-key-you-generated] ubuntu@[jenkins2.my-env.my-team.build.gds-reliability.engineering]
 ```
 
 To SSH into the agents instance you need to use the master node as a proxy, like so:
 ```
-ssh -i [path-to-the-private-ssh-key-you-generated] -o ProxyCommand='ssh -W %h:%p ubuntu@[master_ec2_public_dns]' ubuntu@[agent_ec2_public_dns]
+ssh -i [path-to-the-private-ssh-key-you-generated] -o ProxyCommand='ssh -W %h:%p ubuntu@[jenkins2.my-env.my-team.build.gds-reliability.engineering]' ubuntu@worker
 ```
-Again, you can get `master_ec2_public_dns` and `agent_ec2_public_dns` via the AWS console or `awscli`.
 
 Once logged in with the `ubuntu` user, you can switch to the root user by running `sudo su -`.
 
