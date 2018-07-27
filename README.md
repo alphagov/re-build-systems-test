@@ -250,7 +250,7 @@ ssh -i [path-to-the-private-ssh-key-you-generated] ubuntu@[jenkins2.my-env.my-te
 
 To SSH into the agents instance you need to use the master node as a proxy, like so:
 ```
-ssh -i [path-to-the-private-ssh-key-you-generated] -o ProxyCommand='ssh -W %h:%p ubuntu@jenkins2.my-env.my-team.build.gds-reliability.engineering' ubuntu@worker
+ssh -i [path-to-the-private-ssh-key-you-generated] -o ProxyCommand='ssh -W %h:%p ubuntu@[jenkins2.my-env.my-team.build.gds-reliability.engineering]' ubuntu@worker
 ```
 
 Once logged in with the `ubuntu` user, you can switch to the root user by running `sudo su -`.
