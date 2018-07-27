@@ -4,7 +4,7 @@ import com.nirima.jenkins.plugins.docker.DockerTemplateBase
 import com.nirima.jenkins.plugins.docker.launcher.AttachedDockerComputerLauncher
 import io.jenkins.docker.connector.DockerComputerAttachConnector
 import jenkins.model.Jenkins
- 
+
 // parameters
 def dockerTemplateBaseParameters = [
   bindAllPorts:       false,
@@ -26,24 +26,24 @@ def dockerTemplateBaseParameters = [
   volumesFromString:  '',
   volumesString:      ''
 ]
- 
+
 def DockerTemplateParameters = [
   instanceCapStr: '4',
-  labelString:    'docker-jnlp-java-agent', // custom labelString
+  labelString:    'sample-docker-jnlp-java-agent', // custom labelString
   remoteFs:       ''
 ]
- 
+
 def dockerCloudParameters = [
   connectTimeout:   3,
   containerCapStr:  '4',
   credentialsId:    '',
   dockerHostname:   '',
-  name:             'docker-worker-2-java', // custom name
+  name:             'sample-docker-worker--java', // custom name
   readTimeout:      60,
   serverUrl:        'tcp://worker:2375', // custom serverUrl
   version:          ''
 ]
- 
+
 // https://github.com/jenkinsci/docker-plugin/blob/docker-plugin-1.1.2/src/main/java/com/nirima/jenkins/plugins/docker/DockerTemplateBase.java
 DockerTemplateBase dockerTemplateBase = new DockerTemplateBase(
   dockerTemplateBaseParameters.image,
@@ -65,7 +65,7 @@ DockerTemplateBase dockerTemplateBase = new DockerTemplateBase(
   dockerTemplateBaseParameters.macAddress,
   dockerTemplateBaseParameters.extraHostsString
 )
- 
+
 // https://github.com/jenkinsci/docker-plugin/blob/docker-plugin-1.1.2/src/main/java/com/nirima/jenkins/plugins/docker/DockerTemplate.java
 DockerTemplate dockerTemplate = new DockerTemplate(
   dockerTemplateBase,
@@ -74,7 +74,7 @@ DockerTemplate dockerTemplate = new DockerTemplate(
   DockerTemplateParameters.remoteFs,
   DockerTemplateParameters.instanceCapStr
 )
- 
+
 // https://github.com/jenkinsci/docker-plugin/blob/docker-plugin-1.1.2/src/main/java/com/nirima/jenkins/plugins/docker/DockerCloud.java
 DockerCloud dockerCloud = new DockerCloud(
   dockerCloudParameters.name,
@@ -87,12 +87,12 @@ DockerCloud dockerCloud = new DockerCloud(
   dockerCloudParameters.version,
   dockerCloudParameters.dockerHostname
 )
- 
+
 // get Jenkins instance
 Jenkins jenkins = Jenkins.getInstance()
- 
+
 // add cloud configuration to Jenkins
 jenkins.clouds.add(dockerCloud)
- 
+
 // save current Jenkins state to disk
 jenkins.save()

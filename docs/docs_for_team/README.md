@@ -12,7 +12,7 @@ It shows how to structure the Jenkinsfile - the most important part is this:
 
 ```
 agent {
-    label 'docker-jnlp-java-agent'
+    label 'sample-docker-jnlp-java-agent'
 }
 ```
 
