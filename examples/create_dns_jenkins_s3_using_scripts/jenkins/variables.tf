@@ -1,23 +1,23 @@
-# Example file for a customer.
-
 variable "environment" {
-  type    = "string"
-  default = "test"
+  type        = "string"
+  description = "Environment name (e.g. production, test, ci). This is used to construct the DNS name for your Jenkins instances."
 }
 
 variable "team_name" {
-  type    = "string"
-  default = "test9"
+  type        = "string"
+  description = "Name of your team. This is used to construct the DNS name for your Jenkins instances."
 }
 
 variable "aws_profile" {
-  type    = "string"
-  default = "re-build-systems"
+  type        = "string"
+  description = "AWS profile"
+  default     = "re-build-systems"
 }
 
 variable "aws_region" {
-  type    = "string"
-  default = "eu-west-1"
+  type        = "string"
+  description = "AWS region"
+  default     = "eu-west-1"
 }
 
 variable "allowed_ips" {
