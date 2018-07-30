@@ -139,7 +139,7 @@ The link between your Docker image and Jenkins instance can be defined using the
 
 * image - The identifier of the image you have published in the previous step
 * labelString - Must match the agent:label in the Jenkinsfile of your app
-* name - Name of the Docker Cloud being used (you probably don't need to change this)
+* name - Name of the Docker Cloud being used
 * serverUrl - URI to the Docker Host you are using (you probably don't need to change this)
 
 These are all labelled 'custom' within the template file.
