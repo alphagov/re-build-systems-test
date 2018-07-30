@@ -1,0 +1,3 @@
+environment = "test"
+team_name = "re"
+hostname_suffix = "build.gds-reliability.engineering"
