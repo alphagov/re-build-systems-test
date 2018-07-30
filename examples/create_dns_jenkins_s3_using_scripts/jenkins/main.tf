@@ -11,7 +11,8 @@ data "terraform_remote_state" "team_dns_and_eips" {
 }
 
 module "jenkins" {
-  source  = "../../../jenkins"
+  # The next line needs to be a link to where the Jenkins module has been downloaded.
+  source  = "./jenkins_module"
   version = "1.0.0"
 
   # AWS region, keys, etc.
@@ -20,7 +21,7 @@ module "jenkins" {
   aws_profile = "${var.aws_profile}"
 
   # Environment configuration.
-  environment = "test9"
+  environment = "${var.environment}"
   team_name   = "${var.team_name}"
   server_name = "jenkins2"
   allowed_ips = "${var.allowed_ips}"
