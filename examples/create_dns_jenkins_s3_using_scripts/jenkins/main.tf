@@ -26,6 +26,10 @@ module "jenkins" {
   server_name = "jenkins2"
   allowed_ips = "${var.allowed_ips}"
 
+  # Git repo
+  # For now, until the  repo is public, clone from the original re-build-systems repo.
+  gitrepo = "https://github.com/alphagov/re-build-systems.git"
+
   # Public key
   ssh_public_key_file = "${var.ssh_public_key_file}"
 
