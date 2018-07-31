@@ -1,4 +1,0 @@
-Creating terraform state bucket tfstate-re-modules-test in eu-west-1
-{
-    "Location": "http://tfstate-re-modules-test.s3.amazonaws.com/"
-}
