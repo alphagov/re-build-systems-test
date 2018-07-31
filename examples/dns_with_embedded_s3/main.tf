@@ -7,7 +7,7 @@ resource "aws_s3_bucket" "dns_bucket" {
   }
 
   provisioner "local-exec" {
-      command = <<EOT
+    command = <<EOT
       cd dns && \
       sleep 20 && \
       terraform init \
