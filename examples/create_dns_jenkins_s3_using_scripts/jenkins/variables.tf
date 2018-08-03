@@ -44,3 +44,28 @@ locals {
 # allowed_ips needs to be passed in via .vars file.
 # ssh_public_key_file needs to be passed in via .vars file or via command line
 
+# #### Github preferences ####
+
+variable "github_admin_users" {
+  description = "List of Github admin users."
+  type        = "list"
+  default     = []
+}
+
+variable "github_client_id" {
+  description = "Your Github client Id"
+  type        = "string"
+  default     = ""
+}
+
+variable "github_client_secret" {
+  description = "Your Github client secret"
+  type        = "string"
+  default     = ""
+}
+
+variable "github_organisations" {
+  description = "List of Github organisations."
+  type        = "list"
+  default     = []
+}

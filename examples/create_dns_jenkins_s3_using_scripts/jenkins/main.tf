@@ -30,6 +30,12 @@ module "jenkins" {
   # For now, until the  repo is public, clone from the original re-build-systems repo.
   gitrepo = "https://github.com/alphagov/re-build-systems.git"
 
+  # Github auth configuration
+  github_admin_users   = ["${join(",", var.github_admin_users)}"]
+  github_client_id     = "${var.github_client_id}"
+  github_client_secret = "${var.github_client_secret}"
+  github_organisations = ["${join(",", var.github_organisations)}"]
+
   # Public key
   ssh_public_key_file = "${var.ssh_public_key_file}"
 
