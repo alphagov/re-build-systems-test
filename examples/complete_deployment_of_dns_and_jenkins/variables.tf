@@ -4,7 +4,7 @@ variable "allowed_ips" {
 }
 
 variable "aws_az" {
-  description = "Single availability zone to place master and worker instances in (a,b,ci)"
+  description = "Single availability zone to place master and worker instances in (a,b,c)"
   type        = "string"
   default     = "a"
 }
@@ -109,7 +109,7 @@ variable "ubuntu_release" {
 }
 
 variable "worker_instance_type" {
-  description = "This defines the default (AWS) instance type"
+  description = "This defines the default worker server EC2 instance type"
   type        = "string"
   default     = "t2.medium"
 }
