@@ -93,12 +93,6 @@ variable "server_root_volume_size" {
   default     = "50"
 }
 
-variable "server_user_data" {
-  description = "User Data that gets inserted into cloud-init template"
-  type        = "string"
-  default     = ""
-}
-
 variable "ssh_public_key_file" {
   description = "Location of public key used to access the server instances"
   type        = "string"
@@ -130,10 +124,4 @@ variable "worker_root_volume_size" {
   description = "Size of the Jenkins Worker root volume (GB)"
   type        = "string"
   default     = "50"
-}
-
-variable "worker_user_data" {
-  description = "User Data that gets inserted into cloud-init template"
-  type        = "string"
-  default     = ""
 }
