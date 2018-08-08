@@ -29,10 +29,6 @@ output "public_subnets" {
   value       = ["${module.jenkins.public_subnets}"]
 }
 
-# output "team_domain_name" {
-#   value = "${module.jenkins.team_domain_name}"
-# }
-
 output "team_zone_id" {
   value = "${module.dns.team_zone_id}"
 }
