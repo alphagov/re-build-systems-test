@@ -36,7 +36,7 @@ This is an example of a configuration to provision both DNS and Jenkins instance
 	| `github_client_id` | string | | none | Your Github Auth client ID |
 	| `github_client_secret` | string | | none | Your Github Auth client secret |
 	| `github_organisations` | list | | none | List of Github organisations and teams that users must be a member of to allow HTTPS login to master |
-	| `gitrepo` | string | | https://github.com/alphagov/terraform-aws-re-build-jenkins.git | Git repo that hosts Dockerfile |
+	| `gitrepo` | string | | https://github.com/alphagov/re-build-systems.git | Git repo that hosts Dockerfile |
 	| `gitrepo_branch` | string | | master | Branch of git repo that hosts Dockerfile |
 	| `hostname_suffix` | string | **yes** | none | Main domain name for new Jenkins instances, eg. example.com |
 	| `jenkins_version` | string | | latest | Version of jenkins to install |
