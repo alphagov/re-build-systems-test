@@ -1,0 +1,7 @@
+aws_profile = "my-aws-credentials-profile"
+
+aws_region = "eu-west-1"
+
+hostname_suffix = "build.gds-reliability.engineering"
+
+team_name = "team-name"

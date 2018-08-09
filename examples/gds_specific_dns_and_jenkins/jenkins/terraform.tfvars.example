@@ -1,0 +1,51 @@
+allowed_ips = [
+  "1.2.3.4/32",
+  "5.6.7.8/24",
+]
+
+aws_az = "eu-west-1a"
+
+aws_profile = "my-aws-credentials-profile"
+
+aws_region = "eu-west-1"
+
+docker_version = "18.03.1~ce-0~ubuntu"
+
+environment = "development"
+
+github_admin_users = [
+  "admin_user_1",
+  "admin_user_2",
+  "admin_user_3",
+]
+
+github_organisations = [
+  "my_organisation",
+  "my_special_team",
+]
+
+gitrepo = "https://github.com/alphagov/re-build-systems.git"
+
+gitrepo_branch = "master"
+
+hostname_suffix = "build.gds-reliability.engineering"
+
+jenkins_version = "latest"
+
+server_instance_type = "t2.small"
+
+server_name = "jenkins"
+
+server_root_volume_size = "40"
+
+ssh_public_key_file = "./my_ssh_public_key.pub"
+
+team_name = "team-name"
+
+ubuntu_release = "xenial-16.04-amd64-server"
+
+worker_instance_type = "t2.medium"
+
+worker_name = "worker"
+
+worker_root_volume_size = "50"
