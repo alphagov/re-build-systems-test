@@ -1,12 +1,3 @@
-module "dns" {
-  # The next line needs to be a link to where the DNS module has been downloaded.
-  source  = "./dns_module"
-  version = "1.0.0"
-
-  team_name       = "${var.team_name}"
-  hostname_suffix = "${var.hostname_suffix}"
-}
-
 module "jenkins" {
   # The next line needs to be a link to where the Jenkins module has been downloaded.
   source  = "./jenkins_module"
@@ -34,7 +25,7 @@ module "jenkins" {
 
   # DNS configuration
   hostname_suffix      = "${var.hostname_suffix}"
-  route53_team_zone_id = "${module.dns.team_zone_id}"
+  route53_team_zone_id = "${data.terraform_remote_state.team_dns.team_zone_id}"
 
   docker_version = "${var.docker_version}"
 

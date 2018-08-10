@@ -66,7 +66,7 @@ For this step, you will need to choose your team name, which will be part of the
 
 	```
 	cd examples/gds_specific_dns_and_jenkins/dns
-	../../../../tools/create-dns-s3-state-bucket \
+	../../../tools/create-dns-s3-state-bucket \
 	  -d build.gds-reliability.engineering \
 	  -p my-aws-profile \
 	  -t $JENKINS_TEAM_NAME
