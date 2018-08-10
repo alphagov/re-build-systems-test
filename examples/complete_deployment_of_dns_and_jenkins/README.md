@@ -64,7 +64,7 @@ This is an example of a configuration to provision both DNS and Jenkins instance
 
 	Go to the [Register a new OAuth application](https://github.com/settings/applications/new) and use the following settings to setup your app.
 
-	The [URL] will follow the pattern `https://[server_name].[environment].[team_name].[hostname_suffix]`.  For example `https://jenkins2.dev.my-team.example.com`
+	The [URL] will follow the pattern `https://[environment].[team_name].[hostname_suffix]`.  For example `https://dev.my-team.example.com`
 
 	* Application name:  `jenkins-[environment]-[team_name]` , e.g. `jenkins-dev-my-team`.
 
@@ -72,7 +72,7 @@ This is an example of a configuration to provision both DNS and Jenkins instance
 
 	* Application description:  Build system for [URL]
 
-	* Authorization callback URL:  https://[server_name].[environment].[team_name].[hostname_suffix]/securityRealm/finishLogin
+	* Authorization callback URL:  https://[environment].[team_name].[hostname_suffix]/securityRealm/finishLogin
 
 	Then, click the 'Register application' button.
 
