@@ -37,12 +37,10 @@ module "jenkins" {
   # Server Configuration
   server_instance_type    = "${var.server_instance_type}"
   server_name             = "${var.server_name}"
-  server_user_data        = "${var.server_user_data}"
   server_root_volume_size = "${var.server_root_volume_size}"
 
   # Worker Configuration
   worker_instance_type    = "${var.worker_instance_type}"
   worker_name             = "${var.worker_name}"
-  worker_user_data        = "${var.worker_user_data}"
   worker_root_volume_size = "${var.worker_root_volume_size}"
 }

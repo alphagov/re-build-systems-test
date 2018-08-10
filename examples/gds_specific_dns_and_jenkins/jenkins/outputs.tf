@@ -30,5 +30,5 @@ output "public_subnets" {
 }
 
 output "team_zone_id" {
-  value = "${module.dns.team_zone_id}"
+  value = "${data.terraform_remote_state.team_dns.team_zone_id}"
 }
