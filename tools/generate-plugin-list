@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -ef -o pipefail
+#set -x
+
+if [ -z "$JENKINS_HOST" ]; then
+  echo "** ERROR **: Please run this command again using either of the below commands:"
+  echo ""
+  echo "Generate list of plugins with specified version:"
+  echo " JENKINS_HOST=localhost:8080 ./generate-plugin-list"
+  echo ""
+  echo "Generate list of plugins and use latest version available:"
+  echo " JENKINS_HOST=localhost:8080 ./generate-plugin-list latest"
+  echo ""
+  echo "If Github Auth is enabled, it needs to be temporarily disabled to allow this script to run."
+  echo "This can be done via Manage Jenkins -> Configure Global Security -> Enable Security: untick"
+  exit 1
+fi
+
+if [ "$1" = "latest" ]; then
+  echo "** Generating plugins list with latest versions"
+  curl -sSL "http://$JENKINS_HOST/pluginManager/api/xml?depth=1&xpath=/*/*/shortName|/*/*/version&wrapper=plugins" | perl -pe 's/.*?<shortName>([\w-]+).*?<version>([^<]+)()(<\/\w+>)+/\1 \2\n/g'|sed 's/ /:/' | awk -F ":" '{ print $1 ":latest" }' >> ./plugins.txt
+else
+  echo "** Generating plugins list with current (pinned) versions"
+  curl -sSL "http://$JENKINS_HOST/pluginManager/api/xml?depth=1&xpath=/*/*/shortName|/*/*/version&wrapper=plugins" | perl -pe 's/.*?<shortName>([\w-]+).*?<version>([^<]+)()(<\/\w+>)+/\1 \2\n/g'|sed 's/ /:/' >> ./plugins.txt
+fi
