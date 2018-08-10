@@ -32,7 +32,7 @@ You need to provision the DNS infrastructure only once, and have the Reliability
 Then, you can provision the main Jenkins infrastructure anytime you need to create a new environment.
 
 For each environment you create the associate URL will be in this form:
-`https://jenkins2.[environment_name].[team_name].build.gds-reliability.engineering`
+`https://[environment_name].[team_name].build.gds-reliability.engineering`
 
 ## Provision the DNS infrastructure
 
@@ -148,7 +148,7 @@ For this step, you will need to choose which environment you want to set up Jenk
 
     Go to the [Register a new OAuth application] page and use the following settings to setup your app.
 
-    The [URL] will follow the pattern `https://jenkins2.[environment-name].[team-name].build.gds-reliability.engineering`.
+    The [URL] will follow the pattern `https://[environment-name].[team-name].build.gds-reliability.engineering`.
 
     * Application name:  `re-build-auth-[team name]-[environment name]` , e.g. `re-build-auth-app-eidas-dev`. You may have to deviate from this format if it exceeds 34 characters.
 
@@ -245,12 +245,12 @@ For this step, you will need to choose which environment you want to set up Jenk
 
 To SSH into the master instance run:
 ```
-ssh -i [path-to-the-private-ssh-key-you-generated] ubuntu@[jenkins2.my-env.my-team.build.gds-reliability.engineering]
+ssh -i [path-to-the-private-ssh-key-you-generated] ubuntu@[my-env.my-team.build.gds-reliability.engineering]
 ```
 
 To SSH into the agents instance you need to use the master node as a proxy, like so:
 ```
-ssh -i [path-to-the-private-ssh-key-you-generated] -o ProxyCommand='ssh -W %h:%p ubuntu@[jenkins2.my-env.my-team.build.gds-reliability.engineering]' ubuntu@worker
+ssh -i [path-to-the-private-ssh-key-you-generated] -o ProxyCommand='ssh -W %h:%p ubuntu@[my-env.my-team.build.gds-reliability.engineering]' ubuntu@worker
 ```
 
 Once logged in with the `ubuntu` user, you can switch to the root user by running `sudo su -`.
