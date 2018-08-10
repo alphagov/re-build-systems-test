@@ -229,16 +229,11 @@ For this step, you will need to choose which environment you want to set up Jenk
 	  -var environment=$JENKINS_ENV_NAME \
 	  -var github_client_id=$JENKINS_GITHUB_OAUTH_ID \
 	  -var github_client_secret=$JENKINS_GITHUB_OAUTH_SECRET \
-	  -out my-plan.txt
+	  -out terraform.plan
 	```
 
 	```
-	terraform apply \
-	  -var-file=./terraform.tfvars  \
-	  -var environment=$JENKINS_ENV_NAME \
-	  -var github_client_id=$JENKINS_GITHUB_OAUTH_ID \
-	  -var github_client_secret=$JENKINS_GITHUB_OAUTH_SECRET \
-	  my-plan.txt
+	terraform apply "terraform.plan"
 	```
 
 ## Contributing
