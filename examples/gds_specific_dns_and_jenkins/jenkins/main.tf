@@ -29,8 +29,6 @@ module "jenkins" {
 
   docker_version = "${var.docker_version}"
 
-  jenkins_version = "${var.jenkins_version}"
-
   # Ubuntu Version
   ubuntu_release = "${var.ubuntu_release}"
 

@@ -201,7 +201,6 @@ For this step, you will need to choose which environment you want to set up Jenk
 	| `gitrepo` | string | | https://github.com/alphagov/re-build-systems.git | Git repo that hosts Dockerfile |
 	| `gitrepo_branch` | string | | master | Branch of git repo that hosts Dockerfile |
 	| `hostname_suffix` | string | **yes** | none | Main domain name for new Jenkins instances, eg. example.com |
-	| `jenkins_version` | string | | latest | Version of jenkins to install |
 	| `server_instance_type` | string | | t2.small | This defines the default master server EC2 instance type |
 	| `server_name` | string | | jenkins2 | Hostname of the jenkins2 master |
 	| `server_root_volume_size` | string | | 50 | Size of the Jenkins Server root volume (GB) |

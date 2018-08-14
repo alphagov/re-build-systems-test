@@ -69,12 +69,6 @@ variable "hostname_suffix" {
   type        = "string"
 }
 
-variable "jenkins_version" {
-  description = "Verson of jenkins to install"
-  type        = "string"
-  default     = "latest"
-}
-
 variable "server_instance_type" {
   description = "This defines the default master server EC2 instance type"
   type        = "string"
