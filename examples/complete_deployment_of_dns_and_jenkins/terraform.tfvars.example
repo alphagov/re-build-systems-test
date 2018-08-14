@@ -30,8 +30,6 @@ gitrepo_branch = "master"
 
 hostname_suffix = "build.gds-reliability.engineering"
 
-jenkins_version = "latest"
-
 server_instance_type = "t2.small"
 
 server_name = "jenkins"
