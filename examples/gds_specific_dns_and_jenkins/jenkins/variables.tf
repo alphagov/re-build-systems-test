@@ -92,11 +92,6 @@ variable "team_name" {
   type        = "string"
 }
 
-variable "ubuntu_release" {
-  description = "Which version of ubuntu to install"
-  type        = "string"
-}
-
 variable "worker_instance_type" {
   description = "This defines the default worker server EC2 instance type"
   type        = "string"

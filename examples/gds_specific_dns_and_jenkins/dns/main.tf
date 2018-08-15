@@ -1,7 +1,5 @@
 module "dns" {
-  # The next line needs to be a link to where the DNS module has been downloaded.
-  source  = "./dns_module"
-  version = "1.0.0"
+  source = "git::https://github.com/alphagov/terraform-aws-re-build-dns.git?ref=0.0.1"
 
   team_name       = "${var.team_name}"
   hostname_suffix = "${var.hostname_suffix}"

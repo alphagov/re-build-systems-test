@@ -1,7 +1,5 @@
 module "jenkins" {
-  # The next line needs to be a link to where the Jenkins module has been downloaded.
-  source  = "./jenkins_module"
-  version = "1.0.0"
+  source = "git::https://github.com/alphagov/terraform-aws-re-build-jenkins.git?ref=0.0.1"
 
   # Environment configuration.
   allowed_ips = "${var.allowed_ips}"
@@ -29,6 +27,7 @@ module "jenkins" {
 
   # Ubuntu Version
   ubuntu_release = "${var.ubuntu_release}"
+
 
   # Server Configuration
   server_instance_type    = "${var.server_instance_type}"
