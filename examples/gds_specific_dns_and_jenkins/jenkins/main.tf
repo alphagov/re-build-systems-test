@@ -27,8 +27,6 @@ module "jenkins" {
   hostname_suffix      = "${var.hostname_suffix}"
   route53_team_zone_id = "${data.terraform_remote_state.team_dns.team_zone_id}"
 
-  docker_version = "${var.docker_version}"
-
   # Ubuntu Version
   ubuntu_release = "${var.ubuntu_release}"
 

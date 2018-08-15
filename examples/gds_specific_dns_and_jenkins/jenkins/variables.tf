@@ -19,11 +19,6 @@ variable "aws_region" {
   type        = "string"
 }
 
-variable "docker_version" {
-  description = "The version of docker to install"
-  type        = "string"
-}
-
 variable "environment" {
   description = "Environment name (e.g. production, test, ci). This is used to construct the DNS name for your Jenkins instances"
   type        = "string"
