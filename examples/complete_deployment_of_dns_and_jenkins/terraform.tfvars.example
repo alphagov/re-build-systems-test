@@ -9,8 +9,6 @@ aws_profile = "my-aws-credentials-profile"
 
 aws_region = "eu-west-1"
 
-docker_version = "18.03.1~ce-0~ubuntu"
-
 environment = "development"
 
 github_admin_users = [
