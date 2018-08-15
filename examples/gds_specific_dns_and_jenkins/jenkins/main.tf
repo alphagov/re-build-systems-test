@@ -27,9 +27,6 @@ module "jenkins" {
 
   docker_version = "${var.docker_version}"
 
-  # Ubuntu Version
-  ubuntu_release = "${var.ubuntu_release}"
-
   # Server Configuration
   server_instance_type    = "${var.server_instance_type}"
   server_name             = "${var.server_name}"

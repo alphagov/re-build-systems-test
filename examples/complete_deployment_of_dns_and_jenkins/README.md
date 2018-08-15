@@ -44,7 +44,6 @@ This is an example of a configuration to provision both DNS and Jenkins instance
 	| `server_root_volume_size` | string | | 50 | Size of the Jenkins Server root volume (GB) |
 	| `ssh_public_key_file` | string | **yes** | none | Location of public key used to access the server instances |
 	| `team_name` | string | **yes** | none | Name of your team. This is used to construct the DNS name for your Jenkins instances |
-	| `ubuntu_release` | string | | xenial-16.04-amd64-server | Which version of ubuntu to install |
 	| `worker_instance_type` | string | | t2.medium | This defines the default worker server EC2 instance type |
 	| `worker_name` | string | | worker | Name of the Jenkins2 worker |
 	| `worker_root_volume_size` | string | | 50 | Size of the Jenkins worker root volume (GB) |
