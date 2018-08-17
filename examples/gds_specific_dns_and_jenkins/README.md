@@ -188,7 +188,7 @@ For this step, you will need to choose which environment you want to set up Jenk
 
 	| Name | Var Type | Required | Default | Description |
 	| :--- | :--- | :--: | :--- | :--- |
-	| `allowed_ips` | list | **yes** | none | A list of IP addresses permitted to access (via SSH & HTTPS) the EC2 instances created that are running Jenkins |
+	| `allowed_ips` | list | **yes** | none | A list of IP addresses permitted to access (via SSH & HTTPS) the EC2 instances created that are running Jenkins.  A list of GDS IPs are included in the terraform.tfvars.example file |
 	| `aws_az` | string | | the first AZ in a region | Single availability zone to place master and worker instances in, eg. eu-west-1a |
 	| `aws_profile` | string | | default aws profile in ~/.aws/credentials | AWS Profile (credentials) to use |
 	| `aws_region` | string | | default aws region | AWS Region to use, eg. eu-west-1 |
@@ -196,7 +196,7 @@ For this step, you will need to choose which environment you want to set up Jenk
 	| `github_admin_users` | list | | none | List of Github admin users (github user name) |
 	| `github_client_id` | string | | none | Your Github Auth client ID |
 	| `github_client_secret` | string | | none | Your Github Auth client secret |
-	| `github_organisations` | list | | none | List of Github organisations and teams that users must be a member of to allow HTTPS login to master |
+	| `github_organisations` | list | | none | List of Github organisations and teams that users must be a member of to allow HTTPS login to master.  For GDS it is recommended that alphagov AND a team be specified, as a user must be a member of both to gain access |
 	| `gitrepo` | string | | https://github.com/alphagov/re-build-systems.git | Git repo that hosts Dockerfile |
 	| `gitrepo_branch` | string | | master | Branch of git repo that hosts Dockerfile |
 	| `hostname_suffix` | string | **yes** | none | Main domain name for new Jenkins instances, eg. example.com |
