@@ -22,7 +22,7 @@ github_organisations = [
   "my_special_team",
 ]
 
-gitrepo = "https://github.com/alphagov/re-build-systems.git"
+gitrepo = "https://github.com/alphagov/terraform-aws-re-build-jenkins.git"
 
 gitrepo_branch = "master"
 
