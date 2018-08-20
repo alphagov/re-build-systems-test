@@ -276,7 +276,7 @@ Go to [Github developer settings] > `OAuth Apps` > Select the app > `Delete appl
 [the main README of the repo]: https://github.com/alphagov/re-build-systems
 [example of a project]: https://github.com/alphagov/re-build-systems-sample-java-app/tree/jenkinsfile-supported-by-re-build-mvp
 [Jenkinsfile]: https://jenkins.io/doc/book/pipeline/jenkinsfile/
-[template file]: /docker/files/groovy/add-sample-agent-docker-image.groovy
+[template file]: https://github.com/alphagov/terraform-aws-re-build-jenkins/blob/master/docker/files/groovy/add-sample-agent-docker-image.groovy
 [cloud init yaml file]: /terraform/jenkins/cloud-init/server-asg-xenial-16.04-amd64-server.yaml
 [Jenkins variables file]: /terraform/jenkins/variables.tf
 [help page]: https://wiki.jenkins.io/display/JENKINS/Docker+Plugin
