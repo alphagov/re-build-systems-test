@@ -1,14 +1,8 @@
 # Example configuration
 
-## Overview
+## Provision DNS and Jenkins instances
 
-This is an example of a configuration to provision both DNS and Jenkins instances.
-
-## How to use
-
-1. Add your AWS user credentials to ~/.aws/credentials
-
-	If this file does not exist, create it first.
+1. Add your AWS user credentials to `~/.aws/credentials`. If this file does not exist, you'll need to create it.
 
 	```
 	[my-aws-profile]
@@ -16,13 +10,11 @@ This is an example of a configuration to provision both DNS and Jenkins instance
 	aws_secret_access_key = [your aws secret here]
 	```
 
-1. Using the `terraform.tfvars.example` file as a template create a terraform.tfvars file
+1. Change into the `examples/complete_deployment_of_dns_and_jenkins` directory
 
-	```
-	cd examples/complete_deployment_of_dns_and_jenkins
-	cp terraform.tfvars.example terraform.tfvars
-	vim terraform.tfvars
-	```
+1. Rename the `terraform.tfvars.example` file as `terraform.tfvars`.
+
+1. Edit the `terraform.tfvars` file to reflect the following configuration:
 
 	| Name | Var Type | Required | Default | Description |
 	| :--- | :--- | :--: | :--- | :--- |
@@ -55,9 +47,9 @@ This is an example of a configuration to provision both DNS and Jenkins instance
     export AWS_DEFAULT_REGION="eu-west-1"
     ```
 
-1. Create a Github OAuth app
+	If you're using bash, add a space at the start of export `AWS_ACCESS_KEY_ID` and export `AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
 
-	This allows you to use Github for logging in to Jenkins.
+1. Create a GitHub OAuth app to allow you to setup authentication to the Jenkins through GitHub.
 
 	Go to the [Register a new OAuth application](https://github.com/settings/applications/new) and use the following settings to setup your app.
 
@@ -65,20 +57,22 @@ This is an example of a configuration to provision both DNS and Jenkins instance
 
 	* Application name:  `jenkins-[environment]-[team_name]` , e.g. `jenkins-dev-my-team`.
 
-	* Homepage URL:  [URL]
+	* Homepage URL:  `[URL]`
 
-	* Application description:  Build system for [URL]
+	* Application description:  `Build system for [URL]`
 
-	* Authorization callback URL:  https://[environment].[team_name].[hostname_suffix]/securityRealm/finishLogin
+	* Authorization callback URL:  `[URL]/securityRealm/finishLogin`
 
 	Then, click the 'Register application' button.
 
 	Export the credentials as they appear on the screen:
 
-    ```
-    export JENKINS_GITHUB_OAUTH_ID="[client-id]"
-    export JENKINS_GITHUB_OAUTH_SECRET="[client-secret]"
-    ```
+	```
+	export JENKINS_GITHUB_OAUTH_ID="[client-id]"
+	export JENKINS_GITHUB_OAUTH_SECRET="[client-secret]"
+	```
+
+  If you're using bash, add a space at the start of export `AWS_ACCESS_KEY_ID` and export `AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
 
 1. Set Jenkins related environment variables
 
@@ -87,16 +81,18 @@ This is an example of a configuration to provision both DNS and Jenkins instance
     export JENKINS_ENV_NAME="dev"
     ```
 
-1. Create the S3 bucket to host the terraform state file using the create-s3-state-bucket script in the tools directory
+1. Create the [S3 bucket] to host the Terraform state file by running this command from the `tools` directory:
 
     ```
-    ../../tools/create-s3-state-bucket \
+    create-s3-state-bucket \
       -t $JENKINS_TEAM_NAME \
       -e $JENKINS_ENV_NAME \
-      -p my-aws-profile 
+      -p my-aws-profile
     ```
 
-1. Initialise terraform
+1. Change back into the `examples/complete_deployment_of_dns_and_jenkins` directory
+
+1. Initialise Terraform
 
     ```
     terraform init \
@@ -105,7 +101,7 @@ This is an example of a configuration to provision both DNS and Jenkins instance
       -backend-config="bucket=tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME"
     ```
 
-1. Plan and Apply terraform
+1. Plan and Apply Terraform
 
     ```
     terraform plan \
@@ -132,3 +128,4 @@ Refer to our [Contributing guide](CONTRIBUTING.md).
 ## Licence
 
 [MIT License](LICENCE)
+[S3 bucket]: https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html

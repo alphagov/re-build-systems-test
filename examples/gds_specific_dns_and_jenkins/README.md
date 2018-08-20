@@ -1,54 +1,54 @@
-# Example configuration
+# Example configuration for GDS teams
+
+There are 3 initial steps to set up your Jenkins platform:
+
+1. Provision the DNS infrastructure.
+
+1. Configure and provision the main Jenkins infrastructure.
+
+1. Sign into your new Jenkins and try it out.
+
+You'll only need to provision the DNS infrastructure once and ask Reliability Engineering to enable your new domain, this may take up to 2 working days. Once this step is complete you can provision the main Jenkins infrastructure anytime you need to create a new environment.
+
+Each environment you create will have a URL like this:
+
+`https://[environment_name].[team_name].build.gds-reliability.engineering`
+
+Read the [architectural documentation] for more information about the build system architecture.
 
 ## Prerequisites
 
-You will need:
+Before you start you'll need:
 
-* basic understanding of how to use Terraform
+* a basic understanding of how to use [Terraform]
 
 * an AWS user account with administrator access
 
-* the following software installed on your laptop:
-    * terraform v0.11.7
-    * awscli
+* [Terraform v0.11.7] installed on your laptop
 
-## Overview
-
-This documentation will lead you through three steps to set up your Jenkins platform:
-
-* provision the DNS infrastructure (only the first time)
-
-* provision the main Jenkins infrastructure (for each environment you want to provision)
-
-* log in to your new Jenkins and try it out
-
-You need to provision the DNS infrastructure only once, and have the Reliability Engineering team enable your new domain (you may have to wait up to two working days for that).
-Then, you can provision the main Jenkins infrastructure anytime you need to create a new environment.
-
-For each environment you create the associate URL will be in this form:
-`https://[environment].[team_name].build.gds-reliability.engineering`
+* [AWS Command Line Interface (CLI)] installed on your laptop
 
 ## Provision the DNS infrastructure
 
 Provisioning the DNS infrastructure allows you to set up the URLs you will use to access your Jenkins.
 
-You will have to provision a separate Jenkins for each environment. For example, you might want separate 'development' and 'production' environments. These environments will have different URLs.
+You'll need to provision a separate Jenkins for each environment you want to create. For example, you might want separate development and production environments, these environments will have different URLs.
 
-You can start by provisioning the DNS for one environment and add other environments later.
+Start by provisioning the DNS for one environment, add other environments later. You'll also need to choose your team name, which will be part of the Jenkins URL.
 
-For this step, you will need to choose your team name, which will be part of the Jenkins URL.
+### Configure the DNS infrastructure
 
-1. Add your AWS user credentials to ~/.aws/credentials
+1. Add your AWS user credentials to `~/.aws/credentials`. If this file does not exist, you'll need to create it.
 
-	If this file does not exist, create it first.
-
-	```
-	[my-aws-profile]
-	aws_access_key_id = [your aws key here]
-	aws_secret_access_key = [your aws secret here]
-	```
+    ```
+    [re-build-systems]
+    aws_access_key_id = [your aws key here]
+    aws_secret_access_key = [your aws secret here]
+    ```
 
 1. Set AWS environment variables
+
+    If you're using bash, add a space at the start of `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
 
 	```
 	export AWS_ACCESS_KEY_ID="[aws key]"
@@ -62,31 +62,29 @@ For this step, you will need to choose your team name, which will be part of the
 	export JENKINS_TEAM_NAME="[my-team-name]"
 	```
 
-1. Create the S3 bucket to host the terraform state file using the create-dns-s3-state-bucket script in the tools directory 
+1. Create the [S3 bucket] to host the Terraform state file by running this command from the `tools` directory:
 
 	```
-	cd examples/gds_specific_dns_and_jenkins/dns
-	../../../tools/create-dns-s3-state-bucket \
+	create-dns-s3-state-bucket \
 	  -d build.gds-reliability.engineering \
 	  -p my-aws-profile \
 	  -t $JENKINS_TEAM_NAME
 	```
 
-1. Using the `terraform.tfvars.example` file as a template create a terraform.tfvars file
+1. Change into the `examples/gds_specific_dns_and_jenkins/dns` directory
 
-	```
-	cp terraform.tfvars.example terraform.tfvars
-	vim terraform.tfvars
-	```
+1. Rename the `terraform.tfvars.example` file as `terraform.tfvars`.
+
+1. Edit the `terraform.tfvars` file to reflect the following configuration:
 
 	| Name | Var Type | Required | Default | Description |
 	| :--- | :--- | :--: | :--- | :--- |
-	| `aws_profile` | string | | default aws profile in ~/.aws/credentials | AWS Profile (credentials) to use |
-	| `aws_region` | string | | default aws region | AWS Region to use, eg. eu-west-1 |
-	| `hostname_suffix` | string | **yes** | none | Main domain name for new Jenkins instances, for GDS use build.gds-reliability.engineering |
+	| `aws_profile` | string | | The default AWS profile in `~/.aws/credentials` | AWS Profile (credentials) to use |
+	| `aws_region` | string | | default AWS region | The AWS Region to be used, eg. `eu-west-1` |
+	| `hostname_suffix` | string | **yes** | none | Main domain name for new Jenkins instances, for GDS use `build.gds-reliability.engineering` |
 	| `team_name` | string | **yes** | none | Name of your team. This is used to construct the DNS name for your Jenkins instances |
 
-1. Initialise terraform
+1. Initialise Terraform
 
 	```
 	terraform init \
@@ -95,7 +93,7 @@ For this step, you will need to choose your team name, which will be part of the
 	  -backend-config="key=$JENKINS_TEAM_NAME.build.gds-reliability.engineering.tfstate"
 	```
 
-1. Apply terraform to configure
+1. Run this command to apply the Terraform using your custom configuration
 
 	```
 	terraform apply -var-file=./terraform.tfvars
@@ -105,7 +103,7 @@ For this step, you will need to choose your team name, which will be part of the
 
 	```
 	Outputs:
-  
+
 	team_domain_name = [team_name].build.gds-reliability.engineering
 	team_zone_id = A1AAAA11AAA11A
 	team_zone_nameservers = [
@@ -116,33 +114,31 @@ For this step, you will need to choose your team name, which will be part of the
 	]
 	```
 
-	Copy and send this output to the GDS Reliability Engineering team, which will make your URL live.
-	This step may take up to two working days, if you progress to the next step before awaiting confirmation from the GDS Reliability Engineering team your *.build.gds-reliability.engineering domain will not be configured and cause errors when generating the TLS certificate used for HTTPS.
+  If you receive an error, it may be because your `team_name` is not unique. Your `team_name` must be unique to ensure the associated URLs are unique. Go back to step 7, change your `team_name` and then continue from that point.
+
+	Copy and send this output to the GDS Reliability Engineering team at reliability-engineering@digital.cabinet-office.gov.uk. The team will make your URL live.
+
+	This step may take up to two working days, if you progress to the next step before awaiting confirmation from the GDS Reliability Engineering team, your domain will not be configured and it will cause errors when generating the TLS certificate used for HTTPS.
 
 ## Provision the main Jenkins infrastructure
 
-Once RE complete those tasks and come back to you, you can then move to this.
+Once Reliability Engineering has made your URL live, you can provision the main Jenkins infrastructure.
 
-In this step you will provision all the infrastructure needed to run your Jenkins.
+You'll need to choose which environment you want to set up Jenkins for, for example `ci`, `dev` or `staging` which will form part of the Jenkins URL.
 
-For this step, you will need to choose which environment you want to set up Jenkins for
-(e.g. `ci`, `dev`, `staging`) - that will be part of the URL of your Jenkins.
-
-1. Create a Github OAuth app
-
-	This allows you to use Github for logging in to Jenkins.
+1. Create a GitHub OAuth app to allow you to setup authentication to the Jenkins through GitHub.
 
 	Go to the [Register a new OAuth application](https://github.com/settings/applications/new) and use the following settings to setup your app.
 
 	The [URL] will follow the pattern `https://[environment].[team_name].[hostname_suffix]`.  For example `https://dev.my-team.build.gds-reliability.engineering`
 
-	* Application name:  `jenkins-[environment]-[team_name]` , e.g. `jenkins-dev-my-team`.
+	* Application name:  `jenkins-[environment]-[team-name]` , e.g. `jenkins-dev-my-team`.
 
 	* Homepage URL:  `[URL]`
 
 	* Application description:  `Build system for [URL]`
 
-	* Authorization callback URL:  `https://[environment].[team_name].[hostname_suffix]/securityRealm/finishLogin`
+	* Authorization callback URL:  `[URL]/securityRealm/finishLogin`
 
 	Then, click the 'Register application' button.
 
@@ -153,7 +149,9 @@ For this step, you will need to choose which environment you want to set up Jenk
 	export JENKINS_GITHUB_OAUTH_SECRET="[client-secret]"
 	```
 
-1. Set Jenkins related environment variables
+  If you're using bash, add a space at the start of export `AWS_ACCESS_KEY_ID` and export `AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
+
+1. Export the environment and team names set during DNS provisioning
 
 	```
 	export JENKINS_TEAM_NAME="[my-team-name]"
@@ -168,23 +166,22 @@ For this step, you will need to choose which environment you want to set up Jenk
 	export AWS_DEFAULT_REGION="[aws region]"
 	```
 
-1. Create the S3 bucket to host the terraform state file using the create-s3-state-bucket script in the tools directory
+  If you're using bash, add a space at the start of export AWS_ACCESS_KEY_ID and export AWS_SECRET_ACCESS_KEY to prevent them from being added to ~/.bash_history.
+
+1. Create the [S3 bucket] to host the Terraform state file by running this command from the `tools` directory:
 
 	```
-	cd examples/gds_specific_dns_and_jenkins/jenkins
-	../../../tools/create-s3-state-bucket \
+	create-s3-state-bucket \
 	  -t $JENKINS_TEAM_NAME \
 	  -e $JENKINS_ENV_NAME \
 	  -p my-aws-profile
 	```
 
+1. Change into the `examples/gds_specific_dns_and_jenkins/dns` directory
 
-1. Using the terraform.tfvars.example file as a template create a terraform.tfvars file
+1. Rename the `terraform.tfvars.example` file as `terraform.tfvars`.
 
-	```
-	cp terraform.tfvars.example terraform.tfvars
-	vim terraform.tfvars
-	```
+1. Edit the `terraform.tfvars` file to reflect the following configuration:
 
 	| Name | Var Type | Required | Default | Description |
 	| :--- | :--- | :--: | :--- | :--- |
@@ -210,7 +207,7 @@ For this step, you will need to choose which environment you want to set up Jenk
 	| `worker_name` | string | | worker | Name of the Jenkins2 worker |
 	| `worker_root_volume_size` | string | | 50 | Size of the Jenkins worker root volume (GB) |
 
-1. Initialise terraform
+1. Initialise Terraform
 
 	```
 	terraform init \
@@ -219,7 +216,7 @@ For this step, you will need to choose which environment you want to set up Jenk
 	  -backend-config="bucket=tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME"
 	```
 
-1. Plan and Apply terraform
+1. Plan and Apply Terraform
 
 	```
 	terraform plan \
@@ -241,3 +238,10 @@ Refer to our [Contributing guide](CONTRIBUTING.md).
 ## Licence
 
 [MIT License](LICENCE)
+[architectural documentation]: docs/architecture/README.md
+[Register a new OAuth application]: https://github.com/settings/applications/new
+[Jenkins (version 2)]: https://jenkins.io/2.0/
+[terraform v0.11.7]: https://www.terraform.io/downloads.html
+[AWS Command Line Interface (CLI)]: https://aws.amazon.com/cli/
+[Terraform]: https://www.terraform.io/intro/index.html
+[S3 bucket]: https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html
