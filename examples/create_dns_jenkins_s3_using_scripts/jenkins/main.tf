@@ -27,8 +27,7 @@ module "jenkins" {
   allowed_ips = "${var.allowed_ips}"
 
   # Git repo
-  # For now, until the  repo is public, clone from the original re-build-systems repo.
-  gitrepo = "https://github.com/alphagov/re-build-systems.git"
+  gitrepo = "https://github.com/alphagov/terraform-aws-re-build-jenkins.git"
 
   # Github auth configuration
   github_admin_users   = ["${join(",", var.github_admin_users)}"]
