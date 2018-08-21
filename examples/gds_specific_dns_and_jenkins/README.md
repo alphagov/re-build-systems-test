@@ -67,7 +67,7 @@ Start by provisioning the DNS for one environment, add other environments later.
 	```
 	create-dns-s3-state-bucket \
 	  -d build.gds-reliability.engineering \
-	  -p my-aws-profile \
+	  -p [my-aws-profile] \
 	  -t $JENKINS_TEAM_NAME
 	```
 
@@ -128,7 +128,7 @@ You'll need to choose which environment you want to set up Jenkins for, for exam
 
 1. Create a GitHub OAuth app to allow you to setup authentication to the Jenkins through GitHub.
 
-	Go to the [Register a new OAuth application](https://github.com/settings/applications/new) and use the following settings to setup your app.
+	Go to the [Register a new OAuth application] and use the following settings to setup your app.
 
 	The [URL] will follow the pattern `https://[environment].[team_name].[hostname_suffix]`.  For example `https://dev.my-team.build.gds-reliability.engineering`
 
@@ -174,10 +174,10 @@ You'll need to choose which environment you want to set up Jenkins for, for exam
 	create-s3-state-bucket \
 	  -t $JENKINS_TEAM_NAME \
 	  -e $JENKINS_ENV_NAME \
-	  -p my-aws-profile
+	  -p [my-aws-profile]
 	```
 
-1. Change into the `examples/gds_specific_dns_and_jenkins/dns` directory
+1. Change into the `examples/gds_specific_dns_and_jenkins/jenkins` directory
 
 1. Rename the `terraform.tfvars.example` file as `terraform.tfvars`.
 
@@ -194,7 +194,7 @@ You'll need to choose which environment you want to set up Jenkins for, for exam
 	| `github_client_id` | string | | none | Your Github Auth client ID |
 	| `github_client_secret` | string | | none | Your Github Auth client secret |
 	| `github_organisations` | list | | none | List of Github organisations and teams that users must be a member of to allow HTTPS login to master.  For GDS it is recommended that alphagov AND a team be specified, as a user must be a member of both to gain access |
-	| `gitrepo` | string | | https://github.com/alphagov/re-build-systems.git | Git repo that hosts Dockerfile |
+	| `gitrepo` | string | | https://github.com/alphagov/terraform-aws-re-build-jenkins.git | Git repo that hosts Dockerfile |
 	| `gitrepo_branch` | string | | master | Branch of git repo that hosts Dockerfile |
 	| `hostname_suffix` | string | **yes** | none | Main domain name for new Jenkins instances, eg. example.com |
 	| `server_instance_type` | string | | t2.small | This defines the default master server EC2 instance type |
@@ -233,15 +233,18 @@ You'll need to choose which environment you want to set up Jenkins for, for exam
 
 ## Contributing
 
-Refer to our [Contributing guide](CONTRIBUTING.md).
+Refer to our [Contributing guide].
 
 ## Licence
 
-[MIT License](LICENCE)
+[MIT License]
+
 [architectural documentation]: docs/architecture/README.md
-[Register a new OAuth application]: https://github.com/settings/applications/new
-[Jenkins (version 2)]: https://jenkins.io/2.0/
-[terraform v0.11.7]: https://www.terraform.io/downloads.html
 [AWS Command Line Interface (CLI)]: https://aws.amazon.com/cli/
-[Terraform]: https://www.terraform.io/intro/index.html
+[Contributing guide]: CONTRIBUTING.md
+[Jenkins (version 2)]: https://jenkins.io/2.0/
+[MIT License]: LICENSE
+[Register a new OAuth application]: https://github.com/settings/applications/new
 [S3 bucket]: https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html
+[Terraform]: https://www.terraform.io/intro/index.html
+[terraform v0.11.7]: https://www.terraform.io/downloads.html
