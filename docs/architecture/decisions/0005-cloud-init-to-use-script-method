@@ -1,0 +1,26 @@
+# 5. Server Cloud-init Configuration to be via script rather than YAML 
+
+Date: 2018-08-16
+
+## Status
+
+Accepted
+
+## Context
+
+The cloud-init configuration for master and agent nodes was originally written using yaml syntax.  This worked well until we started work on extending the customisability of user_data and discovered that by using yaml, our terraform code would need to validate and parse it before appending it to the user data.  Simple errors in YAML syntax would cause hard to diagnose errors when provisioning virtual machines.  Significant effort would have required us to armour the module to prevent simple syntax errors in YAML from breaking the entire system.
+
+An alternative method supported by cloud-init is to use scripts and script snippets.  By using scripts it addresses the following issues that use of YAML raised.
+
+- no need to armour the module from syntax errors, as errors in the script would not be catastrophic and instead cause specific and easily identifiable parts to break
+- more intuitive to the users who will be writing scripts rather than converting their scripts in to YAML
+- without the need to armour the module for syntax errors, it will make debugging of user defined user_data a far quicker, easier, and better logged by cloud-init
+
+
+## Decision
+
+Conversion from YAML cloud-init syntax to script was accepted.
+
+## Consequences
+
+None.
