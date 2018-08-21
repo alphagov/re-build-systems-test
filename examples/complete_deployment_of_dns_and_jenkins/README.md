@@ -27,7 +27,7 @@
 	| `github_client_id` | string | | none | Your Github Auth client ID |
 	| `github_client_secret` | string | | none | Your Github Auth client secret |
 	| `github_organisations` | list | | none | List of Github organisations and teams that users must be a member of to allow HTTPS login to master |
-	| `gitrepo` | string | | https://github.com/alphagov/re-build-systems.git | Git repo that hosts Dockerfile |
+	| `gitrepo` | string | | https://github.com/alphagov/terraform-aws-re-build-jenkins.git | Git repo that hosts Dockerfile |
 	| `gitrepo_branch` | string | | master | Branch of git repo that hosts Dockerfile |
 	| `hostname_suffix` | string | **yes** | none | Main domain name for new Jenkins instances, eg. example.com |
 	| `server_instance_type` | string | | t2.small | This defines the default master server EC2 instance type |
@@ -51,7 +51,7 @@
 
 1. Create a GitHub OAuth app to allow you to setup authentication to the Jenkins through GitHub.
 
-	Go to the [Register a new OAuth application](https://github.com/settings/applications/new) and use the following settings to setup your app.
+	Go to the [Register a new OAuth application] and use the following settings to setup your app.
 
 	The [URL] will follow the pattern `https://[environment].[team_name].[hostname_suffix]`.  For example `https://dev.my-team.example.com`
 
@@ -87,7 +87,7 @@
     create-s3-state-bucket \
       -t $JENKINS_TEAM_NAME \
       -e $JENKINS_ENV_NAME \
-      -p my-aws-profile
+      -p [my-aws-profile]
     ```
 
 1. Change back into the `examples/complete_deployment_of_dns_and_jenkins` directory
@@ -123,9 +123,11 @@
 
 ## Contributing
 
-Refer to our [Contributing guide](CONTRIBUTING.md).
+Refer to our [Contributing guide].
 
 ## Licence
 
-[MIT License](LICENCE)
+[Contributing guide]: CONTRIBUTING.md
+[MIT License]: LICENCE
+[Register a new OAuth application]: https://github.com/settings/applications/new
 [S3 bucket]: https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html
