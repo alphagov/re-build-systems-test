@@ -1,5 +1,17 @@
 # Example configuration
 
+## Prerequisites
+
+Before you start you'll need:
+
+* a basic understanding of how to use [Terraform]
+
+* an AWS user account with administrator access
+
+* [Terraform v0.11.7] installed on your laptop
+
+* [AWS Command Line Interface (CLI)] installed on your laptop
+
 ## Provision DNS and Jenkins instances
 
 1. Add your AWS user credentials to `~/.aws/credentials`. If this file does not exist, you'll need to create it.
@@ -27,7 +39,7 @@
 	| `github_client_id` | string | | none | Your Github Auth client ID |
 	| `github_client_secret` | string | | none | Your Github Auth client secret |
 	| `github_organisations` | list | | none | List of Github organisations and teams that users must be a member of to allow HTTPS login to master |
-	| `gitrepo` | string | | https://github.com/alphagov/re-build-systems.git | Git repo that hosts Dockerfile |
+	| `gitrepo` | string | | https://github.com/alphagov/terraform-aws-re-build-jenkins.git | Git repo that hosts Dockerfile |
 	| `gitrepo_branch` | string | | master | Branch of git repo that hosts Dockerfile |
 	| `hostname_suffix` | string | **yes** | none | Main domain name for new Jenkins instances, eg. example.com |
 	| `server_instance_type` | string | | t2.small | This defines the default master server EC2 instance type |
@@ -51,28 +63,28 @@
 
 1. Create a GitHub OAuth app to allow you to setup authentication to the Jenkins through GitHub.
 
-	Go to the [Register a new OAuth application](https://github.com/settings/applications/new) and use the following settings to setup your app.
+    Go to the [Register a new OAuth application] and use the following settings to setup your app.
 
-	The [URL] will follow the pattern `https://[environment].[team_name].[hostname_suffix]`.  For example `https://dev.my-team.example.com`
+    The [URL] will follow the pattern `https://[environment].[team_name].[hostname_suffix]`.  For example `https://dev.my-team.build.gds-reliability.engineering`
 
-	* Application name:  `jenkins-[environment]-[team_name]` , e.g. `jenkins-dev-my-team`.
+      * Application name:  `jenkins-[environment]-[team-name]` , e.g. `jenkins-dev-my-team`.
 
-	* Homepage URL:  `[URL]`
+      * Homepage URL:  `[URL]`
 
-	* Application description:  `Build system for [URL]`
+      * Application description:  `Build system for [URL]`
 
-	* Authorization callback URL:  `[URL]/securityRealm/finishLogin`
+      * Authorization callback URL:  `[URL]/securityRealm/finishLogin`
 
-	Then, click the 'Register application' button.
+    Then, click the 'Register application' button.
 
-	Export the credentials as they appear on the screen:
+    Export the credentials as they appear on the screen:
 
-	```
-	export JENKINS_GITHUB_OAUTH_ID="[client-id]"
-	export JENKINS_GITHUB_OAUTH_SECRET="[client-secret]"
-	```
+    ```
+    export JENKINS_GITHUB_OAUTH_ID="[client-id]"
+    export JENKINS_GITHUB_OAUTH_SECRET="[client-secret]"
+    ```
 
-  If you're using bash, add a space at the start of export `AWS_ACCESS_KEY_ID` and export `AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
+    If you're using bash, add a space at the start of export `AWS_ACCESS_KEY_ID` and export `AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
 
 1. Set Jenkins related environment variables
 
@@ -87,7 +99,7 @@
     create-s3-state-bucket \
       -t $JENKINS_TEAM_NAME \
       -e $JENKINS_ENV_NAME \
-      -p my-aws-profile
+      -p [my-aws-profile]
     ```
 
 1. Change back into the `examples/complete_deployment_of_dns_and_jenkins` directory
@@ -123,9 +135,16 @@
 
 ## Contributing
 
-Refer to our [Contributing guide](CONTRIBUTING.md).
+Refer to our [Contributing guide].
 
 ## Licence
 
-[MIT License](LICENCE)
+[MIT License]
+
+[AWS Command Line Interface (CLI)]: https://aws.amazon.com/cli/
+[Contributing guide]: CONTRIBUTING.md
+[MIT License]: LICENSE
+[Register a new OAuth application]: https://github.com/settings/applications/new
 [S3 bucket]: https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html
+[Terraform]: https://www.terraform.io/intro/index.html
+[terraform v0.11.7]: https://www.terraform.io/downloads.html
