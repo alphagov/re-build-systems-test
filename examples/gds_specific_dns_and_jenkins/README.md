@@ -101,24 +101,23 @@ Start by provisioning the DNS for one environment, add other environments later.
 
 1. You will get an output in your terminal that looks like this:
 
-	```
-	Outputs:
+    ```
+    Outputs:
+    team_domain_name = [team_name].build.gds-reliability.engineering
+    team_zone_id = A1AAAA11AAA11A
+    team_zone_nameservers = [
+      ns-1234.awsdns-56.org,
+      ns-7890.awsdns-12.co.uk,
+      ns-345.awsdns-67.com,
+      ns-890.awsdns-12.net
+    ]
+    ```
 
-	team_domain_name = [team_name].build.gds-reliability.engineering
-	team_zone_id = A1AAAA11AAA11A
-	team_zone_nameservers = [
-	  ns-1234.awsdns-56.org,
-	  ns-7890.awsdns-12.co.uk,
-	  ns-345.awsdns-67.com,
-	  ns-890.awsdns-12.net
-	]
-	```
+    If you receive an error, it may be because your `team_name` is not unique. Your `team_name` must be unique to ensure the associated URLs are unique. Go back to step 7, change your `team_name` and then continue from that point.
 
-  If you receive an error, it may be because your `team_name` is not unique. Your `team_name` must be unique to ensure the associated URLs are unique. Go back to step 7, change your `team_name` and then continue from that point.
+    Copy and send this output to the GDS Reliability Engineering team at reliability-engineering@digital.cabinet-office.gov.uk. The team will make your URL live.
 
-	Copy and send this output to the GDS Reliability Engineering team at reliability-engineering@digital.cabinet-office.gov.uk. The team will make your URL live.
-
-	This step may take up to two working days, if you progress to the next step before awaiting confirmation from the GDS Reliability Engineering team, your domain will not be configured and it will cause errors when generating the TLS certificate used for HTTPS.
+    This step may take up to two working days, if you progress to the next step before awaiting confirmation from the GDS Reliability Engineering team, your domain will not be configured and it will cause errors when generating the TLS certificate used for HTTPS.
 
 ## Provision the main Jenkins infrastructure
 
