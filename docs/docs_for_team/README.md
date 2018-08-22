@@ -82,7 +82,7 @@ CMD ["/bin/bash"]
 
 The following example is from a Dockerfile from a simple ruby project and there are a few parts to it.
 
-* Inherit and build your toolchain:
+* Inherit and build your toolchain. If you have an existing docker image you could inherit from that and simply append the lines that install the Jenkins software:
 
 ```
 FROM ruby
@@ -138,7 +138,7 @@ After building the image, you have to publish it to a repository (e.g. Docker Hu
 The link between your Docker image and Jenkins instance can be defined using the [template file]. Please make a copy of that file and edit it to your own specification. There are four variables that need adjusting:
 
 * image - The identifier of the image you have published in the previous step
-* labelString - Must match the agent:label in the Jenkinsfile of your app
+* labelString - A label describing your docker image
 * name - Name of the Docker Cloud being used
 * serverUrl - URI to the Docker Host you are using (you probably don't need to change this)
 
@@ -148,7 +148,7 @@ For extra guidance on using Jenkins' Docker plugin visit their [help page].
 
 ### Specify the Docker Image label in the Jenkinsfile
 
-A line like this should be added to the top of the Jenkinsfile in the project you want to add based on the label you chose at the previous step:
+A line like this should be added to the top of the Jenkinsfile in the project you want to add and must match the labelString above:
 
 ```
 agent {
@@ -158,13 +158,15 @@ agent {
 
 ### Create the Jenkins job
 
-Then, the last step is to create a new job that will use the Jenkinsfile of the repository.
-From Jenkins, 'New item' -> 'Pipeline'. Then, the settings are as follows:
+The last step is to create a new job that will use the Jenkinsfile of the repository.
+From Jenkins, 'New item' enter a name and select 'Pipeline'. There are only a few things that need to be changed.
+* Tick the 1st box that says "Github project" and enter the project url in the box that appears
+* In the pipeline section select "Pipeline script from SCM Pipeline"
+* Change the SCM to "git"
+* In the box that appears enter the project url in the box labeled "Repository URL"
+* If your project uses a file other than the Jenkinsfile then change the Script Path to reflect this
 
-* Github project URL: [git-repo-url]
-* Pipeline Definition: Pipeline script from SCM Pipeline
-* SCM: Git
-* Pipeline Repository URL: [git-repo-url]
+This step is to test that everything is set up properly and that your job can actually do the actions defined in your jenkinsfile. Once this is done and your job works its creation can be automated.
 
 ## Known bugs
 
