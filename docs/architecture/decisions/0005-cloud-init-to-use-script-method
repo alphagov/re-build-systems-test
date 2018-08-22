@@ -1,4 +1,4 @@
-# 5. Server Cloud-init Configuration to be via script rather than YAML 
+# 5. Server Cloud-init Configuration to be via script rather than YAML
 
 Date: 2018-08-16
 
@@ -19,8 +19,8 @@ An alternative method supported by cloud-init is to use scripts and script snipp
 
 ## Decision
 
-Conversion from YAML cloud-init syntax to script was accepted.
+Convert from YAML cloud-init syntax to script.
 
 ## Consequences
 
-None.
+It will be easier for adopting teams to extend the cloud-init configuration.
