@@ -19,6 +19,12 @@ variable "aws_region" {
   type        = "string"
 }
 
+variable "custom_groovy_script" {
+  description = "Path to custom groovy script to run at end of jenkins configuration"
+  type        = "string"
+  default     = ""
+}
+
 variable "environment" {
   description = "Environment name (e.g. production, test, ci). This is used to construct the DNS name for your Jenkins instances"
   type        = "string"
