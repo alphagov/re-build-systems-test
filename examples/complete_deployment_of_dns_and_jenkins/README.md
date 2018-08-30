@@ -34,7 +34,7 @@ Before you start you'll need:
 	| `aws_az` | string | | the first AZ in a region | Single availability zone to place master and worker instances in, eg. eu-west-1a |
 	| `aws_profile` | string | | default aws profile in ~/.aws/credentials | AWS Profile (credentials) to use |
 	| `aws_region` | string | | default aws region | AWS Region to use, eg. eu-west-1 |
-	| `custom_groovy_script` | string | | none | Path to custom groovy script to run at end of jenkins configuration |
+	| `custom_groovy_script` | string | | none | Path to custom groovy script to run at end of initial jenkins configuration |
 	| `environment` | string | **yes** | none | Environment name (e.g. production, test, ci). This is used to construct the DNS name for your Jenkins instances |
 	| `github_admin_users` | list | | none | List of Github admin users (github user name) |
 	| `github_client_id` | string | | none | Your Github Auth client ID |

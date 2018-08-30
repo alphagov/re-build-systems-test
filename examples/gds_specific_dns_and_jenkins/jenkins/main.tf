@@ -1,5 +1,14 @@
+output "test_output_rendered" {
+  value = "${data.template_file.groovy_script.rendered}"
+}
+
+data "template_file" "groovy_script" {
+  template = "${file("${path.root}/${var.custom_groovy_script}")}"
+}
+
 module "jenkins" {
-  source = "git::https://github.com/alphagov/terraform-aws-re-build-jenkins.git"
+  # source = "git::https://github.com/alphagov/terraform-aws-re-build-jenkins.git"
+  source = "./jenkins_module"
 
   # If a specific release is needed rather than "latest", the below syntax can be used.
   # source = "git::https://github.com/alphagov/terraform-aws-re-build-jenkins.git?ref=0.0.2"
@@ -24,7 +33,7 @@ module "jenkins" {
   hostname_suffix      = "${var.hostname_suffix}"
   route53_team_zone_id = "${data.terraform_remote_state.team_dns.team_zone_id}"
   # Server Configuration
-  custom_groovy_script    = "${var.custom_groovy_script}"
+  custom_groovy_script    = "${data.template_file.groovy_script.rendered}"
   server_instance_type    = "${var.server_instance_type}"
   server_name             = "${var.server_name}"
   server_root_volume_size = "${var.server_root_volume_size}"

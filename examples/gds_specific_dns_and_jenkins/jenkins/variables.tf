@@ -20,7 +20,7 @@ variable "aws_region" {
 }
 
 variable "custom_groovy_script" {
-  description = "Path to custom groovy script to run at end of jenkins configuration"
+  description = "Path to custom groovy script to run at end of initial jenkins configuration"
   type        = "string"
   default     = ""
 }
