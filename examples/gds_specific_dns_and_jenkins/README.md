@@ -77,12 +77,12 @@ Start by provisioning the DNS for one environment, add other environments later.
 
 1. Edit the `terraform.tfvars` file to reflect the following configuration:
 
-  | Name | Var Type | Required | Default | Description |
-  | :--- | :--- | :--: | :--- | :--- |
-  | `aws_profile` | string | | The default AWS profile in `~/.aws/credentials` | AWS Profile (credentials) to use |
-  | `aws_region` | string | | default AWS region | The AWS Region to be used, eg. `eu-west-1` |
-  | `hostname_suffix` | string | **yes** | none | Main domain name for new Jenkins instances, for GDS use `build.gds-reliability.engineering` |
-  | `team_name` | string | **yes** | none | Name of your team. This is used to construct the DNS name for your Jenkins instances |
+	| Name | Var Type | Required | Default | Description |
+	| :--- | :--- | :--: | :--- | :--- |
+	| `aws_profile` | string | | The default AWS profile in `~/.aws/credentials` | AWS Profile (credentials) to use |
+	| `aws_region` | string | | default AWS region | The AWS Region to be used, eg. `eu-west-1` |
+	| `hostname_suffix` | string | **yes** | none | Main domain name for new Jenkins instances, for GDS use `build.gds-reliability.engineering` |
+	| `team_name` | string | **yes** | none | Name of your team. This is used to construct the DNS name for your Jenkins instances |
 
 1. Initialise Terraform
 
