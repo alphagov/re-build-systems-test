@@ -39,7 +39,6 @@ module "jenkins" {
   route53_team_zone_id = "${module.dns.team_zone_id}"
   # Server Configuration
   custom_groovy_script    = "${data.template_file.groovy_script.rendered}"
-  custom_groovy_script    = "${var.custom_groovy_script}"
   server_instance_type    = "${var.server_instance_type}"
   server_name             = "${var.server_name}"
   server_user_data        = "${var.server_user_data}"
