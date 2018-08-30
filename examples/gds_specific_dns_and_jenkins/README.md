@@ -40,36 +40,35 @@ Start by provisioning the DNS for one environment, add other environments later.
 
 1. Add your AWS user credentials to `~/.aws/credentials`. If this file does not exist, you'll need to create it.
 
-    ```
-    [re-build-systems]
-    aws_access_key_id = [your aws key here]
-    aws_secret_access_key = [your aws secret here]
-    ```
+	```
+	[re-build-systems]
+	aws_access_key_id = [your aws key here]
+	aws_secret_access_key = [your aws secret here]
+	```
 
 1. Set AWS environment variables
+	If you're using bash, add a space at the start of `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
 
-  If you're using bash, add a space at the start of `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
-
-    ```
-    export AWS_ACCESS_KEY_ID="[aws key]"
-    export AWS_SECRET_ACCESS_KEY="[aws secret]"
-    export AWS_DEFAULT_REGION="[aws region]"
-    ```
+	```
+	export AWS_ACCESS_KEY_ID="[aws key]"
+	export AWS_SECRET_ACCESS_KEY="[aws secret]"
+	export AWS_DEFAULT_REGION="[aws region]"
+	```
 
 1. Set Jenkins related environment variables
 
-  ```
-  export JENKINS_TEAM_NAME="[my-team-name]"
-  ```
+	```
+	export JENKINS_TEAM_NAME="[my-team-name]"
+	```
 
 1. Create the [S3 bucket] to host the Terraform state file by running this command from the `tools` directory:
 
-  ```
-  create-dns-s3-state-bucket \
-    -d build.gds-reliability.engineering \
-    -p [my-aws-profile] \
-    -t $JENKINS_TEAM_NAME
-  ```
+	```
+	create-dns-s3-state-bucket \
+		-d build.gds-reliability.engineering \
+		-p [my-aws-profile] \
+		-t $JENKINS_TEAM_NAME
+	```
 
 1. Change into the `examples/gds_specific_dns_and_jenkins/dns` directory
 
@@ -86,12 +85,12 @@ Start by provisioning the DNS for one environment, add other environments later.
 
 1. Initialise Terraform
 
-  ```
-  terraform init \
-    -backend-config="region=$AWS_DEFAULT_REGION" \
-    -backend-config="bucket=tfstate-dns-$JENKINS_TEAM_NAME.build.gds-reliability.engineering" \
-    -backend-config="key=$JENKINS_TEAM_NAME.build.gds-reliability.engineering.tfstate"
-  ```
+	```
+	terraform init \
+		-backend-config="region=$AWS_DEFAULT_REGION" \
+		-backend-config="bucket=tfstate-dns-$JENKINS_TEAM_NAME.build.gds-reliability.engineering" \
+		-backend-config="key=$JENKINS_TEAM_NAME.build.gds-reliability.engineering.tfstate"
+	```
 
 1. Run this command to apply the Terraform using your custom configuration
 
@@ -101,23 +100,23 @@ Start by provisioning the DNS for one environment, add other environments later.
 
 1. You will get an output in your terminal that looks like this:
 
-    ```
-    Outputs:
-    team_domain_name = [team_name].build.gds-reliability.engineering
-    team_zone_id = A1AAAA11AAA11A
-    team_zone_nameservers = [
-      ns-1234.awsdns-56.org,
-      ns-7890.awsdns-12.co.uk,
-      ns-345.awsdns-67.com,
-      ns-890.awsdns-12.net
-    ]
-    ```
+	```
+	Outputs:
+	team_domain_name = [team_name].build.gds-reliability.engineering
+	team_zone_id = A1AAAA11AAA11A
+	team_zone_nameservers = [
+		ns-1234.awsdns-56.org,
+		ns-7890.awsdns-12.co.uk,
+		ns-345.awsdns-67.com,
+		ns-890.awsdns-12.net
+	]
+	```
 
-    If you receive an error, it may be because your `team_name` is not unique. Your `team_name` must be unique to ensure the associated URLs are unique. Go back to step 7, change your `team_name` and then continue from that point.
+	If you receive an error, it may be because your `team_name` is not unique. Your `team_name` must be unique to ensure the associated URLs are unique. Go back to step 7, change your `team_name` and then continue from that point.
 
-    Copy and send this output to the GDS Reliability Engineering team at reliability-engineering@digital.cabinet-office.gov.uk. The team will make your URL live.
+	Copy and send this output to the GDS Reliability Engineering team at reliability-engineering@digital.cabinet-office.gov.uk. The team will make your URL live.
 
-    This step may take up to two working days, if you progress to the next step before awaiting confirmation from the GDS Reliability Engineering team, your domain will not be configured and it will cause errors when generating the TLS certificate used for HTTPS.
+	This step may take up to two working days, if you progress to the next step before awaiting confirmation from the GDS Reliability Engineering team, your domain will not be configured and it will cause errors when generating the TLS certificate used for HTTPS.
 
 ## Provision the main Jenkins infrastructure
 
