@@ -143,8 +143,8 @@ Refer to our [Contributing guide].
 [MIT License]
 
 [AWS Command Line Interface (CLI)]: https://aws.amazon.com/cli/
-[Contributing guide]: CONTRIBUTING.md
-[MIT License]: LICENSE
+[Contributing guide]: https://github.com/alphagov/re-build-systems/blob/master/CONTRIBUTING.md
+[MIT License]: https://github.com/alphagov/re-build-systems/blob/master/LICENCE
 [Register a new OAuth application]: https://github.com/settings/applications/new
 [S3 bucket]: https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html
 [Terraform]: https://www.terraform.io/intro/index.html

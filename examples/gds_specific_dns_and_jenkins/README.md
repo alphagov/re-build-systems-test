@@ -239,11 +239,11 @@ Refer to our [Contributing guide].
 
 [MIT License]
 
-[architectural documentation]: docs/architecture/README.md
+[architectural documentation]: https://github.com/alphagov/re-build-systems/tree/master/docs/architecture
 [AWS Command Line Interface (CLI)]: https://aws.amazon.com/cli/
-[Contributing guide]: CONTRIBUTING.md
+[Contributing guide]: https://github.com/alphagov/re-build-systems/blob/master/CONTRIBUTING.md
 [Jenkins (version 2)]: https://jenkins.io/2.0/
-[MIT License]: LICENSE
+[MIT License]: https://github.com/alphagov/re-build-systems/blob/master/LICENCE
 [Register a new OAuth application]: https://github.com/settings/applications/new
 [S3 bucket]: https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html
 [Terraform]: https://www.terraform.io/intro/index.html
