@@ -1,7 +1,3 @@
-output "test_output_rendered" {
-  value = "${data.template_file.groovy_script.rendered}"
-}
-
 data "template_file" "groovy_script" {
   template = "${file("${path.root}/${var.custom_groovy_script}")}"
 }
