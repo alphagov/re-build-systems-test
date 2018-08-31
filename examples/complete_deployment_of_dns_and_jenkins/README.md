@@ -146,6 +146,11 @@ Before you start you'll need:
 	  my-plan.txt
 	```
 
+## Next Steps
+
+  * The jenkins master and agent server have unrestricted outwards access to the internet, we suggest implementing an egress proxy, security groups etc to gain control
+  * ssh access is available by `ssh -i /path/to/private.key ubuntu@[url]`
+
 ## Contributing
 
 Refer to our [Contributing guide].
