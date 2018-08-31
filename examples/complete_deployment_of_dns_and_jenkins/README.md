@@ -30,7 +30,7 @@ Before you start you'll need:
 
 	**Note:** Our modules use AWS EFS for persistent storage and currently EFS is not available in the London region (eu-west-2), in this example we will use Ireland (eu-west-1).
 
-	If you're using bash, add a space at the start of `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
+	**Note:** If you're using bash, add a space at the start of `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
 
 	```
 	export AWS_ACCESS_KEY_ID="[aws key]"
@@ -90,12 +90,14 @@ Before you start you'll need:
 
 	Export the credentials as they appear on the screen:
 
-	If you're using bash, add a space at the start of `export JENKINS_GITHUB_OAUTH_ID` and `export JENKINS_GITHUB_OAUTH_SECRET` to prevent them from being added to `~/.bash_history`.
+	**Note:** If you're using bash, add a space at the start of `export JENKINS_GITHUB_OAUTH_ID` and `export JENKINS_GITHUB_OAUTH_SECRET` to prevent them from being added to `~/.bash_history`.
 
 	```
 	export JENKINS_GITHUB_OAUTH_ID="[client-id]"
 	export JENKINS_GITHUB_OAUTH_SECRET="[client-secret]"
 	```
+
+	The github credentials are exported so that no secrets are stored on the local machine.
 
 1. Set Jenkins related environment variables
 
