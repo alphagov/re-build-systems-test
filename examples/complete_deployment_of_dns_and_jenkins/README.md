@@ -26,6 +26,19 @@ Before you start you'll need:
 	aws_secret_access_key = [your aws secret here]
 	```
 
+1. Set AWS environment variables
+
+    **Note:** Our modules use AWS EFS for persistent storage and currently EFS is not available in the London region (eu-west-2), in this example we will use Ireland (eu-west-1).
+
+    If you're using bash, add a space at the start of `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
+
+    ```
+    export AWS_ACCESS_KEY_ID="[aws key]"
+    export AWS_SECRET_ACCESS_KEY="[aws secret]"
+    export AWS_DEFAULT_REGION="eu-west-1"
+    ```
+
+
 1. Clone the re-build-systems repo
 
   ```
@@ -61,16 +74,6 @@ Before you start you'll need:
 	| `worker_instance_type` | string | | t2.medium | This defines the default worker server EC2 instance type |
 	| `worker_name` | string | | worker | Name of the Jenkins2 worker |
 	| `worker_root_volume_size` | string | | 50 | Size of the Jenkins worker root volume (GB) |
-
-1. Set AWS environment variables
-
-    If you're using bash, add a space at the start of `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
-
-    ```
-    export AWS_ACCESS_KEY_ID="[aws key]"
-    export AWS_SECRET_ACCESS_KEY="[aws secret]"
-    export AWS_DEFAULT_REGION="eu-west-1"
-    ```
 
 1. Create a GitHub OAuth app to allow you to setup authentication to the Jenkins through GitHub.
 

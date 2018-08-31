@@ -52,12 +52,14 @@ Start by provisioning the DNS for one environment, add other environments later.
 
 1. Set AWS environment variables
 
+	**Note:** Our modules use AWS EFS for persistent storage and currently EFS is not available in the London region (eu-west-2), in this example we will use Ireland (eu-west-1).
+
 	If you're using bash, add a space at the start of `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
 
 	```
 	export AWS_ACCESS_KEY_ID="[aws key]"
 	export AWS_SECRET_ACCESS_KEY="[aws secret]"
-	export AWS_DEFAULT_REGION="[aws region]"
+	export AWS_DEFAULT_REGION="eu-west-1"
 	```
 
 1. Set Jenkins related environment variables
@@ -174,7 +176,7 @@ You'll need to choose which environment you want to set up Jenkins for, for exam
 	```
 	export AWS_ACCESS_KEY_ID="[aws key]"
 	export AWS_SECRET_ACCESS_KEY="[aws secret]"
-	export AWS_DEFAULT_REGION="[aws region]"
+	export AWS_DEFAULT_REGION="eu-west-1"
 	```
 
 1. Create the [S3 bucket] to host the Terraform state file by running this command from the `tools` directory:
