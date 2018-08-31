@@ -47,6 +47,7 @@ Start by provisioning the DNS for one environment, add other environments later.
 	```
 
 1. Set AWS environment variables
+
 	If you're using bash, add a space at the start of `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
 
 	```
@@ -72,7 +73,7 @@ Start by provisioning the DNS for one environment, add other environments later.
 
 1. Change into the `examples/gds_specific_dns_and_jenkins/dns` directory
 
-1. Rename the `terraform.tfvars.example` file as `terraform.tfvars`.
+1. Rename the `terraform.tfvars.example` file to `terraform.tfvars`.
 
 1. Edit the `terraform.tfvars` file to reflect the following configuration:
 
@@ -142,12 +143,12 @@ You'll need to choose which environment you want to set up Jenkins for, for exam
 
     Export the credentials as they appear on the screen:
 
+    If you're using bash, add a space at the start of `export JENKINS_GITHUB_OAUTH_ID` and `export JENKINS_GITHUB_OAUTH_SECRET` to prevent them from being added to `~/.bash_history`.
+
     ```
     export JENKINS_GITHUB_OAUTH_ID="[client-id]"
     export JENKINS_GITHUB_OAUTH_SECRET="[client-secret]"
     ```
-
-    If you're using bash, add a space at the start of export `AWS_ACCESS_KEY_ID` and export `AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
 
 1. Export the environment and team names set during DNS provisioning
 
@@ -158,13 +159,13 @@ You'll need to choose which environment you want to set up Jenkins for, for exam
 
 1. Set AWS environment variables
 
+	If you're using bash, add a space at the start of `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` to prevent them from being added to ~/.bash_history.
+
 	```
 	export AWS_ACCESS_KEY_ID="[aws key]"
 	export AWS_SECRET_ACCESS_KEY="[aws secret]"
 	export AWS_DEFAULT_REGION="[aws region]"
 	```
-
-    If you're using bash, add a space at the start of export AWS_ACCESS_KEY_ID and export AWS_SECRET_ACCESS_KEY to prevent them from being added to ~/.bash_history.
 
 1. Create the [S3 bucket] to host the Terraform state file by running this command from the `tools` directory:
 
@@ -177,7 +178,7 @@ You'll need to choose which environment you want to set up Jenkins for, for exam
 
 1. Change into the `examples/gds_specific_dns_and_jenkins/jenkins` directory
 
-1. Rename the `terraform.tfvars.example` file as `terraform.tfvars`.
+1. Rename the `terraform.tfvars.example` file to `terraform.tfvars`.
 
 1. Edit the `terraform.tfvars` file to reflect the following configuration:
 

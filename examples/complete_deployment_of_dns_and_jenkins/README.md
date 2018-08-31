@@ -24,7 +24,7 @@ Before you start you'll need:
 
 1. Change into the `examples/complete_deployment_of_dns_and_jenkins` directory
 
-1. Rename the `terraform.tfvars.example` file as `terraform.tfvars`.
+1. Rename the `terraform.tfvars.example` file to `terraform.tfvars`.
 
 1. Edit the `terraform.tfvars` file to reflect the following configuration:
 
@@ -54,13 +54,13 @@ Before you start you'll need:
 
 1. Set AWS environment variables
 
+    If you're using bash, add a space at the start of `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
+
     ```
     export AWS_ACCESS_KEY_ID="[aws key]"
     export AWS_SECRET_ACCESS_KEY="[aws secret]"
     export AWS_DEFAULT_REGION="eu-west-1"
     ```
-
-	If you're using bash, add a space at the start of export `AWS_ACCESS_KEY_ID` and export `AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
 
 1. Create a GitHub OAuth app to allow you to setup authentication to the Jenkins through GitHub.
 
@@ -80,12 +80,12 @@ Before you start you'll need:
 
     Export the credentials as they appear on the screen:
 
+    If you're using bash, add a space at the start of `export JENKINS_GITHUB_OAUTH_ID` and `export JENKINS_GITHUB_OAUTH_SECRET` to prevent them from being added to `~/.bash_history`.
+
     ```
     export JENKINS_GITHUB_OAUTH_ID="[client-id]"
     export JENKINS_GITHUB_OAUTH_SECRET="[client-secret]"
     ```
-
-    If you're using bash, add a space at the start of export `AWS_ACCESS_KEY_ID` and export `AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
 
 1. Set Jenkins related environment variables
 
