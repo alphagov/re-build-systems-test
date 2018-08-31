@@ -70,17 +70,17 @@ Start by provisioning the DNS for one environment, add other environments later.
 
 1. Clone the re-build-systems repo
 
-  ```
-  git clone https://github.com/alphagov/re-build-systems.git
-  ```
+	```
+	git clone https://github.com/alphagov/re-build-systems.git
+	```
 
 1. Create the [S3 bucket] to host the Terraform state file by running this command from the `tools` directory:
 
 	```
 	./create-dns-s3-state-bucket \
-		-d build.gds-reliability.engineering \
-		-p [my-aws-profile] \
-		-t $JENKINS_TEAM_NAME
+	  -d build.gds-reliability.engineering \
+	  -p [my-aws-profile] \
+	  -t $JENKINS_TEAM_NAME
 	```
 
 1. Change into the `examples/gds_specific_dns_and_jenkins/dns` directory
@@ -100,9 +100,9 @@ Start by provisioning the DNS for one environment, add other environments later.
 
 	```
 	terraform init \
-		-backend-config="region=$AWS_DEFAULT_REGION" \
-		-backend-config="bucket=tfstate-dns-$JENKINS_TEAM_NAME.build.gds-reliability.engineering" \
-		-backend-config="key=$JENKINS_TEAM_NAME.build.gds-reliability.engineering.tfstate"
+	  -backend-config="region=$AWS_DEFAULT_REGION" \
+	  -backend-config="bucket=tfstate-dns-$JENKINS_TEAM_NAME.build.gds-reliability.engineering" \
+	  -backend-config="key=$JENKINS_TEAM_NAME.build.gds-reliability.engineering.tfstate"
 	```
 
 1. Run this command to apply the Terraform using your custom configuration
@@ -118,10 +118,10 @@ Start by provisioning the DNS for one environment, add other environments later.
 	team_domain_name = [team_name].build.gds-reliability.engineering
 	team_zone_id = A1AAAA11AAA11A
 	team_zone_nameservers = [
-		ns-1234.awsdns-56.org,
-		ns-7890.awsdns-12.co.uk,
-		ns-345.awsdns-67.com,
-		ns-890.awsdns-12.net
+	  ns-1234.awsdns-56.org,
+	  ns-7890.awsdns-12.co.uk,
+	  ns-345.awsdns-67.com,
+	  ns-890.awsdns-12.net
 	]
 	```
 
@@ -139,28 +139,25 @@ You'll need to choose which environment you want to set up Jenkins for, for exam
 
 1. Create a GitHub OAuth app to allow you to setup authentication to the Jenkins through GitHub.
 
-    Go to the [Register a new OAuth application] and use the following settings to setup your app.
+	Go to the [Register a new OAuth application] and use the following settings to setup your app.
 
-    The [URL] will follow the pattern `https://[environment].[team_name].[hostname_suffix]`.  For example `https://dev.my-team.build.gds-reliability.engineering`
+	The [URL] will follow the pattern `https://[environment].[team_name].[hostname_suffix]`.  For example `https://dev.my-team.build.gds-reliability.engineering`
 
-      * Application name:  `jenkins-[environment]-[team-name]` , e.g. `jenkins-dev-my-team`.
+		* Application name:  jenkins-[environment]-[team-name] e.g. jenkins-dev-my-team
+		* Homepage URL:  [URL]
+		* Application description:  Build system for [URL]
+		* Authorization callback URL:  [URL]/securityRealm/finishLogin
 
-      * Homepage URL:  `[URL]`
+	Then, click the 'Register application' button.
 
-      * Application description:  `Build system for [URL]`
+	Export the credentials as they appear on the screen:
 
-      * Authorization callback URL:  `[URL]/securityRealm/finishLogin`
+	If you're using bash, add a space at the start of `export JENKINS_GITHUB_OAUTH_ID` and `export JENKINS_GITHUB_OAUTH_SECRET` to prevent them from being added to `~/.bash_history`.
 
-    Then, click the 'Register application' button.
-
-    Export the credentials as they appear on the screen:
-
-    If you're using bash, add a space at the start of `export JENKINS_GITHUB_OAUTH_ID` and `export JENKINS_GITHUB_OAUTH_SECRET` to prevent them from being added to `~/.bash_history`.
-
-    ```
-    export JENKINS_GITHUB_OAUTH_ID="[client-id]"
-    export JENKINS_GITHUB_OAUTH_SECRET="[client-secret]"
-    ```
+	```
+	export JENKINS_GITHUB_OAUTH_ID="[client-id]"
+	export JENKINS_GITHUB_OAUTH_SECRET="[client-secret]"
+	```
 
 1. Export the environment and team names set during DNS provisioning
 

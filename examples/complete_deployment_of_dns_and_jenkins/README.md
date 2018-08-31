@@ -28,22 +28,22 @@ Before you start you'll need:
 
 1. Set AWS environment variables
 
-    **Note:** Our modules use AWS EFS for persistent storage and currently EFS is not available in the London region (eu-west-2), in this example we will use Ireland (eu-west-1).
+	**Note:** Our modules use AWS EFS for persistent storage and currently EFS is not available in the London region (eu-west-2), in this example we will use Ireland (eu-west-1).
 
-    If you're using bash, add a space at the start of `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
+	If you're using bash, add a space at the start of `export AWS_ACCESS_KEY_ID` and `export AWS_SECRET_ACCESS_KEY` to prevent them from being added to `~/.bash_history`.
 
-    ```
-    export AWS_ACCESS_KEY_ID="[aws key]"
-    export AWS_SECRET_ACCESS_KEY="[aws secret]"
-    export AWS_DEFAULT_REGION="eu-west-1"
-    ```
+	```
+	export AWS_ACCESS_KEY_ID="[aws key]"
+	export AWS_SECRET_ACCESS_KEY="[aws secret]"
+	export AWS_DEFAULT_REGION="eu-west-1"
+	```
 
 
 1. Clone the re-build-systems repo
 
-  ```
-  git clone https://github.com/alphagov/re-build-systems.git
-  ```
+	```
+	git clone https://github.com/alphagov/re-build-systems.git
+	```
 
 1. Change into the `examples/complete_deployment_of_dns_and_jenkins` directory
 
@@ -77,75 +77,72 @@ Before you start you'll need:
 
 1. Create a GitHub OAuth app to allow you to setup authentication to the Jenkins through GitHub.
 
-    Go to the [Register a new OAuth application] and use the following settings to setup your app.
+	Go to the [Register a new OAuth application] and use the following settings to setup your app.
 
-    The [URL] will follow the pattern `https://[environment].[team_name].[hostname_suffix]`.  For example `https://dev.my-team.build.gds-reliability.engineering`
+	The [URL] will follow the pattern `https://[environment].[team_name].[hostname_suffix]`.  For example `https://dev.my-team.build.gds-reliability.engineering`
 
-      * Application name:  `jenkins-[environment]-[team-name]` , e.g. `jenkins-dev-my-team`.
+	* Application name:  jenkins-[environment]-[team-name]  e.g. jenkins-dev-my-team
+	* Homepage URL:  [URL]
+	* Application description:  Build system for [URL]
+	* Authorization callback URL:  [URL]/securityRealm/finishLogin
 
-      * Homepage URL:  `[URL]`
+	Then, click the 'Register application' button.
 
-      * Application description:  `Build system for [URL]`
+	Export the credentials as they appear on the screen:
 
-      * Authorization callback URL:  `[URL]/securityRealm/finishLogin`
+	If you're using bash, add a space at the start of `export JENKINS_GITHUB_OAUTH_ID` and `export JENKINS_GITHUB_OAUTH_SECRET` to prevent them from being added to `~/.bash_history`.
 
-    Then, click the 'Register application' button.
-
-    Export the credentials as they appear on the screen:
-
-    If you're using bash, add a space at the start of `export JENKINS_GITHUB_OAUTH_ID` and `export JENKINS_GITHUB_OAUTH_SECRET` to prevent them from being added to `~/.bash_history`.
-
-    ```
-    export JENKINS_GITHUB_OAUTH_ID="[client-id]"
-    export JENKINS_GITHUB_OAUTH_SECRET="[client-secret]"
-    ```
+	```
+	export JENKINS_GITHUB_OAUTH_ID="[client-id]"
+	export JENKINS_GITHUB_OAUTH_SECRET="[client-secret]"
+	```
 
 1. Set Jenkins related environment variables
 
-    ```
-    export JENKINS_TEAM_NAME="my-team"
-    export JENKINS_ENV_NAME="dev"
-    ```
+	```
+	export JENKINS_TEAM_NAME="my-team"
+	export JENKINS_ENV_NAME="dev"
+	```
 
 1. Create the [S3 bucket] to host the Terraform state file by running this command from the `tools` directory:
 
-    ```
-    ./create-s3-state-bucket \
-      -t $JENKINS_TEAM_NAME \
-      -e $JENKINS_ENV_NAME \
-      -p [my-aws-profile]
-    ```
+	```
+	./create-s3-state-bucket \
+	  -t $JENKINS_TEAM_NAME \
+	  -e $JENKINS_ENV_NAME \
+	  -p [my-aws-profile]
+	```
 
 1. Change back into the `examples/complete_deployment_of_dns_and_jenkins` directory
 
 1. Initialise Terraform
 
-    ```
-    terraform init \
-      -backend-config="region=$AWS_DEFAULT_REGION" \
-      -backend-config="key=re-build-systems.tfstate" \
-      -backend-config="bucket=tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME"
-    ```
+	```
+	terraform init \
+	  -backend-config="region=$AWS_DEFAULT_REGION" \
+	  -backend-config="key=re-build-systems.tfstate" \
+	  -backend-config="bucket=tfstate-$JENKINS_TEAM_NAME-$JENKINS_ENV_NAME"
+	```
 
 1. Plan and Apply Terraform
 
-    ```
-    terraform plan \
-      -var-file=./terraform.tfvars  \
-      -var environment=$JENKINS_ENV_NAME \
-      -var github_client_id=$JENKINS_GITHUB_OAUTH_ID \
-      -var github_client_secret=$JENKINS_GITHUB_OAUTH_SECRET \
-      -out my-plan.txt
-    ```
+	```
+	terraform plan \
+	  -var-file=./terraform.tfvars  \
+	  -var environment=$JENKINS_ENV_NAME \
+	  -var github_client_id=$JENKINS_GITHUB_OAUTH_ID \
+	  -var github_client_secret=$JENKINS_GITHUB_OAUTH_SECRET \
+	  -out my-plan.txt
+	```
 
-    ```
-    terraform apply \
-      -var-file=./terraform.tfvars  \
-      -var environment=$JENKINS_ENV_NAME \
-      -var github_client_id=$JENKINS_GITHUB_OAUTH_ID \
-      -var github_client_secret=$JENKINS_GITHUB_OAUTH_SECRET \
-      my-plan.txt
-    ```
+	```
+	terraform apply \
+	  -var-file=./terraform.tfvars  \
+	  -var environment=$JENKINS_ENV_NAME \
+	  -var github_client_id=$JENKINS_GITHUB_OAUTH_ID \
+	  -var github_client_secret=$JENKINS_GITHUB_OAUTH_SECRET \
+	  my-plan.txt
+	```
 
 ## Contributing
 
