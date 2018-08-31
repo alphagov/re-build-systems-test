@@ -1,5 +1,7 @@
 # Example configuration
 
+This working example that demonstrates how you can use our modules to deploy jenkins using terraform.  By working through the example it will result in you having a working deployment of jenkins using our terraform modules.
+
 ## Prerequisites
 
 Before you start you'll need:

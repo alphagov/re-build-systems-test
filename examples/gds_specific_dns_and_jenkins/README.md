@@ -1,5 +1,7 @@
 # Example configuration for GDS teams
 
+This working example specific to GDS users demonstrates how you can use our modules to deploy jenkins using terraform.  By working through the example it will result in you having a working deployment of jenkins using our terraform modules.
+
 There are 3 initial steps to set up your Jenkins platform:
 
 1. Provision the DNS infrastructure.
