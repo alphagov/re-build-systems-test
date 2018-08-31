@@ -1,6 +1,6 @@
 # Example configuration
 
-This working example that demonstrates how you can use our modules to deploy jenkins using terraform.  By working through the example it will result in you having a working deployment of jenkins using our terraform modules.
+This working example that demonstrates how you can use our modules to deploy Jenkins using Terraform.  By working through the example it will result in you having a working deployment of Jenkins using our Terraform modules.
 
 To work through this example you will need to clone this repo.
 
@@ -57,7 +57,7 @@ Before you start you'll need:
 	| `aws_az` | string | | the first AZ in a region | Single availability zone to place master and worker instances in, eg. eu-west-1a |
 	| `aws_profile` | string | | default aws profile in ~/.aws/credentials | AWS Profile (credentials) to use |
 	| `aws_region` | string | | default aws region | AWS Region to use, eg. eu-west-1 |
-	| `custom_groovy_script` | string | | none | Path to custom groovy script to run at end of initial jenkins configuration |
+	| `custom_groovy_script` | string | | none | Path to custom groovy script to run at end of initial Jenkins configuration |
 	| `environment` | string | **yes** | none | Environment name (e.g. production, test, ci). This is used to construct the DNS name for your Jenkins instances |
 	| `github_admin_users` | list | | none | List of Github admin users (github user name) |
 	| `github_client_id` | string | | none | Your Github Auth client ID |
@@ -150,8 +150,8 @@ Before you start you'll need:
 
 ## Next Steps
 
-* The jenkins master and agent server have unrestricted outwards access to the internet, we suggest implementing an egress proxy, security groups etc to restrict access
-* ssh access is available by `ssh -i /path/to/private.key ubuntu@[url]`
+* The Jenkins master and agent server have unrestricted outwards access to the internet, we suggest implementing an egress proxy, security groups etc to restrict access
+* SSH access is available by `ssh -i /path/to/private.key ubuntu@[url]`
 
 ## Contributing
 
