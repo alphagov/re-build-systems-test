@@ -251,8 +251,8 @@ You'll need to choose which environment you want to set up Jenkins for, for exam
 
 ## Next Steps
 
-	* The jenkins master and agent server have unrestricted outwards access to the internet, we suggest implementing an egress proxy, security groups etc to gain control
-	* ssh access is available by `ssh -i /path/to/private.key ubuntu@[url]`
+* The jenkins master and agent server have unrestricted outwards access to the internet, we suggest implementing an egress proxy, security groups etc to restrict access
+* ssh access is available by `ssh -i /path/to/private.key ubuntu@[url]`
 
 ## Contributing
 

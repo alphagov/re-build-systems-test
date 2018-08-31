@@ -150,8 +150,8 @@ Before you start you'll need:
 
 ## Next Steps
 
-  * The jenkins master and agent server have unrestricted outwards access to the internet, we suggest implementing an egress proxy, security groups etc to gain control
-  * ssh access is available by `ssh -i /path/to/private.key ubuntu@[url]`
+* The jenkins master and agent server have unrestricted outwards access to the internet, we suggest implementing an egress proxy, security groups etc to restrict access
+* ssh access is available by `ssh -i /path/to/private.key ubuntu@[url]`
 
 ## Contributing
 
