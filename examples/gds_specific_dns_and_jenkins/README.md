@@ -159,6 +159,11 @@ You'll need to choose which environment you want to set up Jenkins for, for exam
 	export JENKINS_GITHUB_OAUTH_SECRET="[client-secret]"
 	```
 
+1. Transfer ownership of the Github OAuth app
+	Skip this step if you are provisioning the platform only for test or development purpose. Otherwise, you should transfer ownership of the app to `alphagov` so that it can be managed by GDS.
+
+	To do so, click the "Transfer ownership" button located at the top of the page where you copied the credentials from. Input `alphagov` as organisation.
+
 1. Export the environment and team names set during DNS provisioning
 
 	```
