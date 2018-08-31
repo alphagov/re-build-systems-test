@@ -97,7 +97,7 @@ Before you start you'll need:
 1. Create the [S3 bucket] to host the Terraform state file by running this command from the `tools` directory:
 
     ```
-    create-s3-state-bucket \
+    ./create-s3-state-bucket \
       -t $JENKINS_TEAM_NAME \
       -e $JENKINS_ENV_NAME \
       -p [my-aws-profile]

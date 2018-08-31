@@ -64,7 +64,7 @@ Start by provisioning the DNS for one environment, add other environments later.
 1. Create the [S3 bucket] to host the Terraform state file by running this command from the `tools` directory:
 
 	```
-	create-dns-s3-state-bucket \
+	./create-dns-s3-state-bucket \
 		-d build.gds-reliability.engineering \
 		-p [my-aws-profile] \
 		-t $JENKINS_TEAM_NAME
@@ -169,7 +169,7 @@ You'll need to choose which environment you want to set up Jenkins for, for exam
 1. Create the [S3 bucket] to host the Terraform state file by running this command from the `tools` directory:
 
 	```
-	create-s3-state-bucket \
+	./create-s3-state-bucket \
 	  -t $JENKINS_TEAM_NAME \
 	  -e $JENKINS_ENV_NAME \
 	  -p [my-aws-profile]
