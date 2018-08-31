@@ -2,6 +2,8 @@
 
 This working example specific to GDS users demonstrates how you can use our modules to deploy jenkins using terraform.  By working through the example it will result in you having a working deployment of jenkins using our terraform modules.
 
+To work through this example you will need to clone this repo.
+
 There are 3 initial steps to set up your Jenkins platform:
 
 1. Provision the DNS infrastructure.
@@ -63,6 +65,12 @@ Start by provisioning the DNS for one environment, add other environments later.
 	```
 	export JENKINS_TEAM_NAME="[my-team-name]"
 	```
+
+1. Clone the re-build-systems repo
+
+  ```
+  git clone https://github.com/alphagov/re-build-systems.git
+  ```
 
 1. Create the [S3 bucket] to host the Terraform state file by running this command from the `tools` directory:
 

@@ -2,6 +2,8 @@
 
 This working example that demonstrates how you can use our modules to deploy jenkins using terraform.  By working through the example it will result in you having a working deployment of jenkins using our terraform modules.
 
+To work through this example you will need to clone this repo.
+
 ## Prerequisites
 
 Before you start you'll need:
@@ -23,6 +25,12 @@ Before you start you'll need:
 	aws_access_key_id = [your aws key here]
 	aws_secret_access_key = [your aws secret here]
 	```
+
+1. Clone the re-build-systems repo
+
+  ```
+  git clone https://github.com/alphagov/re-build-systems.git
+  ```
 
 1. Change into the `examples/complete_deployment_of_dns_and_jenkins` directory
 
