@@ -81,10 +81,12 @@ Before you start you'll need:
 
 	The [URL] will follow the pattern `https://[environment].[team_name].[hostname_suffix]`.  For example `https://dev.my-team.build.gds-reliability.engineering`
 
-	* Application name:  jenkins-[environment]-[team-name]  e.g. jenkins-dev-my-team
-	* Homepage URL:  [URL]
-	* Application description:  Build system for [URL]
-	* Authorization callback URL:  [URL]/securityRealm/finishLogin
+	```
+	Application name: jenkins-[environment]-[team-name] e.g. jenkins-dev-my-team
+	Homepage URL: [URL]
+	Application description: Build system for [URL]
+	Authorization callback URL: [URL]/securityRealm/finishLogin
+	```
 
 	Then, click the 'Register application' button.
 
