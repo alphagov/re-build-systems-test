@@ -12,27 +12,23 @@ That project is built by running the `build-sample-java-app` job, which should b
 
 There are a number of steps to set up a job using Jenkinsfile each of which will be explained below:
 
-* Build a Docker image for the Jenkins agent
+1. Build a Docker image for the Jenkins agent
 
-* Publish the Docker image
+2. Publish the Docker image
 
-* Link the Docker image to your Jenkins
+3. Link the Docker image to your Jenkins
 
-* Specify the Docker Image label in the Jenkinsfile
+4. Specify the Docker Image label in the Jenkinsfile
 
-* Create the Jenkins job
+5. Create the Jenkins job
 
-### Build a Docker image for the Jenkins agent
+### 1. Build a Docker image for the Jenkins agent
 
-The Docker container of your Jenkins agent has two responsibilities:
-
-* communicating with the Jenkins master
-
-* carrying out the work specified by the job
+The Docker container of your Jenkins agent has two responsibilities; communicating with the Jenkins master and carrying out the work specified by the job.
 
 Therefore, we will need to have two sets of software installed on it:
 
-* the official Jenkins agent components
+* The tools required for this master - agent communication
 
 * The tools needed to execute the Jenkins job - e.g. JDK, Ruby, ... - which we will call the `toolchain`
 
@@ -42,47 +38,20 @@ As a container can inherit from only one image, we have two possibilities:
 
 The Jenkins software depends on Java, so the `jenkins/jnlp-slave` image already installs the JDK (Java Development Kit) for Java 8, using Debian 9 as operating system (at the time of writing).
 
-This is an example of a Docker image for Maven:
 
 ```
 FROM jenkins/jnlp-slave
 
-ARG user=jenkins
-
-USER root
-
-# install Maven
-
-ARG MAVEN_VERSION=3.5.3
-ARG USER_HOME_DIR="/root"
-ARG SHA=b52956373fab1dd4277926507ab189fb797b3bc51a2a267a193c931fffad8408
-ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
-
-RUN apt-get update && \
-    apt-get install -y \
-      curl procps \
-  && rm -rf /var/lib/apt/lists/*
-
-RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
-  && curl -fsSL -o /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
-  && echo "${SHA}  /tmp/apache-maven.tar.gz" | sha256sum -c - \
-  && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
-  && rm -f /tmp/apache-maven.tar.gz \
-  && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
-
-ENV MAVEN_HOME /usr/share/maven
-ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
-
-USER ${user}
-
-ENV LC_ALL en_GB.UTF-8
-CMD ["/bin/bash"]
+INSTALL all of the things needed to run your job
+...
+..
+.
 ```
 #### Build the container based on the toolchain
 
 The following example is from a Dockerfile from a simple ruby project and there are a few parts to it.
 
-* Inherit and build your toolchain:
+* Build your toolchain, it should install all of the prerequisites to running your job. If you have an existing docker image you could inherit from that and simply install JDK 8 and append the lines that install the Jenkins software:
 
 ```
 FROM ruby
@@ -129,16 +98,16 @@ USER ${user}
 ENTRYPOINT ["/usr/local/bin/jenkins-slave"]
 ```
 
-### Publish the Docker image
+### 2. Publish the Docker image
 
 After building the image, you have to publish it to a repository (e.g. Docker Hub) so that it can be referenced from Jenkins.
 
-### Link the Docker image to your Jenkins
+### 3. Link the Docker image to your Jenkins
 
 The link between your Docker image and Jenkins instance can be defined using the [template file]. Please make a copy of that file and edit it to your own specification. There are four variables that need adjusting:
 
 * image - The identifier of the image you have published in the previous step
-* labelString - Must match the agent:label in the Jenkinsfile of your app
+* labelString - A label describing your docker image
 * name - Name of the Docker Cloud being used
 * serverUrl - URI to the Docker Host you are using (you probably don't need to change this)
 
@@ -146,9 +115,9 @@ These are all labelled 'custom' within the template file.
 
 For extra guidance on using Jenkins' Docker plugin visit their [help page].
 
-### Specify the Docker Image label in the Jenkinsfile
+### 4. Specify the Docker Image label in the Jenkinsfile
 
-A line like this should be added to the top of the Jenkinsfile in the project you want to add based on the label you chose at the previous step:
+A line like this should be added to the top of the Jenkinsfile in the project you want to add and must match the labelString above:
 
 ```
 agent {
@@ -156,15 +125,17 @@ agent {
 }
 ```
 
-### Create the Jenkins job
+### 5. Create the Jenkins job
 
-Then, the last step is to create a new job that will use the Jenkinsfile of the repository.
-From Jenkins, 'New item' -> 'Pipeline'. Then, the settings are as follows:
+The last step is to create a new job that will use the Jenkinsfile of the repository.
+From Jenkins, 'New item' enter a name and select 'Pipeline'. There are only a few things that need to be changed.
+* Tick the 1st box that says "Github project" and enter the project url in the box that appears
+* In the pipeline section select "Pipeline script from SCM Pipeline"
+* Change the SCM to "git"
+* In the box that appears enter the project url in the box labeled "Repository URL"
+* If your project uses a file other than the Jenkinsfile then change the Script Path to reflect this
 
-* Github project URL: [git-repo-url]
-* Pipeline Definition: Pipeline script from SCM Pipeline
-* SCM: Git
-* Pipeline Repository URL: [git-repo-url]
+This step is to test that everything is set up properly and that your job can actually do the actions defined in your jenkinsfile. Once this is done and your job works its creation can be automated.
 
 ## Known bugs
 

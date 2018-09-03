@@ -1,3 +1,7 @@
+data "template_file" "groovy_script" {
+  template = "${file("${path.root}/${var.custom_groovy_script}")}"
+}
+
 module "jenkins" {
   source = "git::https://github.com/alphagov/terraform-aws-re-build-jenkins.git"
 
@@ -24,6 +28,7 @@ module "jenkins" {
   hostname_suffix      = "${var.hostname_suffix}"
   route53_team_zone_id = "${data.terraform_remote_state.team_dns.team_zone_id}"
   # Server Configuration
+  custom_groovy_script    = "${data.template_file.groovy_script.rendered}"
   server_instance_type    = "${var.server_instance_type}"
   server_name             = "${var.server_name}"
   server_root_volume_size = "${var.server_root_volume_size}"
