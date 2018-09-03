@@ -3,7 +3,8 @@ data "template_file" "groovy_script" {
 }
 
 module "jenkins" {
-  source = "git::https://github.com/alphagov/terraform-aws-re-build-jenkins.git"
+  # source = "git::https://github.com/alphagov/terraform-aws-re-build-jenkins.git"
+  source = "../../../../terraform-aws-re-build-jenkins"
 
   # If a specific release is needed rather than "latest", the below syntax can be used.
   # source = "git::https://github.com/alphagov/terraform-aws-re-build-jenkins.git?ref=0.0.2"
@@ -18,7 +19,7 @@ module "jenkins" {
   gitrepo        = "${var.gitrepo}"
   gitrepo_branch = "${var.gitrepo_branch}"
   # Github auth configuration
-  github_admin_users   = ["${join(",", var.github_admin_users)}"]
+  jenkins_admin_users_github_usernames = ["${join(",", var.jenkins_admin_users_github_usernames)}"]
   github_client_id     = "${var.github_client_id}"
   github_client_secret = "${var.github_client_secret}"
   github_organisations = ["${join(",", var.github_organisations)}"]
