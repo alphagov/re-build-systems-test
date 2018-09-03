@@ -59,7 +59,7 @@ Before you start you'll need:
 	| `aws_region` | string | | default aws region | AWS Region to use, eg. eu-west-1 |
 	| `custom_groovy_script` | string | | none | Path to custom groovy script to run at end of initial Jenkins configuration |
 	| `environment` | string | **yes** | none | Environment name (e.g. production, test, ci). This is used to construct the DNS name for your Jenkins instances |
-	| `github_admin_users` | list | | none | List of Github admin users (github user name) |
+	| `jenkins_admin_users_github_usernames` | list | | none | List of Jenkins admin users' Github usernames |
 	| `github_client_id` | string | | none | Your Github Auth client ID |
 	| `github_client_secret` | string | | none | Your Github Auth client secret |
 	| `github_organisations` | list | | none | List of Github organisations and teams that users must be a member of to allow HTTPS login to master |

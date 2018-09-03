@@ -30,8 +30,8 @@ variable "environment" {
   type        = "string"
 }
 
-variable "github_admin_users" {
-  description = "List of Github admin users"
+variable "jenkins_admin_users_github_usernames" {
+  description = "List of Jenkins admin users' Github usernames"
   type        = "list"
   default     = []
 }
