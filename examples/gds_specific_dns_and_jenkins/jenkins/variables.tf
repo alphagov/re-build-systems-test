@@ -115,3 +115,15 @@ variable "worker_root_volume_size" {
   type        = "string"
   default     = "50"
 }
+
+variable "append_worker_user_data" {
+  description = "File, in bash format, containing a list of commands to be run at the end of the default user_data cloud-init file for the worker instances"
+  type        = "string"
+  default     = ""
+}
+
+variable "append_server_user_data" {
+  description = "File, in bash format, containing a list of commands to be run at the end of the default user_data cloud-init file for the server instance(s)"
+  type        = "string"
+  default     = ""
+}

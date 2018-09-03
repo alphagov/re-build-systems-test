@@ -51,3 +51,8 @@ worker_instance_type = "t2.medium"
 worker_name = "worker"
 
 worker_root_volume_size = "50"
+
+append_worker_user_data = "cloud-init/worker_specific_cloud_init.sh"
+
+append_server_user_data = "cloud-init/server_specific_cloud_init.sh"
+

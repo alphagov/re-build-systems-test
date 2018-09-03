@@ -203,6 +203,8 @@ You'll need to choose which environment you want to set up Jenkins for, for exam
 	| Name | Var Type | Required | Default | Description |
 	| :--- | :--- | :--: | :--- | :--- |
 	| `allowed_ips` | list | **yes** | none | A list of IP addresses permitted to access (via SSH & HTTPS) the EC2 instances created that are running Jenkins.  A list of GDS IPs are included in the terraform.tfvars.example file |
+	| `append_server_user_data` | string | | blank | Location and name of `user_data` file which will be appended to the default `user_data` file before being run on the Jenkins2 master. If not specified then it will be ignored |
+	| `append_worker_user_data` | string | | blank | Location and name of `user_data` file which will be appended to the default `user_data` file before being run on the Jenkins2 worker. If not specified then it will be ignored |
 	| `aws_az` | string | | the first AZ in a region | Single availability zone to place master and worker instances in, eg. eu-west-1a |
 	| `aws_profile` | string | | default aws profile in ~/.aws/credentials | AWS Profile (credentials) to use |
 	| `aws_region` | string | | default aws region | AWS Region to use, eg. eu-west-1 |
