@@ -2,6 +2,6 @@ import jenkins.model.*
 
 def jenkinsLocationConfiguration = JenkinsLocationConfiguration.get()
 
-jenkinsLocationConfiguration.setAdminAddress("Test Email Address <test.email@some.random.domain>")
+jenkinsLocationConfiguration.setAdminAddress("Test Email Address <david.pye@digital.cabinet-office.gov.uk>")
 
 jenkinsLocationConfiguration.save()
