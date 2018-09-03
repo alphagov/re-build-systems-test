@@ -1,5 +1,5 @@
 module "jenkins" {
-  source = "../../../../terraform-aws-re-build-jenkins/"
+  source = "git::https://github.com/alphagov/terraform-aws-re-build-jenkins.git"
 
   # If a specific release is needed rather than "latest", the below syntax can be used.
   # source = "git::https://github.com/alphagov/terraform-aws-re-build-jenkins.git?ref=0.0.2"
