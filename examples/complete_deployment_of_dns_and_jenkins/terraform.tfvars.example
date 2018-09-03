@@ -9,7 +9,7 @@ aws_profile = "my-aws-credentials-profile"
 
 aws_region = "eu-west-1"
 
-custom_groovy_script = "files/set-email.groovy"
+custom_groovy_script = "files/custom-script.groovy"
 
 environment = "development"
 
