@@ -128,14 +128,10 @@ agent {
 ### 5. Create the Jenkins job
 
 The last step is to create a new job that will use the Jenkinsfile of the repository.
-From Jenkins, 'New item' enter a name and select 'Pipeline'. There are only a few things that need to be changed.
-* Tick the 1st box that says "Github project" and enter the project url in the box that appears
-* In the pipeline section select "Pipeline script from SCM Pipeline"
-* Change the SCM to "git"
-* In the box that appears enter the project url in the box labeled "Repository URL"
-* If your project uses a file other than the Jenkinsfile then change the Script Path to reflect this
 
-This step is to test that everything is set up properly and that your job can actually do the actions defined in your jenkinsfile. Once this is done and your job works its creation can be automated.
+If you are writing a new groovy script then it may be useful to test it first using the Jenkins UI. This can be found under `Jenkins >> Manage Jenkins >> Script Console`.
+
+Currently our infrastructure only allows for one groovy file to be loaded to each Jenkins environment. Both the `complete_deployment_of_dns_and_jenkins` and the `gds_specific_dns_and_jenkins` examples have a custom script loaded at initialisation under `files >> custom-script.groovy`. In that file you need to edit the job block for your first job and add more job blocks as required in order that your jobs are loaded into Jenkins on initialisation.
 
 ## Known bugs
 
@@ -252,3 +248,4 @@ Go to [Github developer settings] > `OAuth Apps` > Select the app > `Delete appl
 [Jenkins variables file]: /terraform/jenkins/variables.tf
 [help page]: https://wiki.jenkins.io/display/JENKINS/Docker+Plugin
 [Github developer settings]: https://github.com/settings/developers
+[example groovy script]: https://github.com/alphagov/terraform-aws-re-build-jenkins/blob/import_jobs/docker/files/groovy/jobs/build-sample-java-app.groovy
