@@ -8,7 +8,7 @@ Accepted
 
 ## Context
 
-There is a desire from users to be able to build docker images as an artifact from their jobs, this creates a security problem because of technical limitations within docker.  This ADR is the result of discovery work to discern whether there are alternative solutions to building docker images securely.  The discover focussed on evaluating the software product called [Buildah].
+There is a desire from users to be able to build docker images as an artifact from their jobs, this creates a security problem because of technical limitations within docker.  This ADR is the result of discovery work to discern whether there are alternative solutions to building docker images securely.  The discovery focussed on evaluating the software product called [Buildah].
 
 ## Technical Problem
 
@@ -45,7 +45,7 @@ Buildah solves this problem by being able to build a docker container without th
 	1. data sovereignty concern
 	1. work upon secrets management to allow the the upload and download
 1. If docker images stored within ecr
-	1. not 100% certain this is possible as it is not specifically notes
+	1. not 100% certain this is possible as it is not specifically noted
 	1. should be fast
 	1. can be managed by iam roles, endpoints, security groups etc
 	1. can be version controlled and kept private
