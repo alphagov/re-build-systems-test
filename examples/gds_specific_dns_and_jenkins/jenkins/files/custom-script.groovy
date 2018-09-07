@@ -41,14 +41,30 @@ plugins.each {
 
 // Definition of jobs
 def parent = Jenkins.instance
+def jobDefinitions =
+[
+   [
+      "name" : "build-sample-java-app-from-custom-configuration",
+      "scm" : "https://github.com/alphagov/re-build-systems-sample-java-app",
+      "description" : "some describing",
+      "jenkinsFilePath" : "Jenkinsfile",
+   ],
+   [
+      "name" : "build-sample-java-app-from-custom-configuration-again",
+      "scm" : "https://github.com/alphagov/re-build-systems-sample-java-app",
+      "description" : "some more describing",
+      "jenkinsFilePath" : "Jenkinsfile",
+   ]
+]
 
-// Job build-sample-java-app-from-custom-configuration
-def scm = new GitSCM("https://github.com/alphagov/re-build-systems-sample-java-app")
-def flowDefinition = new org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition(scm, "Jenkinsfile")
-def job = new org.jenkinsci.plugins.workflow.job.WorkflowJob(parent, "build-sample-java-app-from-custom-configuration")
-job.description = "Build and test sample app at https://github.com/alphagov/re-build-systems-sample-java-app"
-job.definition = flowDefinition
-parent.reload()
+jobDefinitions.each{jobEntry->
+  def scm = new GitSCM(jobEntry["scm"])
+  def flowDefinition = new org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition(scm, jobEntry["jenkinsFilePath"])
+  def job = new org.jenkinsci.plugins.workflow.job.WorkflowJob(parent, jobEntry["name"])
+  job.description = jobEntry["description"]
+  job.definition = flowDefinition
+}
+
 if (installed) {
   logger.info("Plugins installed, initializing a restart!")
   instance.save()

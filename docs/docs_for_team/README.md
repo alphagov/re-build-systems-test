@@ -131,7 +131,7 @@ The last step is to create a new job that will use the Jenkinsfile of the reposi
 
 If you are writing a new groovy script then it may be useful to test it first using the Jenkins UI. This can be found under `Jenkins >> Manage Jenkins >> Script Console`.
 
-Currently our infrastructure only allows for one groovy file to be loaded to each Jenkins environment. Both the `complete_deployment_of_dns_and_jenkins` and the `gds_specific_dns_and_jenkins` examples have a custom script loaded at initialisation under `files >> custom-script.groovy`. In that file you need to edit the job block for your first job and add more job blocks as required in order that your jobs are loaded into Jenkins on initialisation.
+Currently our infrastructure only allows for one groovy file to be loaded to each Jenkins environment. Both the `complete_deployment_of_dns_and_jenkins` and the `gds_specific_dns_and_jenkins` examples have a custom script loaded at initialisation under `files >> custom-script.groovy`. In that file you need to edit the `jobDefinitions` hash to include the relevant information on each of the jobs that you need loading. As standard it loads two jobs but more can be added by repeating this block.
 
 ## Known bugs
 
