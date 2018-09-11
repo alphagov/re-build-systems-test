@@ -104,14 +104,13 @@ After building the image, you have to publish it to a repository (e.g. Docker Hu
 
 ### 3. Link the Docker image to your Jenkins
 
-The link between your Docker image and Jenkins instance can be defined using the [template file]. Please make a copy of that file and edit it to your own specification. There are four variables that need adjusting:
+The link between your Docker image and Jenkins instance can be defined using the [template file]. Please make copy that file, paste it into the custom groovy script under `files` and edit it to your own specification. There are three variables towards the top of the file that need adjusting:
 
-* image - The identifier of the image you have published in the previous step
-* labelString - A label describing your docker image
-* name - Name of the Docker Cloud being used
-* serverUrl - URI to the Docker Host you are using (you probably don't need to change this)
+* imageDockerPath - The identifier of the image you have published in the previous step
+* dockerTemplateLabel - A label describing your docker image
+* dockerCloudName - Name of the Docker Cloud being used
 
-These are all labelled 'custom' within the template file.
+These are saved as variables at the top of the [template file]
 
 For extra guidance on using Jenkins' Docker plugin visit their [help page].
 
