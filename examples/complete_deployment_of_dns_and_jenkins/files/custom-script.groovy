@@ -7,17 +7,11 @@ import hudson.plugins.git.*;
 def jobDefinitions =
 [
    [
-      "name" : "build-sample-java-app-from-custom-configuration",
+      "name" : "build-sample-java-app",
       "scm" : "https://github.com/alphagov/re-build-systems-sample-java-app",
-      "description" : "some describing",
+      "description" : "Build and test sample app at https://github.com/alphagov/re-build-systems-sample-java-app",
       "jenkinsFilePath" : "Jenkinsfile",
    ],
-   [
-      "name" : "build-sample-java-app-from-custom-configuration-again",
-      "scm" : "https://github.com/alphagov/re-build-systems-sample-java-app",
-      "description" : "some more describing",
-      "jenkinsFilePath" : "Jenkinsfile",
-   ]
 ]
 
 // Step 2/3 - Define extra plugins (as space-separated string)
