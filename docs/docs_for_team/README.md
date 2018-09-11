@@ -4,6 +4,12 @@
 
 Documentation is in [the main README of the repo].
 
+## Customising your Jenkins
+
+You can add jobs, install extra plugins or customise the Jenkins configuration.
+
+To do that, edit `files >> custom-script.groovy` in the example you are following. There are three sections that you may customise as marked with title comments.
+
 ## How to set up a job using Jenkinsfile
 
 We have an [example of a project] that can be built using this Jenkins platform - it has a [Jenkinsfile] that can be used as a reference when working through this README.
@@ -130,7 +136,7 @@ The last step is to create a new job that will use the Jenkinsfile of the reposi
 
 If you are writing a new groovy script then it may be useful to test it first using the Jenkins UI. This can be found under `Jenkins >> Manage Jenkins >> Script Console`.
 
-Currently our infrastructure only allows for one groovy file to be loaded to each Jenkins environment. Both the `complete_deployment_of_dns_and_jenkins` and the `gds_specific_dns_and_jenkins` examples have a custom script loaded at initialisation under `files >> custom-script.groovy`. In that file you need to edit the `jobDefinitions` hash to include the relevant information on each of the jobs that you need loading. As standard it loads two jobs but more can be added by repeating this block.
+Currently our infrastructure only allows for one groovy file to be loaded to each Jenkins environment. Both the `complete_deployment_of_dns_and_jenkins` and the `gds_specific_dns_and_jenkins` examples have a custom script loaded at initialisation under `files >> custom-script.groovy`. In that file you need to edit the relevant section at the top of the file as marked by title comments. As standard it loads two jobs but more can be added by repeating this block.
 
 ## Known bugs
 
