@@ -109,7 +109,7 @@ def registerAgent(imageDockerPath, dockerTemplateLabel, dockerCloudName) {
   def DockerTemplateParameters = [
     instanceCapStr: '4',
     labelString:    dockerTemplateLabel,
-    remoteFs:       ''
+    remoteFs:       '/home/jenkins'
   ]
 
   def dockerCloudParameters = [
