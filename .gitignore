@@ -1,7 +1,6 @@
 # Terraform
 **/.terraform
 **/terraform.tfstate*
-**/*.tfvars
 **/*plan*
 
 # Intellij
