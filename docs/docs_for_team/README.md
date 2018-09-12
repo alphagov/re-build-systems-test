@@ -6,9 +6,9 @@ Documentation is in [the main README of the repo].
 
 ## Customising your Jenkins
 
-You can add jobs, install extra plugins or customise the Jenkins configuration.
+You can add jobs, add agent images, install extra plugins or customise the Jenkins configuration.
 
-To do that, edit `files >> custom-script.groovy` in the example you are following. There are three sections that you may customise as marked with title comments.
+To do that, edit `files >> custom-script.groovy` in the example you are following. There are four sections that you may customise as marked with title comments.
 
 ## How to set up a job using Jenkinsfile
 
@@ -110,15 +110,7 @@ After building the image, you have to publish it to a repository (e.g. Docker Hu
 
 ### 3. Link the Docker image to your Jenkins
 
-The link between your Docker image and Jenkins instance can be defined using the [template file]. Please make copy that file, paste it into the custom groovy script under `files` and edit it to your own specification. There are three variables towards the top of the file that need adjusting:
-
-* imageDockerPath - The identifier of the image you have published in the previous step
-* dockerTemplateLabel - A label describing your docker image
-* dockerCloudName - Name of the Docker Cloud being used
-
-These are saved as variables at the top of the [template file]
-
-For extra guidance on using Jenkins' Docker plugin visit their [help page].
+The link between your Docker image and Jenkins instance can be defined as a new agent in `files >> custom-script.groovy` of the example you followed.
 
 ### 4. Specify the Docker Image label in the Jenkinsfile
 
@@ -248,7 +240,6 @@ Go to [Github developer settings] > `OAuth Apps` > Select the app > `Delete appl
 [the main README of the repo]: https://github.com/alphagov/re-build-systems
 [example of a project]: https://github.com/alphagov/re-build-systems-sample-java-app/tree/jenkinsfile-supported-by-re-build-mvp
 [Jenkinsfile]: https://jenkins.io/doc/book/pipeline/jenkinsfile/
-[template file]: https://github.com/alphagov/terraform-aws-re-build-jenkins/blob/master/docker/files/groovy/add-sample-agent-docker-image.groovy
 [cloud init yaml file]: /terraform/jenkins/cloud-init/server-asg-xenial-16.04-amd64-server.yaml
 [Jenkins variables file]: /terraform/jenkins/variables.tf
 [help page]: https://wiki.jenkins.io/display/JENKINS/Docker+Plugin
